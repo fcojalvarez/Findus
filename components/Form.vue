@@ -89,7 +89,6 @@
 
 <script>
 const featuresOptions = ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm', 'Actualizaciones']
-
 export default {
   components: {
   },
@@ -150,7 +149,6 @@ export default {
 </script>
 
 <style>
-
 .container {
     font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
@@ -160,11 +158,9 @@ export default {
   align-items: center;
   text-align: center;
 }
-
 .btnPrim{
   margin: 20px;
 }
-
 .subtitle {
   font-weight: 300;
   font-size: 30px;
@@ -172,7 +168,6 @@ export default {
   word-spacing: 5px;
   padding-bottom: 15px;
 }
-
 .textDesc{
   font-size: 15px;
     margin-top: 10px;
