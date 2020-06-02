@@ -3,23 +3,11 @@
       <div>
         <form v-for="(form, i) in forms" :key="i">
           <h3 class="subtitle">{{titleForm[i]}}</h3>
-          <el-radio-group v-model="resultData.sistemaOperativo">
-
-            <!-- No pilla el v-if porque v-for tiene mayor prioridad -->
-            <div class="block" v-if="form[i] === form[7]">
-                <span class="textDesc">{{resultData.precio[0]}}€ - {{resultData.precio[1]}}€</span>
-                <el-slider
-                v-model="resultData.precio"
-                range
-                show-stops
-                :min="100"
-                :max="1400">
-                </el-slider>
-            </div>
+          <el-radio-group v-model="resultData.sistemaOperativo"> <!-- Necesito que se bindee al dato correcto -->
 
             <el-radio-button v-for="(label, index) in labels[i]" :label="labels[i][index]" :key="index"></el-radio-button>
+            </el-radio-group> 
 
-          </el-radio-group> 
           <br>
           <el-button class="btnPrim" type="primary" @click.prevent="useOk">Siguiente</el-button>
         </form>

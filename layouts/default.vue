@@ -1,10 +1,27 @@
 <template>
   <div>
+    <MainNav></MainNav>
     <nuxt />
   </div>
 </template>
 
+<script>
+import MainNav from '@/components/MainNav'
+export default {
+    components:{
+      MainNav
+    }
+}
+</script>
+
 <style>
+:root {
+  --color-primary: #FFEC6B;
+  --color-secondary: #3F5CFE;
+  --color-bg: #545c64;
+}
+
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

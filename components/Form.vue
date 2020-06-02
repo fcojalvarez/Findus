@@ -109,7 +109,7 @@ export default {
         camaraFrontal: '',
         camaraTrasera: '',
         almacenamiento: '',
-        precio: [100,1000],
+        precio: [250,1000],
         more: [],
       },
       features: featuresOptions
@@ -150,16 +150,23 @@ export default {
 
 <style>
 .container {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 .btnPrim{
+  border: 1px solid var(--color-bg);
   margin: 20px;
+  background:var(--color-bg);
+}
+.btnPrim:hover{
+  background:var(--color-primary);
+  color:var(--color-bg);
+  border: 1px solid var(--color-bg);
 }
 .subtitle {
   font-weight: 300;
