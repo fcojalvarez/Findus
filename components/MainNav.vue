@@ -1,27 +1,20 @@
 <template>
 
     <div class="header">
-      <div class="divLogo">
-        <img src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
-      </div>
+        <nuxt-link to="/" class="divLogo">
+        <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
+        </nuxt-link>
       <div class="divLogin">
-        <Login class="login"></Login>
+        <span class="login"><nuxt-link to="/login">Login</nuxt-link></span>
       </div>
     </div>
-
+    
 </template>
 
 <script>
-import Login from '@/components/Login'
+
 export default {
-    data() {
-      return {
-        activeIndex: '1'
-      };
-    },
-    components:{
-      Login
-    }
+
 }
 </script>
 
@@ -29,8 +22,9 @@ export default {
 .header{
     background: var(--color-bg);
     height: 100%;
+    border-bottom: 1px solid #555;
 }
-.header img{
+.logo{
   width: 105px;
 }
 .divLogo{
@@ -40,11 +34,17 @@ export default {
   justify-content: center;
 }
 .login{
+  color: #fff;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
   width: 100%;
   height: 100%;
+}
+a{
+  color: #fff;
+  text-decoration: none;
 }
 @media (min-width: 600px) {
   .header{
@@ -63,7 +63,7 @@ export default {
   }
   .login{
     padding-bottom: 0;
-    padding-top: 10px;
+    padding-top: 15px;
   }
 }
 

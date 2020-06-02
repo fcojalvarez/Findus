@@ -161,11 +161,12 @@ export default {
 .btnPrim{
   border: 1px solid var(--color-bg);
   margin: 20px;
-  background:var(--color-bg);
+  color: var(--color-bg);
+  background: rgba(68, 68, 68, 0);
 }
 .btnPrim:hover{
-  background:var(--color-primary);
-  color:var(--color-bg);
+  background:var(--color-bg);
+  color: #fff;
   border: 1px solid var(--color-bg);
 }
 .subtitle {
