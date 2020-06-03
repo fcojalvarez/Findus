@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
 
         <div class="formLog" v-show="showLogin">
             <div class="border borderFormLogin">
@@ -166,6 +166,18 @@ el-input{
 el-button{
     display:block;
     padding-top: 40px;
+}
+@media (min-width: 600px) {
+    .formLog{
+        width: 500px;
+        padding: 50px;
+    }
+    .borderLogin{
+        padding: 50px 30px;
+    }
+    .formRegister{
+        width: 350px;
+    }
 }
 @media (min-width: 850px) {
     .formLog{

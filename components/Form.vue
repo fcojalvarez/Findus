@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container backgroundForm">
     <div>
       <form v-show="!seleccion.form1">
         <h3 class="subtitle">¿Qué sistema operativo deseas?</h3>
@@ -147,8 +147,14 @@ export default {
   }
 }
 </script>
-
 <style>
+.backgroundForm{
+  background-image: url("https://i.ibb.co/ts405y7/3892620.png");
+  background-repeat: no-repeat;
+  background-position: 100%;
+  background-position-y: 100%;
+  background-size:50%;
+}
 .container {
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
@@ -182,5 +188,10 @@ export default {
     margin-bottom:5px;
     color: #444;
     padding-bottom: 0;
+}
+@media (max-width: 600px) {
+  .container {
+    background-size:90%;
+  }
 }
 </style>
