@@ -32,13 +32,15 @@
             <h3 class="notLogin">¿Tienes cuenta? <span @click.prevent="showFormLogin" class="createAccount">Inicia sesión</span></h3>
         </div>
         <div v-show="isAuth">
-            <span>Hola, {{name}}</span> 
+            <span>Hola, {{userName}}</span> 
             <el-button  @click.prevent="logout">Cerrar sesión</el-button>
         </div>
     </div>
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode'
+
 export default {
     name: 'Login',
     data(){
@@ -50,7 +52,8 @@ export default {
             showLogin: true,
             showRegister: false,
             dataUsers: "",
-            isAuth: false
+            isAuth: false,
+            userName: ''
         }
     },
     mounted() {
@@ -86,7 +89,10 @@ export default {
             try {
                 let response = await this.$axios.post('login', loginData)
                 window.localStorage.setItem('token', response.data.token)
-                
+
+                let tokenDecoded = jwt_decode(response.data.token)
+                this.userName = tokenDecoded.name
+
                 this.checkAuth();
                 this.limpiarFormulario();
             } catch (err) {
