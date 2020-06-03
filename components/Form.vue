@@ -2,7 +2,7 @@
     <div class="container backgroundForm">
     <div>
       <form v-show="!seleccion.form1">
-        <h3 class="subtitle">¿Qué sistema operativo deseas?</h3>
+        <h3 class="subtitle">¿Qué sistema operativo prefieres?</h3>
         <el-radio-group v-model="infoData.sistemaOperativo">
           <el-radio-button label="Android"></el-radio-button>
           <el-radio-button label="IOS"></el-radio-button>
@@ -59,15 +59,12 @@
         <el-button class="btnPrim" type="primary" @click.prevent="almacenamientoOk">Siguiente</el-button>
       </form>
       <form v-if="!seleccion.form6">
-        <h3 class="subtitle">¿Rango de precio?</h3>
+        <h3 class="subtitle">¿Cuál es tu presupuesto máximo?</h3>
         <div class="block">
-            <span class="textDesc">{{infoData.precio[0]}}€ - {{infoData.precio[1]}}€</span>
+            <span class="textDesc">{{infoData.precio}}€</span>
             <el-slider
             v-model="infoData.precio"
-            range
-            show-stops
-            :min="100"
-            :max="1400">
+            max="1500">
             </el-slider>
         </div>
         <br>
@@ -83,6 +80,25 @@
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="moreOk">Siguiente</el-button>
       </form>
+      <div v-show="!seleccion.resultado">
+        <h4>Tu elección ha sido:</h4>
+        <ul>
+          <li>Sistema operativo: {{infoData.sistemaOperativo}}</li>
+          <br>
+          <li>Pantalla: {{infoData.pantalla}}</li>
+          <br>
+              <ul>Cámaras:
+                  <li>Frontal: {{infoData.camaraFrontal}}</li>
+                  <li>Trasera: {{infoData.camaraTrasera}}</li>
+              </ul>
+              <br>
+          <li>Almacenamiento: {{infoData.almacenamiento}}</li>
+          <br>
+          <li>Rango de precio: {{infoData.precio[0]}}€ - {{infoData.precio[1]}}€</li>
+          <br>
+          <li>Más características: {{infoData.more}}</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -95,21 +111,22 @@ export default {
   data () {
     return {
       seleccion: {
-        form1: '',
-        form2: 'false',
-        form3: 'false',
-        form4: 'false',
-        form5: 'false',
-        form6: 'false',
-        form7: 'false'
-      },
+            form1: '',
+            form2: 'false',
+            form3: 'false',
+            form4: 'false',
+            form5: 'false',
+            form6: 'false',
+            form7: 'false',
+            resultado: 'false'
+        },
       infoData: {
         sistemaOperativo: '',
         pantalla: '',
         camaraFrontal: '',
         camaraTrasera: '',
         almacenamiento: '',
-        precio: [250,1000],
+        precio: 650,
         more: [],
       },
       features: featuresOptions
@@ -142,12 +159,16 @@ export default {
     },
     moreOk(){
       this.seleccion.form7 = true;
+      this.seleccion.resultado = false
       console.log(this.infoData)
     }
   }
 }
 </script>
 <style>
+ul li{
+  list-style: none;
+}
 .backgroundForm{
   background-image: url("https://i.ibb.co/ts405y7/3892620.png");
   background-repeat: no-repeat;

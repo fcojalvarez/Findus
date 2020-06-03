@@ -39,7 +39,23 @@ export default {
      */
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios',
+        '@nuxtjs/axios', [
+            '@nuxtjs/firebase',
+            {
+                config: {
+                    apiKey: "AIzaSyCukEmUJxhEr-POEaNfvTVmSWNFYApBdPY",
+                    authDomain: "findus-612bc.firebaseapp.com",
+                    databaseURL: "https://findus-612bc.firebaseio.com",
+                    projectId: "findus-612bc",
+                    storageBucket: "findus-612bc.appspot.com",
+                    messagingSenderId: "991806799248",
+                    appId: "1:991806799248:web:2a684fe758e057c3ee4715"
+                },
+                services: {
+                    auth: true // Just as example. Can be any other service.
+                }
+            }
+        ]
     ],
     /*
      ** Axios module configuration

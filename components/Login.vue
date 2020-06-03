@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-
         <div class="formLog" v-show="showLogin">
             <div class="border borderFormLogin">
                 <span class="title">Email:</span>
@@ -32,7 +31,10 @@
             </div>
             <h3 class="notLogin">¿Tienes cuenta? <span @click.prevent="showFormLogin" class="createAccount">Inicia sesión</span></h3>
         </div>
-        <el-button v-show="isAuth" @click.prevent="logout">Cerrar sesión</el-button>
+        <div v-show="isAuth">
+            <span>Hola, {{name}}</span> 
+            <el-button  @click.prevent="logout">Cerrar sesión</el-button>
+        </div>
     </div>
 </template>
 
@@ -84,7 +86,7 @@ export default {
             try {
                 let response = await this.$axios.post('login', loginData)
                 window.localStorage.setItem('token', response.data.token)
-
+                
                 this.checkAuth();
                 this.limpiarFormulario();
             } catch (err) {

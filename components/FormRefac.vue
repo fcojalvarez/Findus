@@ -1,6 +1,7 @@
 <template>
     <div class="container">
       <div>
+        
         <form v-for="(form, i) in forms" :key="i">
           <h3 class="subtitle">{{titleForm[i]}}</h3>
           <el-radio-group v-model="resultData.sistemaOperativo"> <!-- Necesito que se bindee al dato correcto -->

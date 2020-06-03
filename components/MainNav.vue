@@ -5,7 +5,9 @@
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
       <div class="divLogin">
-        <span class="login"><nuxt-link to="/login">Login</nuxt-link></span>
+        <span class="login"><nuxt-link class="link" to="/">Home</nuxt-link></span>
+        <span class="login"><nuxt-link class="link" to="/login">Login</nuxt-link></span>
+        <span class="login"><nuxt-link class="link" to="/comments">Comments</nuxt-link></span>
       </div>
     </div>
     
@@ -60,10 +62,14 @@ a{
   }
   .divLogin{
     width: 38%;
+    display: flex;
   }
   .login{
     padding-bottom: 0;
     padding-top: 15px;
+  }
+  .link:hover {
+    color:var(--color-primary);
   }
 }
 
