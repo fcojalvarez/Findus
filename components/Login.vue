@@ -9,7 +9,7 @@
                 <span class="title">Contraseña:</span>
                 <el-input placeholder="Introduzca su contraseña" v-model="password" show-password></el-input>
 
-                <el-button @click.prevent="">Iniciar sesión</el-button>
+                <el-button @click.prevent="login">Iniciar sesión</el-button>
             </div>
             <h3 class="notLogin">¿No está registrado? <span @click.prevent="showregisterLogin" class="createAccount">Crear cuenta</span></h3>
         </div>
@@ -32,6 +32,7 @@
             </div>
             <h3 class="notLogin">¿Tienes cuenta? <span @click.prevent="showFormLogin" class="createAccount">Inicia sesión</span></h3>
         </div>
+        <el-button v-show="isAuth" @click.prevent="logout">Cerrar sesión</el-button>
     </div>
 </template>
 
@@ -46,7 +47,8 @@ export default {
             password: "",
             showLogin: true,
             showRegister: false,
-            dataUsers: ""
+            dataUsers: "",
+            isAuth: false
         }
     },
     mounted() {
@@ -67,11 +69,11 @@ export default {
 
             try {
                 let userCreated = await this.$axios.$post('users', newUser)
-                /* this.$http.post('http://localhost:8080/users', newUser) */
                 this.limpiarFormulario();
             } catch (err) {
                 console.log(err)
-            }
+            };
+            this.showFormLogin();
         },
         async login(){
             let loginData = {
@@ -83,13 +85,15 @@ export default {
                 let response = await this.$axios.post('login', loginData)
                 window.localStorage.setItem('token', response.data.token)
 
-                this.checkAuth()
+                this.checkAuth();
+                this.limpiarFormulario();
             } catch (err) {
-                console.log(`
-                    Se ha producido un error. <br>
-                    message: ${err}
-                `)
+                console.log(`No se ha podido iniciar sesión. message: ${err}.`)
             }
+        },
+        async logout(){
+            window.localStorage.removeItem("token")
+            this.checkAuth()
         },
         limpiarFormulario(){
             this.name = ""
@@ -117,11 +121,11 @@ export default {
     -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
     -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
     box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
-    margin-top:80px;
+    
     border-radius: 5px;
 }
 .borderFormRegister{
-    padding: 50px 80px;
+    padding: 30px 20px;
 }
 .borderFormLogin{
     padding: 40px;
@@ -140,14 +144,14 @@ export default {
 }
 .formLog{
     margin-top: 10px;
-    width: 60%;
+    width: 80%;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
 }
 .formRegister{
     margin-top: 10px;
-    width: 60%;
+    width: 80%;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
@@ -165,11 +169,20 @@ el-button{
 }
 @media (min-width: 850px) {
     .formLog{
-        width: 50%;
+        width: 500px;
         padding: 50px;
     }
     .borderLogin{
         padding: 50px 30px;
+    }
+    .borderFormRegister{
+        padding: 50px 80px;
+    }
+    .border{
+        margin-top:80px;
+    }
+    .formRegister{
+        width: 500px;
     }
 }
 </style>
