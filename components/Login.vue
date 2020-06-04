@@ -89,13 +89,19 @@ export default {
                 profile: 'user'
             }
 
-            try {
+            const validatedEmail = this.validatedEmail(newUser.email)
+            
+            if(newUser.name && newUser.surname && newUser.email && newUser.password && validatedEmail){
+                try {
                 let userCreated = await this.$axios.$post('users', newUser)
                 this.limpiarFormulario();
-            } catch (err) {
-                console.log(err)
-            };
-            this.showFormLogin();
+                } catch (err) {
+                    console.log(err)
+                };
+                this.showFormLogin();
+                return
+            }
+        console.log('NANAI')
         },
         async login(){
             let loginData = {
