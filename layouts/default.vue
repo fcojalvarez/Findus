@@ -26,7 +26,7 @@ export default {
 
 
 html {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font);
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;

@@ -125,6 +125,11 @@ export default {
             }
             alert('Mostrar error en notificación: Debe introducir un email válido.')
         },
+        async logout(){
+            window.localStorage.removeItem("token")
+            this.checkAuth()
+            this.prueba = 'Login'
+        },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
@@ -133,11 +138,6 @@ export default {
             } else {
                 return false
             }
-        },
-        async logout(){
-            window.localStorage.removeItem("token")
-            this.checkAuth()
-            this.prueba = 'Login'
         },
         limpiarFormulario(){
             this.name = ""
@@ -184,24 +184,27 @@ export default {
     font-size: 10px;
     margin-top: 10px;
     color: var(--color-bg);
-    text-align: center;
+    text-align: left;
 }
 .formLog{
     margin-top: 10px;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
-    text-align: center;
+    text-align: left;
 }
 .formRegister{
     margin-top: 10px;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
-    text-align: center;
+    text-align: left;
 }
 .title{
     font-size: 14px;
+}
+span .title{
+    color:red;
 }
 el-input{
     width: 70%;
