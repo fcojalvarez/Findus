@@ -101,7 +101,6 @@ export default {
                 this.showFormLogin();
                 return
             }
-        console.log('NANAI')
         },
         async login(){
             let loginData = {

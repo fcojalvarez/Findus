@@ -6,9 +6,10 @@
             <h3 class="notComments" v-show="comments.length === 0">No hay comentarios, sé el primero en comentar.</h3>
 
             <div class="divComment" v-for="(comment, index) in comments" :key=index>
-                <h4 class="titleComment">{{comment.title}} </h4>
+                <h4 class="titleComment">{{comment.userCreate}} </h4>
                 <hr class="separador">
                 <span class="bodyComment">{{comment.body}}</span>
+                <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
                 <div class="voteDiv">
                     <i @click.prevent="addVoteComment(comment._id)" class="fas fa-heart voteIcon"></i>
                     <span class="voteNumber">{{comment.votes}}</span> 
@@ -23,30 +24,28 @@
 export default {
     data(){
         return{
-            comments: []
+            comments: [],
+            smartphoneID: 'pruebaidsmarphone'
         }
     },
     methods:{
         async loadComments(){
-            let response = await this.$axios.get('comments')
-            let commentsDB = response.data
+            let response = await this.$axios.get(`${this.smartphoneID}/comments`),
+                commentsDB = response.data;
+
             this.comments = commentsDB
             return commentsDB
         },
         async addVoteComment(id){
-            const token = window.localStorage.getItem('token')
-            const commentSelect = await this.$axios.get(`comments/${id}`)
-
-            let comment = {
-                title: commentSelect.data.title,
-                body: commentSelect.data.body,
-                votes: commentSelect.data.votes +1
-            }
+            const   token = window.localStorage.getItem('token'),
+                    commentSelect = await this.$axios.get(`${this.smartphoneID}/comments/${id}`),
+                    addVote = { votes: commentSelect.data.votes +1 };
     
             try {
-                let commentEdit = await this.$axios.put(`comments/${id}`, comment, {
-                    headers: { Authorization: `Bearer ${token}` }
-                    })
+                let commentEdit = await this.$axios.put(`${this.smartphoneID}/comments/${id}`,
+                    addVote,
+                    {headers: { Authorization: `Bearer ${token}` }}
+                );
                 this.loadComments()
             } catch (err) {
                 console.log(err)
@@ -113,6 +112,10 @@ export default {
 }
 .voteNumber{
     font-size: 0.9em;
+}
+.creationDate{
+    font-size: 0.5em;
+    margin: 30px 0 10px 10px;
 }
 @media (min-width: 850px) {
     .divContentComments{

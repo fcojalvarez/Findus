@@ -3,7 +3,6 @@
         
         <span class="title">¿Qué te parece esta recomendación?</span>
         <el-form-item>
-            <el-input placeholder="Título" v-model="titleComment"></el-input>
             <el-input
             type="textarea"
             :rows="5"
@@ -17,38 +16,40 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode'
+
 export default {
     data() {
         return{   
-            titleComment: '',
-            bodyComment: ''
+            bodyComment: '',
+            smartphoneID: 'pruebaidsmarphone'
         }
     },
     methods:{
         cleanForm() {
-            this.titleComment = '',
             this.bodyComment = ''
         },
         async createComment(){
             try {
                 const token = window.localStorage.getItem('token')
+                const user = jwt_decode(token).name
 
                 let newComment = {
-                    title: this.titleComment,
                     body: this.bodyComment,
+                    userCreate: user,
+                    smartphoneID: this.smartphoneID,
+                    creationDate: new Date(),
                     votes: 0
                 }
 
-                if(newComment.title && newComment.body){
-                    let sendComment = await this.$axios.post('comments', newComment, {
+                if(newComment.body){
+                    let sendComment = await this.$axios.post(`${this.smartphoneID}/comments`, newComment, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                     })
                     this.cleanForm()
-                    this.$router.push('/comments')
                 }
-                // NECESITO RECARGAR COMPONENTE. ToDo: Buscar forma correcta.
             } catch (err) {
                 console.log(err)
             }
