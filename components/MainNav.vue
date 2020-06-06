@@ -1,22 +1,35 @@
 <template>
-
     <div class="header">
         <nuxt-link to="/" class="divLogo">
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
       <div class="divNav">
         <span class="login"><nuxt-link class="link" to="/">Home</nuxt-link></span>
-        <span class="login"><nuxt-link class="link" to="/login">Login</nuxt-link></span>
-        <span class="login"><nuxt-link class="link" to="/comments">Comments</nuxt-link></span>
+        <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Login</nuxt-link></span>
+        <span class="login" v-show="isAuth"><a href="#" class="link" @click.prevent="logOut">Logout</a></span>
+      </div>
+      <div class="userSpace" v-show="isAuth">
+        <span class="login logOut">
+          Hola {{currentUser}} <i class="fas fa-user iconUser"></i></span>
       </div>
     </div>
-    
 </template>
 
 <script>
-
 export default {
-
+  computed: {
+      isAuth () {
+        return this.$store.state.isAuth
+      },
+      currentUser() {
+        return this.$store.state.currentUser
+      }
+  },
+  methods:{
+    logOut(){
+      this.$store.dispatch('logout', this.isAuth)
+    } 
+  }
 }
 </script>
 
@@ -37,7 +50,6 @@ export default {
 }
 .login{
   color: #fff;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
@@ -48,20 +60,24 @@ a{
   color: #fff;
   text-decoration: none;
 }
+.iconUser{
+  color: var(--color-primary);
+  margin-left: 5px;
+}
 @media (min-width: 600px) {
   .header{
     display: flex;
     justify-content: space-around;
   }
   .divLogo{
-    width: 60%;
+    width: 70%;
   }
   .divLogo img{
     margin-right: auto;
     margin-left: 100px;
   }
   .divNav{
-    width: 30%;
+    width: 25%;
     display: flex;
   }
   .login{
@@ -72,6 +88,12 @@ a{
   }
   .link:hover {
     color:var(--color-primary);
+  }
+  .logOut{
+    margin-right: 20px;
+  }
+  .userSpace{
+    margin-right: 20px;
   }
 }
 

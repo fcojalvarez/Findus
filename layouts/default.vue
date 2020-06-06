@@ -10,7 +10,10 @@ import MainNav from '@/components/MainNav'
 export default {
     components:{
       MainNav
-    }
+    },
+    mounted() {
+        this.$store.dispatch('checkAuth') 
+    },
 }
 </script>
 

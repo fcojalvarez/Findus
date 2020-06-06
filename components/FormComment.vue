@@ -1,17 +1,17 @@
 <template>
     <el-form class="divFormComment">
         
-        <span class="title">¿Qué te parece esta recomendación?</span>
+        <span class="title">Cuéntanos que te parece esta recomendación</span>
         <el-form-item>
             <el-input
             type="textarea"
             :rows="5"
-            placeholder="¿Qué quieres contarnos?"
+            placeholder="Comenta para ayudar a los demás usuarios."
             v-model="bodyComment">
             </el-input>
         </el-form-item>
-        <el-button @click.prevent="createComment" class="btnSend" type="primary">Enviar</el-button>
-    
+        <el-button @click.prevent="createComment" class="btnSend" type="primary">Comentar</el-button>
+
     </el-form>
 </template>
 
@@ -48,6 +48,8 @@ export default {
                         Authorization: `Bearer ${token}`
                     }
                     })
+                    
+                    this.$store.dispatch('loadComments', this.$route.params.slug)
                     this.cleanForm()
                 }
             } catch (err) {
@@ -59,30 +61,21 @@ export default {
 </script>
 
 <style>
+.title{
+    margin-bottom:10px;
+}
 .divFormComment{
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid var(--color-primary);
-    border-radius: 10px;
-    padding: 20px;
-    margin-top:30px;
-    -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
-    -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
-    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    width: 80%;
+    margin: 40px auto 10px auto;
 }
 .btnSend{
     text-align: center;
+    width: 100%;
 }
 @media (min-width: 600px) {
-    .divFormComment{
-        width: 50%;
-        padding: 30px
-    }
-}
-@media (min-width: 850px) {
-    .divFormComment{
-        width: 50%;
+    .btnSend{
+        width: 20%;
+        margin-left: 80%;
     }
 }
 </style>
