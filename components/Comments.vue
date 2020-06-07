@@ -30,7 +30,7 @@ export default {
     },
     mounted () {
         this.$store.dispatch('loadComments', this.$route.params.slug) 
-    } 
+    }
 }
 </script>
 

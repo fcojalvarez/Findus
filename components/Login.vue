@@ -55,11 +55,12 @@ export default {
                 }
 
                 try {
-                    let response = await this.$axios.post('login', loginData)
+                    let response = await this.$axios.post('auth/login', loginData)
                     window.localStorage.setItem('token', response.data.token)
 
                     this.$store.dispatch('checkAuth') 
-                    this.limpiarFormulario();
+                    this.limpiarFormulario(); 
+        
                 } catch (err) {
                     alert('Mostrar error en notificación: Email o contraseña incorrectos.')
                     return

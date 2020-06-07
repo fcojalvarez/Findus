@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <Page404 v-if="error.statusCode === 404">Page not found</Page404>
-    <nuxt-link to="/">Home page</nuxt-link>
   </div>
 </template>
 

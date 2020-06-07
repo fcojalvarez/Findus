@@ -94,7 +94,7 @@
               <br>
           <li>Almacenamiento: {{infoData.almacenamiento}}</li>
           <br>
-          <li>Rango de precio: {{infoData.precio[0]}}€ - {{infoData.precio[1]}}€</li>
+          <li>Presupuesto máximo: {{infoData.precio}}€</li>
           <br>
           <li>Más características: {{infoData.more}}</li>
         </ul>

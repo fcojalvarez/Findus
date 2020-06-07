@@ -61,6 +61,7 @@ export default {
                     console.log(err)
                 };
                 this.showFormLogin();
+                 return
             }
             alert('Por favor, rellene el formulario correctamente.')
             return

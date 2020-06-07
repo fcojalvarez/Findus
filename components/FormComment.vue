@@ -52,6 +52,7 @@ export default {
                     this.$store.dispatch('loadComments', this.$route.params.slug)
                     this.cleanForm()
                 }
+                this.cleanForm()
             } catch (err) {
                 console.log(err)
             }
