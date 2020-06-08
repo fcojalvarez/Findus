@@ -21,9 +21,12 @@ import jwt_decode from 'jwt-decode'
 export default {
     data() {
         return{   
-            bodyComment: '',
-            smartphoneID: 'pruebaidsmarphone'
+            bodyComment: '' ,
+            deviceID: this.$route.params.slug
         }
+    },
+    mounted(){
+        this.$store.dispatch('loadComments', this.$route.params.slug) 
     },
     methods:{
         cleanForm() {
@@ -37,13 +40,13 @@ export default {
                 let newComment = {
                     body: this.bodyComment,
                     userCreate: user,
-                    smartphoneID: this.smartphoneID,
+                    smartphoneID: this.deviceID,
                     creationDate: new Date(),
                     votes: 0
                 }
 
-                if(newComment.body){
-                    let sendComment = await this.$axios.post(`${this.smartphoneID}/comments`, newComment, {
+                if(newComment.body && this.deviceID){
+                    let sendComment = await this.$axios.post(`${this.deviceID}/comments`, newComment, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

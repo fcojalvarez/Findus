@@ -3,7 +3,8 @@ import jwt_decode from 'jwt-decode'
 export const state = () => ({
     comments: [],
     isAuth: false,
-    currentUser: ''
+    currentUser: '',
+    smartphoneID: ''
 })
 
 export const actions = {
@@ -16,23 +17,6 @@ export const actions = {
 
             context.commit('addComments', result)
             return result
-        } catch (err) {
-            console.log(err)
-        }
-    },
-    async addVoteComment(context, id) {
-
-        try {
-            const token = window.localStorage.getItem('token');
-            let commentSelect = await this.$axios.get(`${this.smartphoneID}/comments/${id}`);
-            let addVote = { votes: commentSelect.data.votes + 1 };
-            let prueba = {...commentSelect.data, ...addVote };
-
-            let commentEdit = await this.$axios.put(`${this.smartphoneID}/comments/${id}`, prueba, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            this.loadComments()
-
         } catch (err) {
             console.log(err)
         }
@@ -58,6 +42,10 @@ export const actions = {
     logout(context, result) {
         window.localStorage.removeItem("token")
         context.commit('checkAuthMutation', result)
+    },
+    setIDDevice(context, ID) {
+        /* let ID = this.$route.params.slug */
+        context.commit('setIDDeviceMutation', ID)
     }
 }
 
@@ -71,11 +59,17 @@ export const mutations = {
     },
     logoutMutation(state, result) {
         state.isAuth = result
+    },
+    setIDDeviceMutation(state, ID) {
+        state.smartphoneID = ID
     }
 }
 
 export const getters = {
     getComments(state) {
         return state.comments
+    },
+    getDeviceID(state) {
+        return state.smartphoneID
     }
 }

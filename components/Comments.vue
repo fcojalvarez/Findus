@@ -22,14 +22,35 @@
 import { mapState } from 'vuex'
 
 export default {
+    data(){
+        return{
+            deviceID: this.$route.params.slug
+        }
+    },
     computed: {
         comments () {
             return this.$store.state.comments
-        },
-        
+        }
     },
-    mounted () {
-        this.$store.dispatch('loadComments', this.$route.params.slug) 
+    methods:{
+         async addVoteComment(commentID) {
+
+            try {
+                const token = window.localStorage.getItem('token');
+                let commentSelect = await this.$axios.get(`idpruebas/comments/${commentID}`);
+                let addVote = { votes: commentSelect.data.votes + 1 };
+                let prueba = {...commentSelect.data, ...addVote };
+
+                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, prueba, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                this.$store.dispatch('loadComments', this.$route.params.slug)
+
+            } catch (err) {
+                console.log(err)
+            }
+
+        },
     }
 }
 </script>
