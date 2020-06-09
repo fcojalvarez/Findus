@@ -27,6 +27,12 @@ export default {
   --font: 'Montserrat', sans-serif
 }
 
+.block{
+  display: block;
+}
+.margin{
+  margin-bottom: 10px;
+}
 
 html {
   font-family: var(--font);

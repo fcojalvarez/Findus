@@ -4,7 +4,8 @@ export const state = () => ({
     comments: [],
     isAuth: false,
     currentUser: '',
-    smartphoneID: ''
+    smartphoneID: '',
+    devices: []
 })
 
 export const actions = {
@@ -46,7 +47,25 @@ export const actions = {
     setIDDevice(context, ID) {
         /* let ID = this.$route.params.slug */
         context.commit('setIDDeviceMutation', ID)
+    },
+    async getDevices(context) {
+        try {
+            let response = await this.$axios.get("https://fonoapi.freshpixl.com/v1/getlatest?token=5eb7a3f53695d523ceb4eca3cbba7cba7fa45f43c035140a&limit=3"),
+                result = response.data;
+            console.log(result)
+
+            context.commit('getDevicesMutation', result)
+        } catch (err) {
+            console.log(err)
+        }
+        /* 
+                let getDevices = await this.$axios.get("https://fonoapi.freshpixl.com/v1/getlatest?token=5eb7a3f53695d523ceb4eca3cbba7cba7fa45f43c035140a&limit=1")
+
+                let devices = getDevices.data
+
+                context.commit('getDevicesMutation', devices) */
     }
+
 }
 
 export const mutations = {
@@ -62,6 +81,9 @@ export const mutations = {
     },
     setIDDeviceMutation(state, ID) {
         state.smartphoneID = ID
+    },
+    getDevicesMutation(state, devices) {
+        state.devices = devices
     }
 }
 

@@ -17,6 +17,7 @@
                 
             </div>
             <h3 class="notLogin">¿No está registrado? <span @click.prevent="showregisterLogin" class="createAccount">Crear cuenta</span></h3>
+            <h3 class="forgottenPassword">¿Ha olvidado su contraseña? <br> <span @click.prevent="" class="changePassword">Cambiar contraseña</span></h3>
         </div>
     </div>
 </template>

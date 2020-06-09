@@ -26,13 +26,17 @@ export default {
 .borderFormLogin{
     padding: 40px;
 }
-.createAccount{
+.createAccount, .changePassword{
     font-size: 12px;
     border-bottom: 1px solid var(--color-primary);
     color: #333;
     cursor: pointer;
 }
-.notLogin{
+.changePassword{
+    font-size: 10px;
+    margin-top: 10px;
+}
+.notLogin, .forgottenPassword{
     font-size: 10px;
     margin-top: 10px;
     color: var(--color-bg);

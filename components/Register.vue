@@ -21,7 +21,7 @@
                 </el-form-item>
                 <el-button @click.prevent="createUser">Crear cuenta</el-button>
             </el-form>
-            <h3 class="notLogin">¿Tienes cuenta? <span @click.prevent="showFormLogin" class="createAccount">Inicia sesión</span></h3>
+            <h3 class="notLogin">¿Está registrado? <span @click.prevent="showFormLogin" class="createAccount">Iniciar sesión</span></h3>
         </div>
     </div>
 </template>

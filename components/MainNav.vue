@@ -64,6 +64,9 @@ a{
   color: var(--color-primary);
   margin-left: 5px;
 }
+.logOut{
+      color: var(--color-primary);
+}
 @media (min-width: 600px) {
   .header{
     display: flex;
@@ -91,6 +94,7 @@ a{
   }
   .logOut{
     margin-right: 20px;
+    font-size: 0.9em;
   }
   .userSpace{
     margin-right: 20px;

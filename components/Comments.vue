@@ -39,9 +39,8 @@ export default {
                 const token = window.localStorage.getItem('token');
                 let commentSelect = await this.$axios.get(`idpruebas/comments/${commentID}`);
                 let addVote = { votes: commentSelect.data.votes + 1 };
-                let prueba = {...commentSelect.data, ...addVote };
-
-                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, prueba, {
+                
+                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, addVote, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 this.$store.dispatch('loadComments', this.$route.params.slug)
