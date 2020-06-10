@@ -5,7 +5,8 @@ export const state = () => ({
     isAuth: false,
     currentUser: '',
     smartphoneID: '',
-    devices: []
+    devices: [],
+    selectDevice: {}
 })
 
 export const actions = {
@@ -30,7 +31,7 @@ export const actions = {
 
         if (token !== null) {
             let tokenDecoded = jwt_decode(token)
-            user = tokenDecoded.name
+            user = tokenDecoded
         }
 
         let result = {
@@ -45,27 +46,29 @@ export const actions = {
         context.commit('checkAuthMutation', result)
     },
     setIDDevice(context, ID) {
-        /* let ID = this.$route.params.slug */
         context.commit('setIDDeviceMutation', ID)
     },
     async getDevices(context) {
         try {
-            let response = await this.$axios.get("https://fonoapi.freshpixl.com/v1/getlatest?token=5eb7a3f53695d523ceb4eca3cbba7cba7fa45f43c035140a&limit=3"),
+            let response = await this.$axios.get("devices"),
                 result = response.data;
-            console.log(result)
 
             context.commit('getDevicesMutation', result)
         } catch (err) {
             console.log(err)
         }
-        /* 
-                let getDevices = await this.$axios.get("https://fonoapi.freshpixl.com/v1/getlatest?token=5eb7a3f53695d523ceb4eca3cbba7cba7fa45f43c035140a&limit=1")
+    },
+    getSelectDevice(context, id) {
+        try {
+            const listDevices = this.dispatch('getDevices')
+            let findDevice = listDevices.find(device => device._id === id)
 
-                let devices = getDevices.data
+            context.commit('getSelectDeviceMutation', findDevice)
+        } catch (err) {
+            console.log(err)
+        }
 
-                context.commit('getDevicesMutation', devices) */
     }
-
 }
 
 export const mutations = {
@@ -74,7 +77,7 @@ export const mutations = {
     },
     checkAuthMutation(state, result) {
         state.isAuth = result.isAuth
-        state.currentUser = result.currentUser
+        state.currentUser = result.currentUser || ''
     },
     logoutMutation(state, result) {
         state.isAuth = result
@@ -84,6 +87,9 @@ export const mutations = {
     },
     getDevicesMutation(state, devices) {
         state.devices = devices
+    },
+    getSelectDeviceMutation(state, device) {
+        state.selectDevice = device
     }
 }
 

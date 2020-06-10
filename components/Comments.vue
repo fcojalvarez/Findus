@@ -2,7 +2,6 @@
     <div class="divContentComments">
         <h3 class="titleDivComment">Comentarios</h3>
         <h3 class="notComments" v-show="comments.length === 0">No hay comentarios, sé el primero en comentar.</h3>
-
         <div class="divComment" v-for="comment in comments" :key=comment._id>
             <h4 class="userComment">{{comment.userCreate}} </h4>
             
@@ -14,6 +13,7 @@
                     <span class="voteNumber">{{comment.votes}}</span> </div>
                 </div>
             <hr class="separador">
+            
         </div>
     </div>
 </template>
@@ -24,13 +24,16 @@ import { mapState } from 'vuex'
 export default {
     data(){
         return{
-            deviceID: this.$route.params.slug
+            deviceID: this.$route.params.id
         }
     },
     computed: {
         comments () {
             return this.$store.state.comments
         }
+    },
+    mounted () {
+        this.$store.dispatch('loadComments', this.$route.params.id) 
     },
     methods:{
          async addVoteComment(commentID) {
@@ -43,13 +46,13 @@ export default {
                 let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, addVote, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                this.$store.dispatch('loadComments', this.$route.params.slug)
+                this.$store.dispatch('loadComments', this.deviceID)
 
             } catch (err) {
                 console.log(err)
             }
 
-        },
+        }
     }
 }
 </script>

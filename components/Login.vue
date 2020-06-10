@@ -55,11 +55,11 @@ export default {
                     return
                 }
 
-                try {
+                try { 
                     let response = await this.$axios.post('auth/login', loginData)
                     window.localStorage.setItem('token', response.data.token)
 
-                    this.$store.dispatch('checkAuth') 
+                    this.$store.dispatch('checkAuth')
                     this.limpiarFormulario(); 
         
                 } catch (err) {

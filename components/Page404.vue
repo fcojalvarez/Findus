@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nuxt-link class="goToHome" to="/">RETURN FROM HOME PAGE</nuxt-link>
     <div class="bgImg404">
       <nuxt-link to="/">
           <img class="notFound" src="https://image.freepik.com/vector-gratis/concepto-landing-page-fallo-tecnico_23-2148251153.jpg" alt="NotFound404">

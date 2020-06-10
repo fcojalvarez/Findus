@@ -1,6 +1,6 @@
 <template>
     <div class="container backgroundForm">
-    <div>
+    <div class="containerAll">
       <form v-show="!seleccion.form1">
         <h3 class="subtitle">¿Qué sistema operativo prefieres?</h3>
         <el-radio-group v-model="infoData.sistemaOperativo">
@@ -74,49 +74,33 @@
         <h3 class="subtitle">¿Le interesa alguna característica más?</h3>
         <div>
             <el-checkbox-group v-model="infoData.more">
-            <el-checkbox-button v-for="item in features" :label="item" :key="item">{{item}}</el-checkbox-button>
+            <el-checkbox style="margin-top: 20px" v-for="item in features" :label="item" border :key="item">{{item}}</el-checkbox>
             </el-checkbox-group>
         </div>
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="moreOk">Siguiente</el-button>
       </form>
-    
-      <div class="containerDevices" v-show="!seleccion.resultado">
-        <div class="devices"  v-for="device in devices" :key=device.brand>
-          <div class="divDevice">
-            <img class="imageDevice" src="https://i.blogs.es/21d5da/samsung-galaxy-a70s/1366_2000.jpg" alt="Imagen dispositivo">
-            <span class="block brandDevice fontDeviceCenter">{{device.Brand}}</span>
-            <span class="block margin modelDevice fontDeviceCenter">{{device.DeviceName}}</span>
-            <br>
-          
-            <i class="fas fa-mobile-alt iconTitle"></i><span class="titleDevice">Pantalla</span>
-            <span class="block margin fontDevice">{{device.size.substring(0,3)}} Pulgadas</span>
 
-            <i class="fas fa-camera iconTitle"></i><span class="titleDevice">Cámara delantera</span>
-            <span class="block fontDevice">{{device.single.substring(0,5)}}</span>
-            <span class="block margin fontDevice">Focal {{device.single.substring(9,12)}}</span>
-            <i class="fas fa-camera dnone iconTitle"></i><span class="titleDevice">Cámara trasera</span>
-            <span class="block margin fontDevice">{{device.triple}}</span>
+      <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
 
-            <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Procesador</span>
-            <span class="block fontDevice margin">{{device.chipset}}</span>
-
-            <i class="fas fa-memory iconTitle"></i><span class="titleDevice">Almacenamiento</span>
-            <span class="block margin fontDevice">{{device.internal}}</span>
-            
-            <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
-            <span class="block margin fontDevice">{{device.battery_c}}</span>
-            
-          </div>
-        </div>
+      <div v-for="device in devicesRecomend" :key="device._id" v-show="!seleccion.resultado">
+          <Device :id="device._id"></Device>
       </div>
+     
     </div>
+     
   </div>
 </template>
 
 <script>
+import Device from '@/components/Device'
+
 const featuresOptions = ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm', 'Actualizaciones']
 export default {
+  name: 'Form',
+  components:{
+    Device
+  },
   computed: {
     devices () {
         return this.$store.state.devices
@@ -147,39 +131,45 @@ export default {
         more: [],
       },
       features: featuresOptions,
-      prueba: `https://quemovilmecompro.net/wp-content/uploads/2019/07/${this.prueba2}.png`,
-      prueba2: 'Samsung-Galaxy-A70'
+      devicesRecomend: [],
+      pointAct: 0
     };
   },
   methods: {
     useOk(){
       this.seleccion.form1 = true;
       this.seleccion.form2 = false;
+      this.pointAct += 10
     },
     pantallaOk(){
       this.seleccion.form2 = true;
       this.seleccion.form3 = false;
+      this.pointAct += 10
     },
     camarasOk(){
       this.seleccion.form3 = true;
       this.seleccion.form4 = false;
+      this.pointAct += 25
     },
     ramOk(){
       this.seleccion.form4 = true;
       this.seleccion.form5 = false;
+      this.pointAct += 10
     },
     almacenamientoOk(){
       this.seleccion.form5 = true;
       this.seleccion.form6 = false;
+      this.pointAct += 10
     },
     precioOk(){
       this.seleccion.form6 = true;
       this.seleccion.form7 = false;
+      this.pointAct += 10
     },
     moreOk(){
       this.seleccion.form7 = true;
       this.seleccion.resultado = false
-      console.log(this.infoData)
+      this.pointAct += 25
     }
   }
 }
@@ -199,11 +189,16 @@ ul li{
 .container {
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
-  min-height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 70vh;
+  display: block;
   text-align: center;
+}
+form{
+  width:90%;
+  margin: 0 auto;
+}
+.containerAll{
+  padding-top: 15%;
 }
 .btnPrim{
   border: 1px solid var(--color-bg);
@@ -219,6 +214,10 @@ ul li{
   color: #fff;
   border: 1px solid var(--color-bg);
 }
+.el-slider__runway{
+  width: 70%;
+  margin: 30px auto;
+}
 .subtitle {
   font-weight: 300;
   font-size: 30px;
@@ -233,68 +232,23 @@ ul li{
     color: #444;
     padding-bottom: 0;
 }
-
-/* DIV DEVICE */
-.devices{
-  padding: 15px;
-  border-radius: 10px;
-  width: 400px;
-  background: #fff;
-  text-align: left;
+.progressBar{
+  display: inline-block;
+  width: 40%;
+  margin: 0 auto;
 }
-.imageDevice{
-  width: 200px;
-  height: 200px;
-}
-.fontDevice{
-  color: #777;
-  font-size: 1em;
-  margin-left: 35px
-}
-.fontDeviceCenter{
-  color: #777;
-  font-size: 1em;
-  text-align: center;
-}
-.titleDevice{
-  font-size: 1em;
-  color: #333;
-  vertical-align: 1px;
-}
-.brandDevice{
-  font-size: 1.2em;
-  font-weight: bold;
-  color: var(--color-bg)
-}
-.modelDevice{
-  font-size: 1em;
-}
-.iconTitle{
-  color: var(--color-primary);
-  font-size: 1.3em;
-  margin-right: 15px;
-  width: 20px;
-}
-
 @media (min-width: 600px) {
   .container {
     background-size:40%;
-  }
-  .devices{
-    padding: 15px;
-    margin: 10px;
-  }
-  .divDevice{
-    width:80%;
-    margin: 0 auto;
+    min-height: 90vh;
   }
   .containerDevices{
     display: flex;
     width: 70%;
     margin:20px auto;
   }
-  .imageDevice{
-    margin-left: 16%;
+  .backgroundForm{
+    background-size: 35%;
   }
 } 
 </style>

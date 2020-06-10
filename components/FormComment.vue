@@ -22,11 +22,11 @@ export default {
     data() {
         return{   
             bodyComment: '' ,
-            deviceID: this.$route.params.slug
+            deviceID: this.$route.params.id
         }
     },
     mounted(){
-        this.$store.dispatch('loadComments', this.$route.params.slug) 
+        this.$store.dispatch('loadComments', this.$route.params.id) 
     },
     methods:{
         cleanForm() {
@@ -52,7 +52,7 @@ export default {
                     }
                     })
                     
-                    this.$store.dispatch('loadComments', this.$route.params.slug)
+                    this.$store.dispatch('loadComments', this.deviceID)
                     this.cleanForm()
                 }
                 this.cleanForm()

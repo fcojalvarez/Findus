@@ -12,7 +12,8 @@ export default {
       MainNav
     },
     mounted() {
-        this.$store.dispatch('checkAuth') 
+      this.$store.dispatch('checkAuth')
+      this.$store.dispatch('getDevices') 
     },
 }
 </script>

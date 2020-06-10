@@ -10,7 +10,10 @@
       </div>
       <div class="userSpace" v-show="isAuth">
         <span class="login logOut">
-          Hola {{currentUser}} <i class="fas fa-user iconUser"></i></span>
+          <nuxt-link class="user" to="/userPage">
+            Hola {{currentUser.name}} <i class="fas fa-user iconUser"></i>
+          </nuxt-link>
+        </span>
       </div>
     </div>
 </template>
@@ -67,13 +70,16 @@ a{
 .logOut{
       color: var(--color-primary);
 }
+.user{
+  color: var(--color-primary)
+}
 @media (min-width: 600px) {
   .header{
     display: flex;
     justify-content: space-around;
   }
   .divLogo{
-    width: 70%;
+    width: 60%;
   }
   .divLogo img{
     margin-right: auto;
@@ -98,6 +104,12 @@ a{
   }
   .userSpace{
     margin-right: 20px;
+  }
+}
+
+@media (min-width: 950px) {
+  .divLogo{
+    width: 70%;
   }
 }
 
