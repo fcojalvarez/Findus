@@ -4,9 +4,7 @@ export const state = () => ({
     comments: [],
     isAuth: false,
     currentUser: '',
-    smartphoneID: '',
-    devices: [],
-    selectDevice: {}
+    smartphoneID: ''
 })
 
 export const actions = {
@@ -47,27 +45,6 @@ export const actions = {
     },
     setIDDevice(context, ID) {
         context.commit('setIDDeviceMutation', ID)
-    },
-    async getDevices(context) {
-        try {
-            let response = await this.$axios.get("devices"),
-                result = response.data;
-
-            context.commit('getDevicesMutation', result)
-        } catch (err) {
-            console.log(err)
-        }
-    },
-    getSelectDevice(context, id) {
-        try {
-            const listDevices = this.dispatch('getDevices')
-            let findDevice = listDevices.find(device => device._id === id)
-
-            context.commit('getSelectDeviceMutation', findDevice)
-        } catch (err) {
-            console.log(err)
-        }
-
     }
 }
 
@@ -84,12 +61,6 @@ export const mutations = {
     },
     setIDDeviceMutation(state, ID) {
         state.smartphoneID = ID
-    },
-    getDevicesMutation(state, devices) {
-        state.devices = devices
-    },
-    getSelectDeviceMutation(state, device) {
-        state.selectDevice = device
     }
 }
 

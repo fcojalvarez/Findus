@@ -5,6 +5,7 @@
         </nuxt-link>
       <div class="divNav">
         <span class="login"><nuxt-link class="link" to="/">Home</nuxt-link></span>
+        <span class="login"><nuxt-link class="link" to="/contact">Contact</nuxt-link></span>
         <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Login</nuxt-link></span>
         <span class="login" v-show="isAuth"><a href="#" class="link" @click.prevent="logOut">Logout</a></span>
       </div>
@@ -79,14 +80,14 @@ a{
     justify-content: space-around;
   }
   .divLogo{
-    width: 60%;
+    width: 40%;
   }
   .divLogo img{
     margin-right: auto;
     margin-left: 100px;
   }
   .divNav{
-    width: 25%;
+    width: 30%;
     display: flex;
   }
   .login{
@@ -109,7 +110,10 @@ a{
 
 @media (min-width: 950px) {
   .divLogo{
-    width: 70%;
+    width: 40%;
+  }
+  .divNav{
+    width: 25%;
   }
 }
 

@@ -13,7 +13,6 @@ export default {
     },
     mounted() {
       this.$store.dispatch('checkAuth')
-      this.$store.dispatch('getDevices') 
     },
 }
 </script>
