@@ -108,8 +108,10 @@ export default {
   margin-right: 15px;
   width: 20px;
 }
-.dNone{
-  color: rgba(255, 255, 255, 0);
+.devices img {
+  width: 200px;
+  height: 300px;
+
 }
 @media (min-width: 600px) {
   .container {
