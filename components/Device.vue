@@ -119,7 +119,7 @@ export default {
     min-height: 90vh;
   }
   .divDevice{
-    width:80%;
+    width:40%;
     margin: 0 auto;
   }
   .containerDevices{
@@ -128,7 +128,7 @@ export default {
     margin:20px auto;
   }
   .imageDevice{
-    margin-left: 19%;
+    margin-left: 20%;
   }
   .backgroundForm{
     background-size: 35%;

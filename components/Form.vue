@@ -86,7 +86,7 @@
       <h3 class="subtitle" v-if="seleccion.noEncontrado">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
       <div class="continarDeviceRecomend" v-show="seleccion.resultado">
         <h3></h3>
-          <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
+        <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
       </div>
      
     </div>
@@ -128,17 +128,7 @@ export default {
         more: [],
       },
       features: featuresOptions,
-      devicesRecomend: [
-        {
-          _id: '5edf7876cff6bd711a81875d'
-        },
-        {
-          _id: '5edf75c8cff6bd711a80d598'
-        },
-        {
-          _id: '5edf748bcff6bd711a808c86'
-        }
-      ],
+      devicesRecomend: '',
       pointAct: 0
     };
   },
@@ -177,11 +167,24 @@ export default {
       this.seleccion.form7 = false;
       this.seleccion.resultado = true
       this.pointAct += 25
-      if (this.devicesRecomend.length > 0) {
-        this.seleccion.encontrado = true
-      } else {
-        this.seleccion.noEncontrado = true
+      this.getDevicedRecomend(this.infoData)
+    },
+    async getDevicedRecomend(result){
+      try {
+      
+        let deviceFiltered = await this.$axios.post(`filterDevices`, result);
+        this.devicesRecomend = deviceFiltered.data
+
+        if (this.devicesRecomend.length > 0) {
+          this.seleccion.encontrado = true    
+        } else {
+          this.seleccion.noEncontrado = true
+        }
+
+      } catch (err) {
+        console.log(err)
       }
+
     }
   }
 }

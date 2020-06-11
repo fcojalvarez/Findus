@@ -115,7 +115,4 @@ export default {
 .voteNumber{
     font-size: 0.9em;
 }
-@media (min-width: 850px) {
-
-}
 </style>
