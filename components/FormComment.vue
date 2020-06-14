@@ -35,11 +35,12 @@ export default {
         async createComment(){
             try {
                 const token = window.localStorage.getItem('token')
-                const user = jwt_decode(token).name
+                const user = jwt_decode(token)
 
                 let newComment = {
                     body: this.bodyComment,
-                    userCreate: user,
+                    userCreate: user.name,
+                    userCreateID: user.id,
                     smartphoneID: this.deviceID,
                     creationDate: new Date(),
                     votes: 0

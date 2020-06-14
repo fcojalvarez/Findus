@@ -1,19 +1,25 @@
 <template>
     <div class="containerUser">
-        <div class="divUser">
+        <div class="divUser border">
             <div>
                 <h3 class="titleUser">Nombre y apellidos:</h3><span class="spanUserData">{{currentUser.name}} {{currentUser.surname}}</span>
             </div>
             <div>
                 <h3 class="titleUser">email:</h3><span class="spanUserData">{{currentUser.email}}</span>
             </div>
-            <br>
+
             <div class="divButtons">
-                <el-button class="btnUserPage" @click.prevent="showFormEdit">Modificar datos</el-button>
-                <el-button class="btnUserPage" @click.prevent="changePassword" id="btnchangePass">Cambiar contraseña</el-button>
+                <div>
+                    <el-button class="btnUserPage" @click.prevent="showFormEdit">Modificar datos</el-button>
+                    <el-button class="btnUserPage" @click.prevent="changePassword" id="btnchangePass">Cambiar contraseña</el-button>
+                </div>
+                <div>
+                    <el-button class="btnUserPage" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
+                    <el-button class="btnUserPage" @click.prevent="showComments" >Comentarios realizados</el-button>
+                </div>
             </div>
 
-            <el-form v-show="formModData" :label-position="labelPosition" label-width="100px" class="formModData">
+            <el-form v-show="isFormModData" :label-position="labelPosition" label-width="100px" class="formModData">
                 <h3 class="titleForm">Modificar datos personales:</h3>
                 <el-form-item label="Nombre">
                     <el-input v-model="currentUser.name"></el-input>
@@ -26,9 +32,32 @@
                 </el-form-item>
                 <el-button type="primary" @click.prevent="changePersonalInfo">Modificar</el-button>
             </el-form>
-            <div v-show="changePass">
+
+            <div v-show="isChangePass">
                 <span class="changePss">Petición aceptada. <br> <br>
                 Recibirá un email con las instrucciones para modificar su contraseña.</span>
+            </div>
+            
+            <div class="comments" v-show="isShowComments">
+                 <h3 class="notComments" v-show="commentsUser.length === 0">No ha comentado en ningún dispositivo.</h3>
+                <div>
+                    <div class="divComment" v-for="comment in commentsUser" :key=comment._id>
+                        <h4 class="userComment">{{comment.userCreate}} </h4>
+                        
+                        <span class="bodyComment">{{comment.body}}</span>
+                        <div class="footerComment">
+                            <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
+                        </div>
+                        <hr class="separador">
+                    </div>
+                </div>
+            </div>
+
+            <div class="comments" v-show="isShowDevicesFavourites">
+                 <h3 class="notComments" v-show="devicesFavouriteUsers.length === 0">No ha añadido ningún dispositivo como favorito.</h3>
+                <div v-for="devices in devicesFavouriteUsers" :key="devices">
+                    <Device :id="devices._id"></Device>
+                </div>
             </div>
         </div>
     </div>
@@ -36,20 +65,28 @@
 
 <script>
 import jwt_decode from 'jwt-decode'
+import Comments from '@/components/Comments'
 
 export default {
+    components:{
+        Comments
+    },
     data(){
         return{
             labelPosition: 'left',
             currentUser: '',
-            formModData: false,
-            changePass: false
+            isFormModData: false,
+            isChangePass: false,
+            isShowComments: false,
+            isShowDevicesFavourites: '',
+            commentsUser: '',
+            devicesFavouriteUsers: ''
         }
     },
     methods: {
         async loadUserPage (){
-            let token = window.localStorage.getItem('token'),
-                tokenDecoded = jwt_decode(token);
+            let token = window.localStorage.getItem('token');
+            let tokenDecoded = jwt_decode(token);
 
             let userDB = await this.$axios.get(`users/${tokenDecoded.id}`, {
                     headers: { Authorization: `Bearer ${token}` }
@@ -59,7 +96,7 @@ export default {
 
         },
         showFormEdit (){
-            this.formModData = !this.formModData
+            this.isFormModData = !this.isFormModData
         },
         changePersonalInfo (){
             let token = window.localStorage.getItem('token')
@@ -69,15 +106,37 @@ export default {
              this.formModData = false
         },
         changePassword (){
-            this.changePass = true;
-            console.log('Envío de email para cambiar la contraseña')
+            this.isChangePass = true;
             setTimeout(() => {
-                this.changePass = false
+                this.isChangePass = false
             }, 3000);
+        },
+        favouriteDevices(){
+            console.log('moviles favoritos')
+        },
+        async getCommentsUser(){
+            let token = window.localStorage.getItem('token');
+            let tokenDecoded = jwt_decode(token);
+
+            let commentsList = await this.$axios.get('comments')
+            let response = commentsList.data
+
+            let result = response.filter( comment => {
+                comment.userCreateID == tokenDecoded.id 
+            })
+            
+            this.commentsUser = result 
+        },
+        showComments(){
+            this.isShowComments = !this.isShowComments
+        },
+        showDevicesFavourites(){
+            this.isShowDevicesFavourites = !this.isShowDevicesFavourites
         }
     },
     mounted(){
         this.loadUserPage()
+        this.getCommentsUser()
     }
 }
 </script>
@@ -123,22 +182,32 @@ export default {
     color: #333;
     font-size: 0.9em;
 }
+.comments{
+    margin: 30px auto;
+}
+.border{
+    border: 2px solid var(--color-primary);
+    -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);   
+    border-radius: 5px;
+}
 @media (min-width: 640px) {
     #btnchangePass{
-        display: inline-block;
+        width: 100%;
     }
     .btnUserPage{
-        width: none;
+        width: 100%;
     }
     .divButtons{
         margin-top:30px;
-        width: 40%;
+        display: flex;
+        justify-content: space-evenly;
     }
 }
 @media (min-width: 800px) {
     .divUser{
         background: rgb(243, 243, 243);
-        border: 1px solid rgb(219, 217, 217);
         padding: 30px;
         border-radius: 15px;
     }

@@ -1,19 +1,19 @@
 <template>
-    <div class="container backgroundForm">
+    <div class="container" :class="{ backgroundForm: !seleccion.resultado }">
     <div class="containerAll">
       <form v-show="seleccion.form1">
         <h3 class="subtitle">¿Qué sistema operativo prefieres?</h3>
-        <el-radio-group v-model="infoData.sistemaOperativo">
+        <el-radio-group v-model="infoData.so">
           <el-radio-button label="Indiferente"></el-radio-button>
           <el-radio-button label="Android"></el-radio-button>
-          <el-radio-button label="IOS"></el-radio-button>
+          <el-radio-button label="iOS"></el-radio-button>
         </el-radio-group>
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="useOk">Siguiente</el-button>
       </form>
       <form v-if="seleccion.form2">
         <h3 class="subtitle">¿Tamaño de la pantalla?</h3>
-        <el-radio-group v-model="infoData.pantalla">
+        <el-radio-group v-model="infoData.display">
           <el-radio-button label="Indiferente"></el-radio-button>
           <el-radio-button label="Menos de 6'"></el-radio-button>
           <el-radio-button label="Más de 6'"></el-radio-button>
@@ -24,14 +24,14 @@
       <form v-if="seleccion.form3">
         <h3 class="subtitle">¿Cuánto le importan las cámaras?</h3>
         <p class="subtitle textDesc">Cámara frontal</p>
-        <el-radio-group v-model="infoData.camaraFrontal">
+        <el-radio-group v-model="infoData.frontCamera">
           <el-radio-button label="Poco"></el-radio-button>
           <el-radio-button label="Normal"></el-radio-button>
           <el-radio-button label="Mucho"></el-radio-button>
         </el-radio-group>
         <br>
         <p class="subtitle textDesc">Cámara trasera</p>
-        <el-radio-group v-model="infoData.camaraTrasera">
+        <el-radio-group v-model="infoData.leadcamera">
           <el-radio-button label="Poco"></el-radio-button>
           <el-radio-button label="Normal"></el-radio-button>
           <el-radio-button label="Mucho"></el-radio-button>
@@ -41,7 +41,8 @@
       </form>
       <form v-if="seleccion.form4">
         <h3 class="subtitle">¿Cuánta memoria RAM?</h3>
-        <el-radio-group v-model="infoData.memoriaRam">
+        <el-radio-group v-model="infoData.ram">
+          <el-radio-button label="Indiferente"></el-radio-button>
           <el-radio-button label="Menos de 8GB"></el-radio-button>
           <el-radio-button label="Más de 8GB"></el-radio-button>
         </el-radio-group>
@@ -50,9 +51,9 @@
       </form>
       <form v-if="seleccion.form5">
         <h3 class="subtitle">¿Cuánto almacenamiento interno?</h3>
-        <el-radio-group v-model="infoData.almacenamiento">
-          <el-radio-button label="64GB"></el-radio-button>
-          <el-radio-button label="128GB"></el-radio-button>
+        <el-radio-group v-model="infoData.storage">
+          <el-radio-button label="Indiferente"></el-radio-button>
+          <el-radio-button label="Menos de 128GB"></el-radio-button>
           <el-radio-button label="Más de 128GB"></el-radio-button>
         </el-radio-group>
         <br>
@@ -61,9 +62,9 @@
       <form v-if="seleccion.form6">
         <h3 class="subtitle">¿Cuál es tu presupuesto máximo?</h3>
         <div class="block">
-            <span class="textDesc">{{infoData.precio}}€</span>
+            <span class="textDesc">{{infoData.price}}€</span>
             <el-slider
-            v-model="infoData.precio"
+            v-model="infoData.price"
             :max="1500">
             </el-slider>
         </div>
@@ -73,7 +74,7 @@
       <form v-if="seleccion.form7">
         <h3 class="subtitle">¿Le interesa alguna característica más?</h3>
         <div>
-            <el-checkbox-group v-model="infoData.more">
+            <el-checkbox-group v-model="infoData.features">
             <el-checkbox style="margin-top: 20px" v-for="item in features" :label="item" border :key="item">{{item}}</el-checkbox>
             </el-checkbox-group>
         </div>
@@ -85,7 +86,6 @@
       <h3 class="subtitle" v-if="seleccion.encontrado">Te recomendamos estos dispositivos</h3>
       <h3 class="subtitle" v-if="seleccion.noEncontrado">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
       <div class="continarDeviceRecomend" v-show="seleccion.resultado">
-        <h3></h3>
         <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
       </div>
      
@@ -118,14 +118,14 @@ export default {
             noEncontrado: false
         },
       infoData: {
-        sistemaOperativo: 'Indiferente',
-        pantalla: 'Indiferente',
-        camaraFrontal: 'Normal',
-        camaraTrasera: 'Normal',
-        memoriaRam: 'Menos de 8GB',
-        almacenamiento: '128GB',
-        precio: 650,
-        more: [],
+        so: 'Indiferente',
+        display: 'Indiferente',
+        frontCamera: 'Normal',
+        leadCamera: 'Normal',
+        ram: 'Indiferente',
+        storage: 'Indiferente',
+        price: 650,
+        features: [],
       },
       features: featuresOptions,
       devicesRecomend: '',
@@ -210,10 +210,10 @@ ul li{
 }
 form{
   width:90%;
-  margin: 0 auto;
+  margin: /* 19%  auto*/ 0 auto;
 }
 .containerAll{
-  padding-top: 15%;
+  padding-top: 50%;
 }
 .btnPrim{
   border: 1px solid var(--color-bg);
@@ -267,5 +267,8 @@ form{
     width:90%;
     justify-content: space-evenly;
   }
+  .containerAll{
+  padding-top: 20%;
+}
 } 
 </style>

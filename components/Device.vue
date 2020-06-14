@@ -1,15 +1,18 @@
 <template>
     <div class="divDevice">
         <div class="devices">
-           <nuxt-link :to="'/devices/'+selectDevice._id">
+            <div class="divCenter">
+              <nuxt-link :to="'/devices/'+selectDevice._id">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
-            </nuxt-link>
+              </nuxt-link>
+            </div>
             <span class="block brandDevice fontDeviceCenter">{{selectDevice.Brand}}</span>
             <span class="block margin modelDevice fontDeviceCenter">{{selectDevice.DeviceName}}</span>
             <br>
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
+            <br>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -18,7 +21,7 @@
               <span v-if="selectDevice.display[index] === selectDevice.display[2]"> Ratio de pantalla</span>
             </span>
             <br>
-            <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Cámara trasera</span>
+            <i class="fas fa-camera iconTitle"></i><span class="titleDevice">Cámara trasera</span>
             <span v-for="frontCam in selectDevice.camera" class="block fontDevice margin" :key="frontCam">
               {{frontCam}}
             </span>
@@ -34,10 +37,14 @@
             <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
             <span class="block margin fontDevice">{{selectDevice.battery}}</span>
             <br>
-            <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Sensores</span>
+            <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adionales</span>
             <span v-for="features in selectDevice.sensors" class="block margin fontDevice" :key="features">
               {{features}}
             </span>
+
+            <i class="fas fa-euro-sign iconTitle"></i><span class="titleDevice">Precio</span>
+            <span class="block margin fontDevice">{{selectDevice.price}} €</span>
+            <br>
         </div>
     </div>
 </template>
@@ -78,6 +85,8 @@ export default {
 .imageDevice{
   width: 200px;
   height: 200px;
+  margin: auto;
+  display: block;
 }
 .fontDevice{
   color: #777;
@@ -124,11 +133,8 @@ export default {
   }
   .containerDevices{
     display: flex;
-    width: 70%;
+    width: 80%;
     margin:20px auto;
-  }
-  .imageDevice{
-    margin-left: 20%;
   }
   .backgroundForm{
     background-size: 35%;

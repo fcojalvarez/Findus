@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="containerRegister">
         <div class="formRegister">
 
             <el-form class="border borderFormRegister">

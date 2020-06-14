@@ -16,8 +16,7 @@ export default {
     border: 2px solid var(--color-primary);
     -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
     -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
-    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
-    
+    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);   
     border-radius: 5px;
 }
 .borderFormRegister{
@@ -62,6 +61,9 @@ export default {
 span .title{
     color:red;
 }
+.containerRegister{
+    padding-top:80px;
+}
 el-input{
     width: 70%;
     margin-bottom: 50px;
@@ -95,7 +97,10 @@ el-button{
     }
     .formRegister{
         width: 500px;
-        margin: 30px 0;
+        margin: 0 auto;
+    }
+    .containerRegister{
+        padding-top: 5%;
     }
 }
 </style>
