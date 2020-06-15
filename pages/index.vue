@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form class="formHome"></Form>
-    <DevicesAleatory></DevicesAleatory>
+    <DevicesAleatory v-show="showDevicesAleatory"></DevicesAleatory>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
   components:{
     Form,
     DevicesAleatory
+  },
+  computed: {
+    showDevicesAleatory(){
+      return this.$store.state.isFindRandomDevice
+    }
   }
 }
 </script>

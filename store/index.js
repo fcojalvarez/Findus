@@ -4,7 +4,8 @@ export const state = () => ({
     comments: [],
     isAuth: false,
     currentUser: '',
-    smartphoneID: ''
+    smartphoneID: '',
+    isFindRandomDevice: true
 })
 
 export const actions = {
@@ -41,6 +42,7 @@ export const actions = {
     },
     logout(context, result) {
         window.localStorage.removeItem("token")
+        this.$router.push('/')
         context.commit('checkAuthMutation', result)
     },
     setIDDevice(context, ID) {
@@ -61,6 +63,9 @@ export const mutations = {
     },
     setIDDeviceMutation(state, ID) {
         state.smartphoneID = ID
+    },
+    hideRandomDevices(state) {
+        state.isFindRandomDevice = false
     }
 }
 

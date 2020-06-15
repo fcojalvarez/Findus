@@ -2,17 +2,16 @@
     <div class="divDevice">
         <div class="devices">
             <div class="divCenter">
-              <nuxt-link :to="'/devices/'+selectDevice._id">
+              <nuxt-link :to="'/devices/'+selectDevice._id" target="_blank">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
               </nuxt-link>
             </div>
             <span class="block brandDevice fontDeviceCenter">{{selectDevice.Brand}}</span>
             <span class="block margin modelDevice fontDeviceCenter">{{selectDevice.DeviceName}}</span>
-            <br>
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
-            <br>
+            <el-button v-show="isAuth" class="btnAddFavourite" @click.prevent="addDeviceFavorite(selectDevice)">Añadir a favoritos</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -51,13 +50,20 @@
 
 <script>
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 
 export default {
     name: 'Device',
     props: ['id'],
+    
     data(){
       return{
-        selectDevice: ''
+        selectDevice: '',
+      }
+    },
+    computed:{
+      isAuth(){
+        return this.$store.state.isAuth
       }
     },
     methods:{
@@ -65,6 +71,18 @@ export default {
           let findDevice = await this.$axios.get(`/devices/${deviceID}`)
 
           this.selectDevice = findDevice.data
+        },
+        addDeviceFavorite(selectDevice){
+          const token = window.localStorage.getItem('token')
+          let resultToken = token != null
+          let userID 
+
+        if (token !== null) {
+            let tokenDecoded = jwt_decode(token)
+            userID = tokenDecoded
+        }
+
+
         }
     },
     mounted(){
@@ -112,7 +130,7 @@ export default {
   font-size: 1em;
 }
 .iconTitle{
-  color: var(--color-primary);
+  color: var(--color-bg);
   font-size: 1.3em;
   margin-right: 15px;
   width: 20px;
@@ -121,6 +139,19 @@ export default {
   width: 200px;
   height: 300px;
 
+}
+.btnAddFavourite{
+  display: block;
+  margin: 10px auto;
+  background: var(--color-primary);
+  padding: 10px 20px;
+  font-size: 0.9em;
+}
+.btnAddFavourite:hover{
+  margin: 10px auto;
+  background: var(--color-bg);
+  color: #fff;
+  font-size: 0.9em;
 }
 @media (min-width: 600px) {
   .container {

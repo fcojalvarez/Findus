@@ -1,5 +1,6 @@
 <template>
     <div class="borderContact">
+        <h2 class="titleContact">Contacta con nosotros</h2>
         <el-form class="demo-dynamic" >
             <span class="title">Nombre y apellidos:</span>
             <el-form-item prop="name">
@@ -21,7 +22,13 @@
             <el-button class="buttonSend" @click.prevent="contactUs">Enviar</el-button>
         </el-form>
         <div v-show="messageEnd">
-            <span class="changePss">Su solicitud ha sido enviada. Intentaremos responder lo antes posible.</span>
+            <span class="changePss resultEndMessage messageOk">Su solicitud ha sido enviada. Intentaremos responder lo antes posible.</span>
+        </div>
+        <div v-show="errorMessage">
+            <span class="changePss resultEndMessage messageError">Todos los campos son obligatorios.</span>
+        </div>
+        <div v-show="errorEmail">
+            <span class="changePss resultEndMessage messageError">Por favor, introduzca un email válido.</span>
         </div>
     </div>
 </template>
@@ -35,7 +42,9 @@ export default {
                 email: '',
                 message: ''
             },
-            messageEnd: false
+            messageEnd: false,
+            errorMessage: false,
+            errorEmail: false
         }
     },
     methods:{
@@ -46,12 +55,37 @@ export default {
                 message: this.bodyMessage.message
             }
 
+            let validateEmail = this.validatedEmail(newMessage.email)
+
+            if(newMessage.fullName === '' || !validateEmail|| newMessage.message === ''){
+                if(!validateEmail){
+                    this.errorEmail = true;
+                } else {
+                    this.errorMessage = true;
+                }  
+                setTimeout(() => {
+                    this.errorMessage = false
+                    this.errorEmail = false;
+                }, 3000);
+                return
+            }
+
             let sendMessage = await this.$axios.post('contact', newMessage)
             this.bodyMessage = ''
             this.messageEnd = true
             setTimeout(() => {
                 this.messageEnd = false
+                this.$router.push('/')
             }, 3000);
+        },
+        validatedEmail(email) {     
+            const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+
+            if (emailRegex.test(email)) {
+                return true
+            } else {
+                return false
+        }
         }
     }
 }
@@ -73,10 +107,24 @@ export default {
 .buttonSend{
     width: 100%;
 }
+.titleContact{
+    font-size: 1.1em;
+    margin: 20px 0 20px 20px;
+}
+.resultEndMessage{
+    margin: 10px;
+    display: block;
+}
+.messageError{
+    color: rgb(172, 25, 25);
+}
+.messageOk{
+    color: rgb(31, 141, 49);
+}
 @media (min-width: 640px) {
     .borderContact {
         padding: 40px;
-        margin: 80px 180px;
+        margin: 50px 80px;
     }
     .title{
         font-size: 0.9em;
@@ -85,6 +133,12 @@ export default {
         width: 25%;
         display: block;
         margin-left: auto;
+    }
+}
+@media (min-width: 860px) {
+    .borderContact {
+        padding: 40px;
+        margin: 50px 190px;
     }
 }
 </style>

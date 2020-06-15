@@ -3,7 +3,7 @@
         <div class="formLog">
             <div class="border borderFormLogin">
 
-                <el-form class="demo-dynamic" >
+                <el-form class="demo-dynamic" v-show="!isResetPassword">
                     <span class="title">Email:</span>
                     <el-form-item prop="email">
                         <el-input placeholder="Introduzca su email" v-model="email"></el-input>
@@ -14,10 +14,20 @@
                     </el-form-item>
                     <el-button @click.prevent="login">Iniciar sesión</el-button>
                 </el-form>
+
+                <el-form class="demo-dynamic" v-show="isResetPassword">
+                    <span class="title">Restablecer contraseña:</span>
+                    <el-form-item prop="email">
+                        <el-input placeholder="Introduzca su email" v-model="email"></el-input>
+                    </el-form-item>
+                    <el-button @click.prevent="changePassword">Restablecer</el-button>
+                </el-form>
                 
             </div>
-            <h3 class="notLogin">¿No está registrado? <span @click.prevent="showregisterLogin" class="createAccount">Crear cuenta</span></h3>
-            <h3 class="forgottenPassword">¿Ha olvidado su contraseña? <br> <span @click.prevent="" class="changePassword">Cambiar contraseña</span></h3>
+            <h3 class="notLogin"  v-show="!isResetPassword">¿No está registrado? <span @click.prevent="showregisterLogin" class="createAccount">Crear cuenta</span></h3>
+            <h3 class="forgottenPassword"  v-show="!isResetPassword">¿Ha olvidado su contraseña? <br> <span @click.prevent="showResetPassword" class="changePassword">Cambiar contraseña</span></h3>
+
+            <h3 class="notLogin" v-show="isResetPassword">¿Está registrado? <span @click.prevent="showFormLogin" class="createAccount">Iniciar sesión</span></h3>
         </div>
     </div>
 </template>
@@ -34,7 +44,8 @@ export default {
             surname: "",
             password: "",
             dataUsers: "",
-            isAuth: false
+            isAuth: false,
+            isResetPassword: false
         }
     },
     mounted() {
@@ -68,6 +79,10 @@ export default {
                 }
             }
         },
+        async changePassword(){
+            let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.email })
+            alert('Petición enviada. Recibirá un correo para restablecer su contraseña.')
+        },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
@@ -86,6 +101,9 @@ export default {
         showregisterLogin(){
             this.$router.push('/register')
             this.limpiarFormulario();
+        },
+        showResetPassword(){
+            this.isResetPassword = true
         }
     }
 }

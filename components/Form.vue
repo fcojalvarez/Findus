@@ -1,6 +1,6 @@
 <template>
     <div class="container" :class="{ backgroundForm: !seleccion.resultado }">
-    <div class="containerAll">
+    <div :class="{ containerAllWithResult: seleccion.isFound, containerAll: !seleccion.isFound }">
       <form v-show="seleccion.form1">
         <h3 class="subtitle">¿Qué sistema operativo prefieres?</h3>
         <el-radio-group v-model="infoData.so">
@@ -83,9 +83,9 @@
       </form>
 
       <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
-      <h3 class="subtitle" v-if="seleccion.encontrado">Te recomendamos estos dispositivos</h3>
-      <h3 class="subtitle" v-if="seleccion.noEncontrado">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
-      <div class="continarDeviceRecomend" v-show="seleccion.resultado">
+      <h3 class="subtitle" v-if="seleccion.isFound">Te recomendamos estos dispositivos</h3>
+      <h3 class="subtitle" v-if="seleccion.notFound">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
+      <div class="continarDeviceRecomend" v-show="seleccion.isFound">
         <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
       </div>
      
@@ -114,8 +114,8 @@ export default {
             form6: false,
             form7: false,
             resultado: false,
-            encontrado: false,
-            noEncontrado: false
+            isFound: false,
+            notFound: false
         },
       infoData: {
         so: 'Indiferente',
@@ -165,22 +165,22 @@ export default {
     },
     moreOk(){
       this.seleccion.form7 = false;
-      this.seleccion.resultado = true
+      this.seleccion.isFound = true
       this.pointAct += 25
       this.getDevicedRecomend(this.infoData)
     },
     async getDevicedRecomend(result){
       try {
       
-        let deviceFiltered = await this.$axios.post(`filterDevices`, result);
+        let deviceFiltered = await this.$axios.post(`devicesFilter`, result);
         this.devicesRecomend = deviceFiltered.data
 
         if (this.devicesRecomend.length > 0) {
-          this.seleccion.encontrado = true    
+          this.seleccion.isFound = true
+          this.$store.commit('hideRandomDevices')    
         } else {
-          this.seleccion.noEncontrado = true
+          this.seleccion.notFound = true
         }
-
       } catch (err) {
         console.log(err)
       }
@@ -210,7 +210,7 @@ ul li{
 }
 form{
   width:90%;
-  margin: /* 19%  auto*/ 0 auto;
+  margin: 0 auto;
 }
 .containerAll{
   padding-top: 50%;
@@ -251,6 +251,9 @@ form{
   display: inline-block;
   width: 40%;
   margin: 0 auto;
+}
+.containerAllWithResult{
+  padding-top:5%!important;
 }
 @media (min-width: 600px) {
   .container {
