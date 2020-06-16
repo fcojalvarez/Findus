@@ -22,24 +22,6 @@
         <el-button class="btnPrim" type="primary" @click.prevent="pantallaOk">Siguiente</el-button>
       </form>
       <form v-if="seleccion.form3">
-        <h3 class="subtitle">¿Cuánto le importan las cámaras?</h3>
-        <p class="subtitle textDesc">Cámara frontal</p>
-        <el-radio-group v-model="infoData.frontCamera">
-          <el-radio-button label="Poco"></el-radio-button>
-          <el-radio-button label="Normal"></el-radio-button>
-          <el-radio-button label="Mucho"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <p class="subtitle textDesc">Cámara trasera</p>
-        <el-radio-group v-model="infoData.leadcamera">
-          <el-radio-button label="Poco"></el-radio-button>
-          <el-radio-button label="Normal"></el-radio-button>
-          <el-radio-button label="Mucho"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="camarasOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form4">
         <h3 class="subtitle">¿Cuánta memoria RAM?</h3>
         <el-radio-group v-model="infoData.ram">
           <el-radio-button label="Indiferente"></el-radio-button>
@@ -49,9 +31,9 @@
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="ramOk">Siguiente</el-button>
       </form>
-      <form v-if="seleccion.form5">
+      <form v-if="seleccion.form4">
         <h3 class="subtitle">¿Cuánto almacenamiento interno?</h3>
-        <el-radio-group v-model="infoData.storage">
+        <el-radio-group v-model="infoData.rom">
           <el-radio-button label="Indiferente"></el-radio-button>
           <el-radio-button label="Menos de 128GB"></el-radio-button>
           <el-radio-button label="Más de 128GB"></el-radio-button>
@@ -59,7 +41,7 @@
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="almacenamientoOk">Siguiente</el-button>
       </form>
-      <form v-if="seleccion.form6">
+      <form v-if="seleccion.form5">
         <h3 class="subtitle">¿Cuál es tu presupuesto máximo?</h3>
         <div class="block">
             <span class="textDesc">{{infoData.price}}€</span>
@@ -71,7 +53,7 @@
         <br>
         <el-button class="btnPrim" type="primary" @click.prevent="precioOk">Siguiente</el-button>
       </form>
-      <form v-if="seleccion.form7">
+      <form v-if="seleccion.form6">
         <h3 class="subtitle">¿Le interesa alguna característica más?</h3>
         <div>
             <el-checkbox-group v-model="infoData.features">
@@ -97,7 +79,7 @@
 <script>
 import Device from '@/components/Device'
 
-const featuresOptions = ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm', 'Actualizaciones']
+const featuresOptions = ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm']
 export default {
   name: 'Form',
   components:{
@@ -112,7 +94,6 @@ export default {
             form4: false,
             form5: false,
             form6: false,
-            form7: false,
             resultado: false,
             isFound: false,
             notFound: false
@@ -120,10 +101,8 @@ export default {
       infoData: {
         so: 'Indiferente',
         display: 'Indiferente',
-        frontCamera: 'Normal',
-        leadCamera: 'Normal',
         ram: 'Indiferente',
-        storage: 'Indiferente',
+        rom: 'Indiferente',
         price: 650,
         features: [],
       },
@@ -136,37 +115,32 @@ export default {
     useOk(){
       this.seleccion.form1 = false;
       this.seleccion.form2 = true;
-      this.pointAct += 10
+      this.pointAct += 15
     },
     pantallaOk(){
       this.seleccion.form2 = false;
       this.seleccion.form3 = true;
-      this.pointAct += 10
-    },
-    camarasOk(){
-      this.seleccion.form3 = false;
-      this.seleccion.form4 = true;
-      this.pointAct += 25
+      this.pointAct += 15
     },
     ramOk(){
-      this.seleccion.form4 = false;
-      this.seleccion.form5 = true;
-      this.pointAct += 10
+      this.seleccion.form3 = false;
+      this.seleccion.form4 = true;
+      this.pointAct += 20
     },
     almacenamientoOk(){
-      this.seleccion.form5 = false;
-      this.seleccion.form6 = true;
-      this.pointAct += 10
+      this.seleccion.form4 = false;
+      this.seleccion.form5 = true;
+      this.pointAct += 15
     },
     precioOk(){
-      this.seleccion.form6 = false;
-      this.seleccion.form7 = true;
-      this.pointAct += 10
+      this.seleccion.form5 = false;
+      this.seleccion.form6 = true;
+      this.pointAct += 15
     },
     moreOk(){
-      this.seleccion.form7 = false;
+      this.seleccion.form6 = false;
       this.seleccion.isFound = true
-      this.pointAct += 25
+      this.pointAct += 20
       this.getDevicedRecomend(this.infoData)
     },
     async getDevicedRecomend(result){

@@ -72,16 +72,21 @@ export default {
 
           this.selectDevice = findDevice.data
         },
-        addDeviceFavorite(selectDevice){
+        async addDeviceFavorite(selectDevice){
           const token = window.localStorage.getItem('token')
           let resultToken = token != null
-          let userID 
+          let userID
 
-        if (token !== null) {
-            let tokenDecoded = jwt_decode(token)
-            userID = tokenDecoded
-        }
+          if (token !== null) {
+              let tokenDecoded = jwt_decode(token)
+              userID = tokenDecoded.id
+          }
 
+          let devicesFavorites = this.selectDevice.devicesFavorites
+
+          /* let addFavorite = await this.$axios.put(`users/${userID}`, this.selectDevice._id, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }) */
 
         }
     },
