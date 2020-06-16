@@ -11,7 +11,7 @@
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
-            <el-button v-show="isAuth" class="btnAddFavourite" @click.prevent="addDeviceFavorite(selectDevice)">Añadir a favoritos</el-button>
+            <el-button v-show="isAuth" class="btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -72,22 +72,27 @@ export default {
 
           this.selectDevice = findDevice.data
         },
-        async addDeviceFavorite(selectDevice){
-          const token = window.localStorage.getItem('token')
-          let resultToken = token != null
-          let userID
+        async addDeviceFavorite(){
+          try {
+            const token = window.localStorage.getItem('token')
+            let resultToken = token != null
+            let userID
 
-          if (token !== null) {
-              let tokenDecoded = jwt_decode(token)
-              userID = tokenDecoded.id
+            if (token !== null) {
+                let tokenDecoded = jwt_decode(token)
+                userID = tokenDecoded.id
+            }
+
+            let devicesFavorites = this.selectDevice.devicesFavorites
+
+            let addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
+                      headers: { Authorization: `Bearer ${token}` }
+                  })
+          } catch (err) {
+            console.log(err)
+
           }
-
-          let devicesFavorites = this.selectDevice.devicesFavorites
-
-          /* let addFavorite = await this.$axios.put(`users/${userID}`, this.selectDevice._id, {
-                    headers: { Authorization: `Bearer ${token}` }
-                }) */
-
+          
         }
     },
     mounted(){
