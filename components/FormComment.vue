@@ -1,12 +1,12 @@
 <template>
     <el-form class="divFormComment">
         
-        <span class="title">Cuéntanos que te parece esta recomendación</span>
+        <span class="title">Cuéntanos, ¿Qué te parece esta recomendación?</span>
         <el-form-item>
             <el-input
             type="textarea"
             :rows="5"
-            placeholder="Comenta para ayudar a los demás usuarios."
+            placeholder="Tus comentarios ayudarán a los demás usuarios."
             v-model="bodyComment">
             </el-input>
         </el-form-item>
@@ -36,6 +36,8 @@ export default {
             try {
                 const token = window.localStorage.getItem('token')
                 const user = jwt_decode(token)
+
+                console.log(user.id)
 
                 let newComment = {
                     body: this.bodyComment,

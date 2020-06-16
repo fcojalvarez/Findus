@@ -5,7 +5,8 @@ export const state = () => ({
     isAuth: false,
     currentUser: '',
     smartphoneID: '',
-    isFindRandomDevice: true
+    isFindRandomDevice: true,
+    devicesFavorites: []
 })
 
 export const actions = {
@@ -47,6 +48,26 @@ export const actions = {
     },
     setIDDevice(context, ID) {
         context.commit('setIDDeviceMutation', ID)
+    },
+    async getDevicesFavorites(context) {
+        try {
+            const token = window.localStorage.getItem('token')
+            let resultToken = token != null
+            let userID
+            let devicesFavorites
+
+            if (token !== null) {
+                let tokenDecoded = jwt_decode(token)
+                userID = tokenDecoded.id
+            }
+
+            devicesFavorites = await this.$axios.get(`users/${userID}/getDevicesFavorites`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            context.commit('setDevicesFavorites', devicesFavorites.data)
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
@@ -66,6 +87,9 @@ export const mutations = {
     },
     hideRandomDevices(state) {
         state.isFindRandomDevice = false
+    },
+    setDevicesFavorites(state, devices) {
+        state.devicesFavorites = devices
     }
 }
 

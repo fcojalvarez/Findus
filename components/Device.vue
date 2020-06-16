@@ -11,7 +11,9 @@
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
-            <el-button v-show="isAuth" class="btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
+            <el-button v-show="isAuth && currentPage !== 'userPage'" class="btnFavorite btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
+
+            <el-button v-show="isAuth && currentPage === 'userPage'" class="btnFavorite btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -59,6 +61,7 @@ export default {
     data(){
       return{
         selectDevice: '',
+        currentPage: this.$route.name
       }
     },
     computed:{
@@ -92,7 +95,29 @@ export default {
             console.log(err)
 
           }
-          
+        },
+        async delDeviceFavorite(){
+          try {
+            const token = window.localStorage.getItem('token')
+            let resultToken = token != null
+            let userID
+
+            if (token !== null) {
+                let tokenDecoded = jwt_decode(token)
+                userID = tokenDecoded.id
+            }
+
+            let devicesFavorites = this.selectDevice.devicesFavorites
+
+            let delFavorite = await this.$axios.post(`users/${userID}/delDevicesFavorites`,
+                    { deviceID : this.selectDevice._id },
+                     { headers: { Authorization: `Bearer ${token}`} })
+
+            this.$store.dispatch('getDevicesFavorites')
+          } catch (err) {
+            console.log(err)
+
+          }
         }
     },
     mounted(){
@@ -148,20 +173,28 @@ export default {
 .devices img {
   width: 200px;
   height: 300px;
-
 }
-.btnAddFavourite{
+.btnFavorite{
   display: block;
   margin: 10px auto;
   background: var(--color-primary);
   padding: 10px 20px;
   font-size: 0.9em;
 }
+.btnAddFavourite{
+  background: var(--color-primary);
+}
 .btnAddFavourite:hover{
-  margin: 10px auto;
+  background: var(--color-bg);
+    color: #fff;
+}
+.btnDelFavourite{
+  background: rgb(226, 58, 58);
+  color: #fff;
+}
+.btnDelFavourite:hover{
   background: var(--color-bg);
   color: #fff;
-  font-size: 0.9em;
 }
 @media (min-width: 600px) {
   .container {

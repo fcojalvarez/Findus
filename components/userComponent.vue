@@ -1,10 +1,8 @@
 <template>
     <div class="containerUser">
         <div class="divUser border">
-            <div>
+            <div class="dataUser">
                 <h3 class="titleUser">Nombre y apellidos:</h3><span class="spanUserData">{{currentUser.name}} {{currentUser.surname}}</span>
-            </div>
-            <div>
                 <h3 class="titleUser">email:</h3><span class="spanUserData">{{currentUser.email}}</span>
             </div>
 
@@ -15,7 +13,7 @@
                 </div>
                 <div>
                     <el-button class="btnUserPage" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
-                    <el-button class="btnUserPage" @click.prevent="showComments" >Comentarios realizados</el-button>
+                    <el-button class="btnUserPage" @click.prevent="showComments" id="btnShowComment">Comentarios realizados</el-button>
                 </div>
             </div>
 
@@ -41,13 +39,16 @@
             <div class="comments" v-show="isShowComments">
                  <h3 class="notComments" v-show="commentsUser.length === 0">No ha comentado en ningún dispositivo.</h3>
                 <div>
+                    <h3 class="comments">Comentarios:</h3>
                     <div class="divComment" v-for="comment in commentsUser" :key=comment._id>
                         <h4 class="userComment">{{comment.userCreate}} </h4>
-                        
                         <span class="bodyComment">{{comment.body}}</span>
                         <div class="footerComment">
                             <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
                         </div>
+                        <nuxt-link :to="'/devices/'+comment.smartphoneID">
+                            <el-button class="linkShowComment"  size="mini" type="info" round>Ver comentario</el-button>
+                        </nuxt-link>
                         <hr class="separador">
                     </div>
                 </div>
@@ -55,7 +56,7 @@
 
             <div class="comments" v-show="isShowDevicesFavourites">
                  <h3 class="notComments" v-show="devicesFavouriteUsers.length === 0">No ha añadido ningún dispositivo como favorito.</h3>
-                <div v-for="devices in devicesFavouriteUsers" :key="devices">
+                <div v-for="devices in devicesFavouriteUsers" :key="devices._id">
                     <Device :id="devices._id"></Device>
                 </div>
             </div>
@@ -66,10 +67,12 @@
 <script>
 import jwt_decode from 'jwt-decode'
 import Comments from '@/components/Comments'
+import Device from '@/components/Device'
 
 export default {
     components:{
-        Comments
+        Comments,
+        Device
     },
     data(){
         return{
@@ -79,8 +82,12 @@ export default {
             isChangePass: false,
             isShowComments: false,
             isShowDevicesFavourites: '',
-            commentsUser: '',
-            devicesFavouriteUsers: ''
+            commentsUser: ''
+        }
+    },
+    computed:{
+        devicesFavouriteUsers(){
+            return this.$store.state.devicesFavorites
         }
     },
     methods: {
@@ -111,20 +118,16 @@ export default {
                 this.isChangePass = false
             }, 3000);
         },
-        favouriteDevices(){
-            console.log('moviles favoritos')
-        },
         async getCommentsUser(){
             let token = window.localStorage.getItem('token');
             let tokenDecoded = jwt_decode(token);
+            let userID = tokenDecoded.id
 
             let commentsList = await this.$axios.get('comments')
             let response = commentsList.data
 
-            let result = response.filter( comment => {
-                comment.userCreateID == tokenDecoded.id 
-            })
-            
+            let result = response.filter( comment => comment.userCreateID === userID )
+         
             this.commentsUser = result 
         },
         showComments(){
@@ -137,6 +140,7 @@ export default {
     mounted(){
         this.loadUserPage()
         this.getCommentsUser()
+        this.$store.dispatch('getDevicesFavorites') 
     }
 }
 </script>
@@ -148,8 +152,7 @@ export default {
     margin: 20px auto;
 }
 .containerUser{
-    height: 100vh;
-    margin: 0 auto;
+    margin: 50px auto 0 auto;
 }
 .divButtons{
     margin-top:30px;
@@ -192,6 +195,19 @@ export default {
     box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);   
     border-radius: 5px;
 }
+.dataUser{
+    margin-left: 30px;
+}
+#btnShowComment{
+    margin-left: 0;
+}
+.separador{
+height: 10px;
+}
+.linkShowComment{
+    margin-left: auto;
+    display: block;
+}
 @media (min-width: 640px) {
     #btnchangePass{
         width: 100%;
@@ -203,6 +219,9 @@ export default {
         margin-top:30px;
         display: flex;
         justify-content: space-evenly;
+    }
+    .containerUser{
+        margin: 150px auto 0
     }
 }
 @media (min-width: 800px) {

@@ -204,7 +204,7 @@ form{
   border: 1px solid var(--color-bg);
 }
 .el-slider__runway{
-  width: 70%;
+  width: 50%;
   margin: 30px auto;
 }
 .subtitle {

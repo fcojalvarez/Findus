@@ -12,7 +12,7 @@
       <div class="userSpace" v-show="isAuth">
         <span class="login logOut">
           <nuxt-link class="user" to="/userPage">
-            Hola {{currentUser.name}} <i class="fas fa-user iconUser"></i>
+          {{currentUser.name}} <i class="fas fa-user iconUser"></i>
           </nuxt-link>
         </span>
       </div>
