@@ -7,6 +7,7 @@
 
 <script>
 import MainNav from '@/components/MainNav'
+
 export default {
     components:{
       MainNav
@@ -19,6 +20,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap');
+
 
 :root {
   --color-primary: #FFEC6B;

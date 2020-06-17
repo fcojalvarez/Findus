@@ -6,16 +6,17 @@
                 <h3 class="titleUser">email:</h3><span class="spanUserData">{{currentUser.email}}</span>
             </div>
 
-            <div class="divButtons">
-                <div>
-                    <el-button class="btnUserPage" @click.prevent="showFormEdit">Modificar datos</el-button>
-                    <el-button class="btnUserPage" @click.prevent="changePassword" id="btnchangePass">Cambiar contraseña</el-button>
-                </div>
-                <div>
-                    <el-button class="btnUserPage" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
-                    <el-button class="btnUserPage" @click.prevent="showComments" id="btnShowComment">Comentarios realizados</el-button>
-                </div>
-            </div>
+            <el-row :glutter="10" class="divButtons">
+                <el-col :xs="22" :sm="11">
+                    <el-button round class="btnUserPage marginL0" @click.prevent="showFormEdit">Modificar datos</el-button>
+                </el-col>
+                <el-col :xs="22" :sm="11">
+                    <el-button round class="btnUserPage marginL0" @click.prevent="changePassword">Cambiar contraseña</el-button>
+                </el-col>
+                <el-col :xs="22" :sm="11">
+                    <el-button round class="btnUserPage marginL0 btnDeleteUser" id="" @click.prevent="showWarningDelete">Eliminar cuenta</el-button>
+                </el-col>
+             </el-row>
 
             <el-form v-show="isFormModData" :label-position="labelPosition" label-width="100px" class="formModData">
                 <h3 class="titleForm">Modificar datos personales:</h3>
@@ -28,26 +29,46 @@
                 <el-form-item label="email">
                     <el-input v-model="currentUser.email"></el-input>
                 </el-form-item>
-                <el-button type="primary" @click.prevent="changePersonalInfo">Modificar</el-button>
+                <el-button round type="primary" class="btnEditData" @click.prevent="changePersonalInfo">Modificar</el-button>
             </el-form>
 
             <div v-show="isChangePass">
                 <span class="changePss">Petición aceptada. <br> <br>
                 Recibirá un email con las instrucciones para modificar su contraseña.</span>
             </div>
-            
+
+            <div v-show="isDeletedAccount" class="warningDeleteUser">
+                <span class="textDeletedAccount"> ¿está seguro que quiere eliminar su cuenta?</span>
+                <br>
+                <span class="fontRed">Esta acción no se puede revocar.</span>
+                <br>
+                <el-button round class="btnDeleteUser deleteUser" @click="deleteUserAccount">Eliminar</el-button>
+                <el-button round type="success" plain @click="showWarningDelete">Cancelar</el-button>
+                <br>
+            </div>
+
+             <el-row :glutter="10" class="divButtons">
+                <el-col :xs="22" :sm="11">
+                    <el-button round class="btnUserPage marginL0" @click.prevent="showComments">Comentarios realizados</el-button>
+                </el-col>
+                <el-col :xs="22" :sm="11">
+                    <el-button round class="btnUserPage marginL0" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
+                </el-col>
+
+             </el-row>
+
             <div class="comments" v-show="isShowComments">
                  <h3 class="notComments" v-show="commentsUser.length === 0">No ha comentado en ningún dispositivo.</h3>
-                <div>
+                <div class="" v-if="commentsUser.length > 0">
                     <h3 class="comments">Comentarios:</h3>
                     <div class="divComment" v-for="comment in commentsUser" :key=comment._id>
                         <h4 class="userComment">{{comment.userCreate}} </h4>
                         <span class="bodyComment">{{comment.body}}</span>
                         <div class="footerComment">
-                            <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
+                        <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
                         </div>
                         <nuxt-link :to="'/devices/'+comment.smartphoneID">
-                            <el-button class="linkShowComment"  size="mini" type="info" round>Ver comentario</el-button>
+                                <el-button class="linkShowComment"  size="mini" type="info" round>Ver comentario</el-button>
                         </nuxt-link>
                         <hr class="separador">
                     </div>
@@ -82,25 +103,29 @@ export default {
             isChangePass: false,
             isShowComments: false,
             isShowDevicesFavourites: '',
-            commentsUser: ''
+            commentsUser: '',
+            isDeletedAccount: false
         }
     },
     computed:{
         devicesFavouriteUsers(){
             return this.$store.state.devicesFavorites
+        },
+        isAuth () {
+            return this.$store.state.isAuth
         }
     },
     methods: {
         async loadUserPage (){
             let token = window.localStorage.getItem('token');
             let tokenDecoded = jwt_decode(token);
+            let userID = tokenDecoded.id
 
-            let userDB = await this.$axios.get(`users/${tokenDecoded.id}`, {
+            let userDB = await this.$axios.get(`users/${userID}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
 
             this.currentUser = userDB.data
-
         },
         showFormEdit (){
             this.isFormModData = !this.isFormModData
@@ -135,6 +160,21 @@ export default {
         },
         showDevicesFavourites(){
             this.isShowDevicesFavourites = !this.isShowDevicesFavourites
+        },
+        showWarningDelete(){
+            this.isDeletedAccount = !this.isDeletedAccount
+        },
+        async deleteUserAccount(){
+            try{
+                let token = window.localStorage.getItem('token');
+                let deletedUser = await this.$axios.delete(`users/${this.currentUser._id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+            this.$store.dispatch('logout', this.isAuth)
+            } catch (err) {
+                console.log(err)
+            }
+            
         }
     },
     mounted(){
@@ -176,6 +216,14 @@ export default {
     margin: 10px 0 0 0;
     display: block;
     width: 100%;
+    background: rgb(255, 250, 174);
+    color: var(--color-bg);
+}
+.btnEditData{
+    background: rgb(255, 250, 174);
+    color: var(--color-bg);
+    margin-left:auto;
+    display: block;
 }
 .titleForm{
     color: #777;
@@ -198,8 +246,8 @@ export default {
 .dataUser{
     margin-left: 30px;
 }
-#btnShowComment{
-    margin-left: 0;
+.marginL0{
+    margin-left: 0!important;
 }
 .separador{
 height: 10px;
@@ -207,6 +255,29 @@ height: 10px;
 .linkShowComment{
     margin-left: auto;
     display: block;
+}
+.btnDeleteUser{
+    background: rgb(247, 197, 197);
+    color: rgb(172, 23, 23);
+}
+.btnDeleteUser:hover{
+    background: rgb(172, 23, 23);
+    color: rgb(247, 197, 197);
+}
+.fontRed{
+    color: red;
+    font-weight: 400;
+}
+.textDeletedAccount{
+    font-weight: 300;
+}
+.warningDeleteUser{
+    margin: 15px auto 0 auto;
+    text-align: center;
+}
+.deleteUser{
+    padding: 0;
+    margin-top: 20px;
 }
 @media (min-width: 640px) {
     #btnchangePass{
