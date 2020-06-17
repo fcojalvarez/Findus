@@ -30,6 +30,9 @@ export default {
     computed: {
         comments () {
             return this.$store.state.comments
+        },
+        currentUser() {
+            return this.$store.state.currentUser
         }
     },
     mounted () {
@@ -37,13 +40,23 @@ export default {
     },
     methods:{
          async addVoteComment(commentID) {
-
             try {
                 const token = window.localStorage.getItem('token');
                 let commentSelect = await this.$axios.get(`idpruebas/comments/${commentID}`);
-                let addVote = { votes: commentSelect.data.votes + 1 };
-                
-                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, addVote, {
+                let commentData = commentSelect.data
+
+                if(commentData.usersVotes.includes(this.currentUser.id)){
+                    this.$message({
+                        showClose: true,
+                        message: 'Sólo puede votar una vez por comentario.',
+                        type: 'error'
+                    });
+                    return
+                } 
+                commentData.usersVotes.push(this.currentUser.id)
+                commentData.votes = commentData.votes +1
+
+                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, commentData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 this.$store.dispatch('loadComments', this.deviceID)
@@ -114,5 +127,17 @@ export default {
 }
 .voteNumber{
     font-size: 0.9em;
+}
+.onlyOneTimes{
+    text-align: center;
+    background: rgb(248, 182, 182);
+    color: rgb(155, 19, 19);
+    border: 1px solid rgb(155, 19, 19);
+    border-radius: 10px;
+    width: 40%;
+    padding: 5px;
+    display: block;
+    margin: 10px 0 10px auto;
+    font-size: 0.8em;
 }
 </style>

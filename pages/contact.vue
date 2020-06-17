@@ -19,17 +19,8 @@
             v-model="bodyMessage.message">
             </el-input>
             </el-form-item>
-            <el-button class="buttonSend" @click.prevent="contactUs">Enviar</el-button>
+            <el-button class="buttonSend" @click.prevent="sendMessage">Enviar</el-button>
         </el-form>
-        <div v-show="messageEnd">
-            <span class="changePss resultEndMessage messageOk">Su solicitud ha sido enviada. Intentaremos responder lo antes posible.</span>
-        </div>
-        <div v-show="errorMessage">
-            <span class="changePss resultEndMessage messageError">Todos los campos son obligatorios.</span>
-        </div>
-        <div v-show="errorEmail">
-            <span class="changePss resultEndMessage messageError">Por favor, introduzca un email válido.</span>
-        </div>
     </div>
 </template>
 
@@ -41,14 +32,11 @@ export default {
                 fullName: '',
                 email: '',
                 message: ''
-            },
-            messageEnd: false,
-            errorMessage: false,
-            errorEmail: false
+            }
         }
     },
     methods:{
-        async contactUs(){
+        async sendMessage(){
             let newMessage = {
                 fullName: this.bodyMessage.fullName,
                 email: this.bodyMessage.email,
@@ -57,26 +45,28 @@ export default {
 
             let validateEmail = this.validatedEmail(newMessage.email)
 
-            if(newMessage.fullName === '' || !validateEmail|| newMessage.message === ''){
-                if(!validateEmail){
-                    this.errorEmail = true;
-                } else {
-                    this.errorMessage = true;
-                }  
-                setTimeout(() => {
-                    this.errorMessage = false
-                    this.errorEmail = false;
-                }, 3000);
+            if(newMessage.fullName === '' || newMessage.email === '' || newMessage.message === ''){
+                this.$message({
+                    message: 'Todos los campos son obligatorios.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            } else if (!validateEmail) {
+                this.$message({
+                    message: 'Por favor, introduzca un email válido.',
+                    type: 'error',
+                    duration: 2000
+                });
                 return
             }
-
             let sendMessage = await this.$axios.post('contact', newMessage)
-            this.bodyMessage = ''
-            this.messageEnd = true
-            setTimeout(() => {
-                this.messageEnd = false
-                this.$router.push('/')
-            }, 3000);
+            this.$message({
+                message: 'Su mensaje ha sido enviado. Le responderemos lo antes posible.',
+                type: 'success',
+                duration: 3500
+            });
+            this.$router.push('/')
         },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

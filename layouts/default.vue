@@ -21,7 +21,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap');
 
-
 :root {
   --color-primary: #FFEC6B;
   --color-secondary: #3F5CFE;

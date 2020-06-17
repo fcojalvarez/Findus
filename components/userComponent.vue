@@ -14,7 +14,7 @@
                     <el-button round class="btnUserPage marginL0" @click.prevent="changePassword">Cambiar contraseña</el-button>
                 </el-col>
                 <el-col :xs="22" :sm="11">
-                    <el-button round class="btnUserPage marginL0 btnDeleteUser" id="" @click.prevent="showWarningDelete">Eliminar cuenta</el-button>
+                    <el-button round class="btnUserPage marginL0 btnDeleteUser" id="" @click.prevent="warningDeleteUser">Eliminar cuenta</el-button>
                 </el-col>
              </el-row>
 
@@ -32,19 +32,11 @@
                 <el-button round type="primary" class="btnEditData" @click.prevent="changePersonalInfo">Modificar</el-button>
             </el-form>
 
-            <div v-show="isChangePass">
-                <span class="changePss">Petición aceptada. <br> <br>
-                Recibirá un email con las instrucciones para modificar su contraseña.</span>
-            </div>
-
             <div v-show="isDeletedAccount" class="warningDeleteUser">
-                <span class="textDeletedAccount"> ¿está seguro que quiere eliminar su cuenta?</span>
+                <span>¿Está seguro que quiere eliminar su cuenta?</span>
                 <br>
-                <span class="fontRed">Esta acción no se puede revocar.</span>
-                <br>
-                <el-button round class="btnDeleteUser deleteUser" @click="deleteUserAccount">Eliminar</el-button>
-                <el-button round type="success" plain @click="showWarningDelete">Cancelar</el-button>
-                <br>
+                <el-button round class="btnDeleteUser deleteUser" @click="deleteUserAccount">Confirmar</el-button>
+                <el-button round type="success notDeleteUser" plain @click="showWarningDelete">Cancelar</el-button>
             </div>
 
              <el-row :glutter="10" class="divButtons">
@@ -54,7 +46,8 @@
                 <el-col :xs="22" :sm="11">
                     <el-button round class="btnUserPage marginL0" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
                 </el-col>
-
+                <el-col :xs="22" :sm="11">
+                </el-col>
              </el-row>
 
             <div class="comments" v-show="isShowComments">
@@ -100,9 +93,8 @@ export default {
             labelPosition: 'left',
             currentUser: '',
             isFormModData: false,
-            isChangePass: false,
             isShowComments: false,
-            isShowDevicesFavourites: '',
+            isShowDevicesFavourites: false,
             commentsUser: '',
             isDeletedAccount: false
         }
@@ -129,19 +121,49 @@ export default {
         },
         showFormEdit (){
             this.isFormModData = !this.isFormModData
+            this.isShowComments = false
+            this.isShowDevicesFavourites = false
+            this.isDeletedAccount = false
         },
         changePersonalInfo (){
-            let token = window.localStorage.getItem('token')
-            let modifiedData = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
+            try {
+                let token = window.localStorage.getItem('token')
+                let modifiedData = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-             this.formModData = false
+
+                this.$message({
+                    showClose: true,
+                    message: 'Los datos se han modificado correctamente.',
+                    type: 'success'
+                });
+
+                this.isFormModData = false
+            } catch (err) {
+                this.$message({
+                    showClose: true,
+                    message: 'Ups, ha ocurrido un problema. Por favor, inténtelo más tarde',
+                    type: 'error'
+                });
+            }
+            
         },
-        changePassword (){
-            this.isChangePass = true;
-            setTimeout(() => {
-                this.isChangePass = false
-            }, 3000);
+        async changePassword (email){
+            try{
+                let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.currentUser.email })
+                this.$message({
+                    showClose: true,
+                    message: 'La petición se ha realizado correctamente, recibirá un email con las instrucciones.',
+                    type: 'success'
+                }) 
+            } catch (err) {
+                this.$message({
+                    showClose: true,
+                    message: 'Ha ocurrido un problema. Por favor, inténtelo de nuevo más tarde.',
+                    type: 'error'
+                })
+            }
+            
         },
         async getCommentsUser(){
             let token = window.localStorage.getItem('token');
@@ -157,12 +179,18 @@ export default {
         },
         showComments(){
             this.isShowComments = !this.isShowComments
+            this.isFormModData = false
+            this.isShowDevicesFavourites = false
+            this.isDeletedAccount = false
         },
         showDevicesFavourites(){
+            this.isFormModData = false
+            this.isShowComments = false
+            this.isDeletedAccount = false
             this.isShowDevicesFavourites = !this.isShowDevicesFavourites
         },
         showWarningDelete(){
-            this.isDeletedAccount = !this.isDeletedAccount
+            this.isDeletedAccount = false
         },
         async deleteUserAccount(){
             try{
@@ -170,12 +198,29 @@ export default {
                 let deletedUser = await this.$axios.delete(`users/${this.currentUser._id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-            this.$store.dispatch('logout', this.isAuth)
+
+                this.$message({
+                    showClose: true,
+                    message: 'El usuario se ha eliminado correctamente.',
+                    type: 'success'
+                });
+
+                this.$store.dispatch('logout', this.isAuth)
             } catch (err) {
                 console.log(err)
             }
-            
-        }
+        },
+        warningDeleteUser() {
+            this.$message({
+                showClose: true,
+                message: 'Esta acción no se puede revertir, por favor confirme para eliminar su cuenta.',
+                type: 'warning'
+            });
+            this.isDeletedAccount = !this.isDeletedAccount
+            this.isFormModData = false
+            this.isShowComments = false
+            this.isShowDevicesFavourites = false
+      },
     },
     mounted(){
         this.loadUserPage()
@@ -250,7 +295,7 @@ export default {
     margin-left: 0!important;
 }
 .separador{
-height: 10px;
+    height: 10px;
 }
 .linkShowComment{
     margin-left: auto;
@@ -276,8 +321,23 @@ height: 10px;
     text-align: center;
 }
 .deleteUser{
-    padding: 0;
-    margin-top: 20px;
+    border: none;
+    background: #fff;
+    font-size: 1em;
+    color: red;
+}
+.deleteUser:hover{
+    background: #fff;
+    color: rgb(165, 23, 23);
+}
+.notDeleteUser{
+    background: #fff!important;
+    border: none;
+    font-size: 1em;
+    color: rgb(40, 126, 40);
+}
+.notDeleteUser:hover{
+    color: rgb(7, 126, 7)!important
 }
 @media (min-width: 640px) {
     #btnchangePass{

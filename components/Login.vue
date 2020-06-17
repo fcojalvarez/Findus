@@ -27,7 +27,7 @@
             <h3 class="notLogin"  v-show="!isResetPassword">¿No está registrado? <span @click.prevent="showregisterLogin" class="createAccount">Crear cuenta</span></h3>
             <h3 class="forgottenPassword"  v-show="!isResetPassword">¿Ha olvidado su contraseña? <br> <span @click.prevent="showResetPassword" class="changePassword">Cambiar contraseña</span></h3>
 
-            <h3 class="notLogin" v-show="isResetPassword">¿Está registrado? <span @click.prevent="showFormLogin" class="createAccount">Iniciar sesión</span></h3>
+            <h3 class="notLogin" v-show="isResetPassword">¿Está registrado? <span @click="showFormLogin" class="createAccount">Iniciar sesión</span></h3>
         </div>
     </div>
 </template>
@@ -80,8 +80,40 @@ export default {
             }
         },
         async changePassword(){
-            let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.email })
-            alert('Petición enviada. Recibirá un correo para restablecer su contraseña.')
+            try {
+                const validatedEmail = this.validatedEmail(this.email)
+                if( this.email === '' ) {
+                    this.$message({
+                        showClose: true,
+                        message: 'El campo email es obligatorio.',
+                        type: 'error'
+                    }) 
+                    return
+                } else if ( !validatedEmail) {
+                    this.$message({
+                        showClose: true,
+                        message: 'Introduzca un email válido.',
+                        type: 'error'
+                    }) 
+                    return
+                }
+                let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.email })
+                this.$message({
+                    showClose: true,
+                    message: 'La petición se ha realizado correctamente, recibirá un email con las instrucciones.',
+                    type: 'success'
+                })
+                this.limpiarFormulario()
+                this.showFormLogin()
+            } catch (err) {
+                this.$message({
+                    showClose: true,
+                    message: 'El email introducido no existe en nuestra base de datos.',
+                    type: 'error'
+                })                
+                console.log(err)
+            }
+            
         },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
@@ -104,6 +136,9 @@ export default {
         },
         showResetPassword(){
             this.isResetPassword = true
+        },
+        showFormLogin(){
+            this.isResetPassword = false
         }
     }
 }

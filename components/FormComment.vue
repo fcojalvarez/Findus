@@ -11,12 +11,14 @@
             </el-input>
         </el-form-item>
         <el-button @click.prevent="createComment" class="btnSend" type="primary">Comentar</el-button>
-
     </el-form>
 </template>
 
 <script>
 import jwt_decode from 'jwt-decode'
+import moment from 'moment'
+import 'moment/locale/es'
+moment.locale('es')
 
 export default {
     data() {
@@ -37,14 +39,13 @@ export default {
                 const token = window.localStorage.getItem('token')
                 const user = jwt_decode(token)
 
-                console.log(user.id)
-
                 let newComment = {
                     body: this.bodyComment,
                     userCreate: user.name,
                     userCreateID: user.id,
                     smartphoneID: this.deviceID,
-                    creationDate: new Date(),
+                    creationDate: moment().format('llll'),
+                    usersVotes: [],
                     votes: 0
                 }
 
@@ -54,13 +55,16 @@ export default {
                         Authorization: `Bearer ${token}`
                     }
                     })
-                    
                     this.$store.dispatch('loadComments', this.deviceID)
                     this.cleanForm()
                 }
                 this.cleanForm()
             } catch (err) {
-                console.log(err)
+                this.$message({
+                    showClose: true,
+                    message: 'Sólo los usuarios registrados pueden comentar. Regístrese, es gratis.',
+                    type: 'error'
+                });
             }
         }
     }

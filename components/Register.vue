@@ -52,19 +52,36 @@ export default {
             }
 
             const validatedEmail = this.validatedEmail(newUser.email)
-            
-            if(newUser.name && newUser.surname && newUser.email && newUser.password && validatedEmail){
-                try {
+            if (newUser.name === '' || newUser.surname === '' || newUser.password === '' || newUser.email === ''){
+                this.$message({
+                    message: 'Todos los campos son obligatorios.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            } else if (!validatedEmail) {
+                this.$message({
+                    message: 'Introduzca un email válido.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            }
+
+            try {
                 let userCreated = await this.$axios.$post('users', newUser)
                 this.limpiarFormulario();
-                } catch (err) {
-                    console.log(err)
-                };
-                this.showFormLogin();
-                 return
-            }
-            alert('Por favor, rellene el formulario correctamente.')
-            return
+                this.$message({
+                    message: 'El usuario ha sido creado correctamente.',
+                    type: 'success',
+                    duration: 2000
+                });
+                setTimeout(() => {
+                this.showFormLogin(); 
+                }, 2500);
+            } catch (err) {
+                console.log(err)
+            };
         },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

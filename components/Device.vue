@@ -23,7 +23,7 @@
             </span>
             <br>
             <i class="fas fa-camera iconTitle"></i><span class="titleDevice">Cámara trasera</span>
-            <span v-for="frontCam in selectDevice.camera" class="block fontDevice margin" :key="frontCam">
+            <span v-for="(frontCam, index) in selectDevice.camera" class="block fontDevice margin" :key="frontCam + index">
               {{frontCam}}
             </span>
             <br>
@@ -31,18 +31,22 @@
             <span class="block fontDevice margin">{{selectDevice.cpu}}</span>
             <br>
             <i class="fas fa-memory iconTitle"></i><span class="titleDevice">Almacenamiento</span>
-            <span v-for="(item, index) in selectDevice.storage" class="block margin fontDevice" :key="item">
-              {{selectDevice.storage[index]}}
+            <span v-for="(item, index) in selectDevice.rom" class="block margin fontDevice" :key="item + index">
+              {{selectDevice.rom[index]}} GB
+            </span>
+            <i class="fas fa-memory iconTitle"></i><span class="titleDevice">Memoria RAM</span>
+            <span v-for="(item, index) in selectDevice.rom" class="block margin fontDevice" :key="index">
+              {{selectDevice.rom[index]}} GB
             </span>
             <br>
             <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
             <span class="block margin fontDevice">{{selectDevice.battery}}</span>
             <br>
             <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adionales</span>
-            <span v-for="features in selectDevice.sensors" class="block margin fontDevice" :key="features">
+            <span v-for="(features, index) in selectDevice.features" class="block margin fontDevice" :key="index">
               {{features}}
             </span>
-
+            <br>
             <i class="fas fa-euro-sign iconTitle"></i><span class="titleDevice">Precio</span>
             <span class="block margin fontDevice">{{selectDevice.price}} €</span>
             <br>
@@ -90,10 +94,20 @@ export default {
 
             let addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
                       headers: { Authorization: `Bearer ${token}` }
-                  })
-          } catch (err) {
-            console.log(err)
+                })
 
+            this.$message({
+              message: 'Se ha añadido a sus dispositivos favoritos correctamente.',
+              type: 'success',
+              duration: 2000
+            });
+
+          } catch (err) {
+                this.$message({
+                    message: 'Ha ocurrido un error.',
+                    type: 'error',
+                    duration: 2000
+                });
           }
         },
         async delDeviceFavorite(){
@@ -112,6 +126,12 @@ export default {
             let delFavorite = await this.$axios.post(`users/${userID}/delDevicesFavorites`,
                     { deviceID : this.selectDevice._id },
                      { headers: { Authorization: `Bearer ${token}`} })
+
+            this.$message({
+              showClose: true,
+              message: 'Se ha eliminado correctamente.',
+              type: 'success'
+            });
 
             this.$store.dispatch('getDevicesFavorites')
           } catch (err) {

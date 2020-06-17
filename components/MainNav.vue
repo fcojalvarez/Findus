@@ -4,15 +4,15 @@
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
       <div class="divNav">
-        <span class="login"><nuxt-link class="link" to="/">Home</nuxt-link></span>
-        <span class="login"><nuxt-link class="link" to="/contact">Contact</nuxt-link></span>
-        <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Login</nuxt-link></span>
-        <span class="login" v-show="isAuth"><a href="#" class="link" @click.prevent="logOut">Logout</a></span>
+        <span class="login"><nuxt-link class="link" to="/">Inicio</nuxt-link></span>
+        <span class="login"><nuxt-link class="link" to="/contact">Contacto</nuxt-link></span>
+        <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Iniciar sesión</nuxt-link></span>
+        <span class="login" v-show="isAuth"><a href="#" class="link" @click.prevent="logOut">Cerrar sesión</a></span>
       </div>
       <div class="userSpace" v-show="isAuth">
         <span class="login logOut">
           <nuxt-link class="user" to="/userPage">
-          {{currentUser.name}} <i class="fas fa-user iconUser"></i>
+            <span class="prueba">{{currentUser.name}} <i class="fas fa-user iconUser"></i></span>
           </nuxt-link>
         </span>
       </div>
@@ -74,20 +74,24 @@ a{
 .user{
   color: var(--color-primary)
 }
+.prueba{
+  border-bottom: 1px solid var(--color-primary);
+  padding: 5px;
+}
 @media (min-width: 600px) {
   .header{
     display: flex;
     justify-content: space-around;
   }
   .divLogo{
-    width: 40%;
+    width: 25%;
   }
   .divLogo img{
     margin-right: auto;
-    margin-left: 100px;
+    margin-left: 20px;
   }
   .divNav{
-    width: 30%;
+    width: 65%;
     display: flex;
   }
   .login{
@@ -107,13 +111,26 @@ a{
     margin-right: 20px;
   }
 }
-
-@media (min-width: 950px) {
+@media (min-width: 750px) {
   .divLogo{
     width: 40%;
   }
   .divNav{
-    width: 25%;
+    width: 55%;
+  }
+}
+@media (min-width: 950px) {
+  .divLogo{
+    width: 55%;
+  }
+  .divLogo img{
+    margin-left: 50px;
+  }
+  .divNav{
+    width: 40%;
+  }
+  .logOut{
+    margin-right: 100px;
   }
 }
 
