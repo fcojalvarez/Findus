@@ -38,10 +38,15 @@ export default {
 
 <style>
 .devicesAleatory{
-    margin-top: 15%;
+    margin-top: 30%;
     text-align: center;
 }
 .devicesAleatory .titleDevice{
     margin-bottom: 50px;
+}
+@media (min-width: 600px){
+    .devicesAleatory{
+        margin-top: 10%;
+    }
 }
 </style>

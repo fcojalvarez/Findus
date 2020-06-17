@@ -66,11 +66,10 @@
 
       <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
       <h3 class="subtitle" v-if="seleccion.isFound">Te recomendamos estos dispositivos</h3>
-      <h3 class="subtitle" v-if="seleccion.notFound">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
-      <div class="continarDeviceRecomend" v-show="seleccion.isFound">
-        <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
+        <h3 class="subtitle" v-if="seleccion.notFound">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
+        <div class="continarDeviceRecomend" v-show="seleccion.isFound">
+            <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
       </div>
-     
     </div>
      
   </div>
@@ -227,7 +226,7 @@ form{
   margin: 0 auto;
 }
 .containerAllWithResult{
-  padding-top:5%!important;
+  padding-top:10%!important;
 }
 @media (min-width: 600px) {
   .container {
@@ -246,6 +245,9 @@ form{
   }
   .containerAll{
   padding-top: 20%;
+}
+.containerAllWithResult{
+  padding-top:5%!important;
 }
 } 
 </style>

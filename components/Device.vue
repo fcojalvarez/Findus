@@ -158,7 +158,7 @@ export default {
 .imageDevice{
   width: 200px;
   height: 200px;
-  margin: auto;
+  margin: 10px auto;
   display: block;
 }
 .fontDevice{
