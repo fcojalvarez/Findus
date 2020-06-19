@@ -117,15 +117,22 @@ export default {
     },
     methods: {
         async loadUserPage (){
-            let token = window.localStorage.getItem('token');
-            let tokenDecoded = jwt_decode(token);
-            let userID = tokenDecoded.id
+            try{
+                let token = window.localStorage.getItem('token');
+                let tokenDecoded = jwt_decode(token);
+                let userID = tokenDecoded.id
 
-            let userDB = await this.$axios.get(`users/${userID}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-
-            this.currentUser = userDB.data
+                let userDB = await this.$axios.get(`users/${userID}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                this.currentUser = userDB.data
+            } catch (err) {
+                this.currentUser = {
+                    image: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231709/thesomeday123170900021/85622928-icono-de-perfil-de-avatar-predeterminado-marcador-de-posici%C3%B3n-de-foto-gris-vectores-de-ilustraciones.jpg?ver=6'
+                }
+                console.log(err)
+            }
+            
         },
         showFormEdit (){
             this.isFormModData = !this.isFormModData
@@ -380,6 +387,7 @@ export default {
         background: rgb(243, 243, 243);
         padding: 30px;
         border-radius: 15px;
+        max-width: 650px;
     }
     .formModData , .divUser{
         width: 70%;

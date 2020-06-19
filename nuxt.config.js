@@ -66,7 +66,7 @@ export default {
      ** See https://axios.nuxtjs.org/options
      */
     axios: {
-        baseURL: 'http://localhost:8080/'
+        baseURL: 'https://findusapi.herokuapp.com/'
     },
     /*
      ** Build configuration
