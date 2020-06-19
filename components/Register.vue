@@ -15,9 +15,17 @@
                 <el-form-item>
                     <el-input placeholder="Introduzca su email" v-model="email"></el-input>
                 </el-form-item>
+                <span class="title" :class="{ errorRepeat : errorRepeatEmail }">Repetir email:</span>
+                <el-form-item>
+                    <el-input placeholder="Introduzca su email" v-model="repeatEmail"></el-input>
+                </el-form-item>
                 <span class="title">Contraseña:</span>
                 <el-form-item>
                     <el-input placeholder="Introduzca su contraseña" v-model="password" show-password></el-input>
+                </el-form-item>
+                 <span class="title" :class="{ errorRepeat : errorRepeatPassword }">Repetir contraseña:</span>
+                <el-form-item>
+                    <el-input placeholder="Introduzca su contraseña" v-model="repeatPassword" show-password></el-input>
                 </el-form-item>
                 <el-button @click.prevent="createUser">Crear cuenta</el-button>
             </el-form>
@@ -31,12 +39,22 @@ export default {
     name: 'Login',
     data(){
         return{
-            email: "",
-            name: "",
-            surname: "",
-            password: "",
-            dataUsers: ""
+            email: '',
+            name: '',
+            surname: '',
+            password: '',
+            dataUsers: '',
+            repeatEmail: '',
+            repeatPassword: ''
         }
+    },
+    computed:{
+        errorRepeatEmail(){
+            return this.repeatEmail !== this.email
+        },
+        errorRepeatPassword(){
+            return this.repeatPassword !== this.password
+        },
     },
     mounted() {
         this.$store.dispatch('checkAuth') 
@@ -48,7 +66,8 @@ export default {
                 surname: this.surname,
                 email: this.email,
                 password: this.password,
-                profile: 'user'
+                profile: 'user',
+                image: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231709/thesomeday123170900021/85622928-icono-de-perfil-de-avatar-predeterminado-marcador-de-posici%C3%B3n-de-foto-gris-vectores-de-ilustraciones.jpg?ver=6'
             }
 
             const validatedEmail = this.validatedEmail(newUser.email)
@@ -68,6 +87,20 @@ export default {
                 return
             }
 
+            if( this.repeatEmail !== this.email){
+                this.$message({ message: 'El email introducido no coincide.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            } else if ( this.password !== this.repeatPassword ){
+                 this.$message({ message: 'La contraseña introducida no coincide.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            }
+            
             try {
                 let userCreated = await this.$axios.$post('users', newUser)
                 this.limpiarFormulario();
@@ -96,7 +129,9 @@ export default {
             this.name = ""
             this.surname = ""
             this.email = "",
-            this.password = ""
+            this.password = "",
+            this.repeatEmail = "",
+            this.repeatPassword = ""
         },
         showFormLogin(){
             this.$router.push('/login')

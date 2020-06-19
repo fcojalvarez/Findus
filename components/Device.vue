@@ -43,8 +43,8 @@
             <span class="block margin fontDevice">{{selectDevice.battery}}</span>
             <br>
             <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adionales</span>
-            <span v-for="(features, index) in selectDevice.features" class="block margin fontDevice" :key="index">
-              {{features}}
+            <span v-for="(feature, index) in selectDevice.features" class="block margin fontDevice" :key="index">
+              <span>{{feature}}</span>
             </span>
             <br>
             <i class="fas fa-euro-sign iconTitle"></i><span class="titleDevice">Precio</span>

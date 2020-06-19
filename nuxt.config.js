@@ -18,7 +18,7 @@ export default {
     /*
      ** Customize the progress-bar color
      */
-    loading: { color: '#fff' },
+    loading: { color: '#FFEC6B' },
     /*
      ** Global CSS
      */
@@ -42,7 +42,8 @@ export default {
      */
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios', [
+        '@nuxtjs/axios',
+        'cookie-universal-nuxt', [
             '@nuxtjs/firebase',
             {
                 config: {
@@ -55,7 +56,7 @@ export default {
                     appId: "1:991806799248:web:2a684fe758e057c3ee4715"
                 },
                 services: {
-                    auth: true // Just as example. Can be any other service.
+                    auth: true
                 }
             }
         ]

@@ -49,7 +49,7 @@ export default {
     text-align: left;
 }
 .formRegister{
-    margin-top: 10px;
+    margin-top: 5px;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
@@ -62,7 +62,10 @@ span .title{
     color:red;
 }
 .containerRegister{
-    padding-top:80px;
+    margin: 20px auto;
+}
+.errorRepeat{
+    color: rgb(212, 17, 17);
 }
 el-input{
     width: 70%;
@@ -93,14 +96,14 @@ el-button{
         padding: 50px 30px;
     }
     .borderFormRegister{
-        padding: 50px 80px;
+        padding: 30px 50px;
     }
     .formRegister{
         width: 500px;
         margin: 0 auto;
     }
     .containerRegister{
-        padding-top: 5%;
+        margin: 30px auto;
     }
 }
 </style>

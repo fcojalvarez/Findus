@@ -21,9 +21,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.formHome{
-  height: 78vh;
-}
-</style>

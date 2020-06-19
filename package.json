@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/firebase": "^5.2.0",
+    "cookie-universal-nuxt": "^2.1.4",
     "element-ui": "^2.4.11",
     "firebase": "^7.14.6",
     "jwt-decode": "^2.2.0",

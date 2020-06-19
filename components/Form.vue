@@ -1,102 +1,64 @@
 <template>
-    <div class="container" :class="{ backgroundForm: !seleccion.resultado }">
-    <div :class="{ containerAllWithResult: seleccion.isFound, containerAll: !seleccion.isFound }">
-      <form v-show="seleccion.form1">
-        <h3 class="subtitle">¿Qué sistema operativo prefieres?</h3>
-        <el-radio-group v-model="infoData.so">
-          <el-radio-button label="Indiferente"></el-radio-button>
-          <el-radio-button label="Android"></el-radio-button>
-          <el-radio-button label="iOS"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="useOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form2">
-        <h3 class="subtitle">¿Tamaño de la pantalla?</h3>
-        <el-radio-group v-model="infoData.display">
-          <el-radio-button label="Indiferente"></el-radio-button>
-          <el-radio-button label="Menos de 6'"></el-radio-button>
-          <el-radio-button label="Más de 6'"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="pantallaOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form3">
-        <h3 class="subtitle">¿Cuánta memoria RAM?</h3>
-        <el-radio-group v-model="infoData.ram">
-          <el-radio-button label="Indiferente"></el-radio-button>
-          <el-radio-button label="Menos de 8GB"></el-radio-button>
-          <el-radio-button label="Más de 8GB"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="ramOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form4">
-        <h3 class="subtitle">¿Cuánto almacenamiento interno?</h3>
-        <el-radio-group v-model="infoData.rom">
-          <el-radio-button label="Indiferente"></el-radio-button>
-          <el-radio-button label="Menos de 128GB"></el-radio-button>
-          <el-radio-button label="Más de 128GB"></el-radio-button>
-        </el-radio-group>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="almacenamientoOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form5">
-        <h3 class="subtitle">¿Cuál es tu presupuesto máximo?</h3>
-        <div class="block">
-            <span class="textDesc">{{infoData.price}}€</span>
-            <el-slider
-            v-model="infoData.price"
-            :max="1500">
-            </el-slider>
-        </div>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="precioOk">Siguiente</el-button>
-      </form>
-      <form v-if="seleccion.form6">
-        <h3 class="subtitle">¿Le interesa alguna característica más?</h3>
-        <div>
-            <el-checkbox-group v-model="infoData.features">
-            <el-checkbox style="margin-top: 20px" v-for="item in features" :label="item" border :key="item">{{item}}</el-checkbox>
-            </el-checkbox-group>
-        </div>
-        <br>
-        <el-button class="btnPrim" type="primary" @click.prevent="moreOk">Siguiente</el-button>
-      </form>
+    <div class="container" :class="{ backgroundForm: !seleccion[6] }">
+      <div :class="{ containerAllWithResult: seleccion[7] , containerAll: !seleccion[7] }">
+        <form v-for="(form, i) in forms" :key="i" v-show="seleccion[i]">
+          <h3 class="subtitle">{{titleForm[i]}}</h3>
 
-      <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
-      <h3 class="subtitle" v-if="seleccion.isFound">Te recomendamos estos dispositivos</h3>
-        <h3 class="subtitle" v-if="seleccion.notFound">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
-        <div class="continarDeviceRecomend" v-show="seleccion.isFound">
+          <el-radio-group v-model="infoData[form]" v-show="form !== 'price' && form !== 'features'">
+            <el-radio-button v-for="(label, index) in labels[i]" :label="labels[i][index]" :key="label+index"></el-radio-button>
+          </el-radio-group>
+
+          <div class="block" v-show="form === 'price'">
+              <span class="textDesc">{{infoData.price}}€</span>
+              <el-slider
+              v-model="infoData.price"
+              :max="1500">
+              </el-slider>
+          </div>
+
+          <div>
+              <el-checkbox-group v-model="infoData.features" v-show="form === 'features'">
+              <el-checkbox style="margin-top: 20px" v-for="item in features" :label="item" border :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
+          </div>
+          <br>
+          <el-button class="btnPrim" type="primary" @click.prevent="nextStep(forms[i])">Siguiente</el-button>
+        </form>
+
+        <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
+        </div>
+        <div>
+          <h3 class="subtitle pt10" v-show="seleccion[7]">Te recomendamos estos dispositivos</h3>
+          <h3 class="subtitle" v-show="seleccion[8]">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
+          <div class="containerDeviceRecomend" v-show="seleccion[7]">
             <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
-      </div>
-    </div>
-     
+          </div>
+        </div>
   </div>
 </template>
 
 <script>
 import Device from '@/components/Device'
 
-const featuresOptions = ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm']
 export default {
-  name: 'Form',
+  name: 'formHome',
   components:{
     Device
   },
   data () {
     return {
-      seleccion: {
-            form1: true,
-            form2: false,
-            form3: false,
-            form4: false,
-            form5: false,
-            form6: false,
-            resultado: false,
-            isFound: false,
-            notFound: false
-        },
+      forms: ['so','display','ram','rom','price','features'],
+      titleForm: ['¿Qué sistema operativo prefiere?', '¿Tamaño de la pantalla?', '¿Cuánta memoria RAM?', '¿Cuánto almacenamiento interno?', '¿Cuál es tu presupuesto máximo?' , '¿Le interesa alguna característica más?'],
+      labels: [
+        ['Indiferente', 'Android', 'IOS'],
+        ['Indiferente', "Menos de 6'", "Más de 6'"],
+        ['Indiferente', 'Menos de 8GB', 'Más de 8GB'],
+        ['Indiferente', 'Menos de 128GB', 'Más de 128GB'],
+        [650],
+        ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
+      ],
+      features: ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
+      seleccion: [true,false,false,false,false,false,false,false,false],
       infoData: {
         so: 'Indiferente',
         display: 'Indiferente',
@@ -105,59 +67,61 @@ export default {
         price: 650,
         features: [],
       },
-      features: featuresOptions,
       devicesRecomend: '',
       pointAct: 0
-    };
+    }
   },
   methods: {
-    useOk(){
-      this.seleccion.form1 = false;
-      this.seleccion.form2 = true;
-      this.pointAct += 15
-    },
-    pantallaOk(){
-      this.seleccion.form2 = false;
-      this.seleccion.form3 = true;
-      this.pointAct += 15
-    },
-    ramOk(){
-      this.seleccion.form3 = false;
-      this.seleccion.form4 = true;
-      this.pointAct += 20
-    },
-    almacenamientoOk(){
-      this.seleccion.form4 = false;
-      this.seleccion.form5 = true;
-      this.pointAct += 15
-    },
-    precioOk(){
-      this.seleccion.form5 = false;
-      this.seleccion.form6 = true;
-      this.pointAct += 15
-    },
-    moreOk(){
-      this.seleccion.form6 = false;
-      this.seleccion.isFound = true
-      this.pointAct += 20
-      this.getDevicedRecomend(this.infoData)
+    nextStep(step){
+      if(step === 'so'){
+        this.seleccion[0] = false;
+        this.seleccion[1] = true;
+        this.pointAct += 15
+      }
+      if(step === 'display'){
+        this.seleccion[1] = false;
+        this.seleccion[2] = true;
+
+         this.pointAct += 15
+      }
+      if(step === 'ram'){
+        this.seleccion[2] = false;
+        this.seleccion[3] = true;
+
+         this.pointAct += 20
+      }
+      if(step === 'rom'){
+        this.seleccion[3] = false;
+        this.seleccion[4] = true;
+        this.pointAct += 15
+      }
+      if(step === 'price'){
+        this.seleccion[4] = false;
+        this.seleccion[5] = true;
+        this.pointAct += 15
+      }
+      if(step === 'features'){
+        this.seleccion[5] = false;
+        this.seleccion[6] = true;
+        this.pointAct += 20
+        this.getDevicedRecomend(this.infoData)
+      }
     },
     async getDevicedRecomend(result){
       try {
-      
-        let deviceFiltered = await this.$axios.post(`devicesFilter`, result);
+        let deviceFiltered = await this.$axios.post('devicesFilter', result);
         this.devicesRecomend = deviceFiltered.data
-
-        if (this.devicesRecomend.length > 0) {
-          this.seleccion.isFound = true
-          this.$store.commit('hideRandomDevices')    
-        } else {
-          this.seleccion.notFound = true
+          console.log(this.devicesRecomend.length)
+        if(this.devicesRecomend.length === 0){
+          console.log(this.devicesRecomend.length)
+          this.seleccion[8] = true
+          return
         }
+        this.seleccion[7] = true;
+        this.$store.commit('hideRandomDevices')
       } catch (err) {
         console.log(err)
       }
-
     }
   }
 }
@@ -167,7 +131,7 @@ export default {
 ul li{
   list-style: none;
 }
- .backgroundForm{
+.backgroundForm{
   background-image: url("https://i.ibb.co/ts405y7/3892620.png");
   background-repeat: no-repeat;
   background-position: 100%;
@@ -175,18 +139,17 @@ ul li{
   background-size: 50%;
 } 
 .container {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
-  min-height: 70vh;
-  display: block;
+  min-height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 form{
   width:90%;
   margin: 0 auto;
-}
-.containerAll{
-  padding-top: 50%;
 }
 .btnPrim{
   border: 1px solid var(--color-bg);
@@ -206,6 +169,9 @@ form{
   width: 50%;
   margin: 30px auto;
 }
+.pt10{
+  padding-top:5%;
+}
 .subtitle {
   font-weight: 300;
   font-size: 30px;
@@ -215,18 +181,21 @@ form{
 }
 .textDesc{
   font-size: 15px;
-    margin-top: 10px;
-    margin-bottom:5px;
-    color: #444;
-    padding-bottom: 0;
+  margin-top: 10px;
+  margin-bottom:5px;
+  color: #444;
+  padding-bottom: 0;
 }
 .progressBar{
   display: inline-block;
   width: 40%;
   margin: 0 auto;
 }
-.containerAllWithResult{
-  padding-top:10%!important;
+.containerDeviceRecomend{
+  margin-top: 50px;  
+}
+.containerAll{
+  width: 100%;
 }
 @media (min-width: 600px) {
   .container {
@@ -236,18 +205,17 @@ form{
   .backgroundForm{
     background-size: 35%;
   }
-  .continarDeviceRecomend{
+  .containerDeviceRecomend{
     display: flex;
+    margin-top: 0!important;
   }
   .devices{
     width:90%;
     justify-content: space-evenly;
   }
-  .containerAll{
-  padding-top: 20%;
+  .containerAllWithResult{
+    background:red;
+    margin-top:5%!important;
+  }
 }
-.containerAllWithResult{
-  padding-top:5%!important;
-}
-} 
 </style>

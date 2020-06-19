@@ -1,9 +1,13 @@
 <template>
     <div class="containerUser">
         <div class="divUser border">
-            <div class="dataUser">
-                <h3 class="titleUser">Nombre y apellidos:</h3><span class="spanUserData">{{currentUser.name}} {{currentUser.surname}}</span>
-                <h3 class="titleUser">email:</h3><span class="spanUserData">{{currentUser.email}}</span>
+            <div class="divDataUser">
+                <img class="userImage" :src="currentUser.image" alt="Imagen de usuario">
+                <div class="dataUser">
+                    <h3 class="titleUser">Nombre</h3><span class="spanUserData">{{currentUser.name}}</span>
+                    <h3 class="titleUser">Apellidos:</h3><span class="spanUserData">{{currentUser.surname}}</span>
+                    <h3 class="titleUser">email:</h3><span class="spanUserData">{{currentUser.email}}</span>
+                </div>
             </div>
 
             <el-row :glutter="10" class="divButtons">
@@ -26,8 +30,12 @@
                 <el-form-item label="Apellidos">
                     <el-input v-model="currentUser.surname"></el-input>
                 </el-form-item>
-                <el-form-item label="email">
+                <el-form-item label="Email">
                     <el-input v-model="currentUser.email"></el-input>
+                </el-form-item>
+                <el-form-item label="Imagen">
+                    <el-input v-model="currentUser.image"></el-input>
+                    <span class="spanUserData msgAlert">Para modificar la imagen de usuario deberá insertar una url.</span>
                 </el-form-item>
                 <el-button round type="primary" class="btnEditData" @click.prevent="changePersonalInfo">Modificar</el-button>
             </el-form>
@@ -128,7 +136,7 @@ export default {
         changePersonalInfo (){
             try {
                 let token = window.localStorage.getItem('token')
-                let modifiedData = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
+                let dataEdited = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
                     headers: { Authorization: `Bearer ${token}` }
                 })
 
@@ -231,10 +239,19 @@ export default {
 </script>
 
 <style>
+.userImage{
+    border-radius: 20px;
+    width: 200px;
+    margin-left: 30px;
+    border: 1px solid var(--color-bg)
+}
 .divUser{
     padding: 20px;
     width: 90%;
     margin: 20px auto;
+}
+.msgAlert{
+    color: rgb(206, 16, 16)!important;
 }
 .containerUser{
     margin: 50px auto 0 auto;
@@ -340,6 +357,9 @@ export default {
     color: rgb(7, 126, 7)!important
 }
 @media (min-width: 640px) {
+    .divDataUser{
+        display: flex;
+    }
     #btnchangePass{
         width: 100%;
     }
@@ -352,7 +372,7 @@ export default {
         justify-content: space-evenly;
     }
     .containerUser{
-        margin: 150px auto 0
+        margin: 120px auto 0 auto
     }
 }
 @media (min-width: 800px) {
@@ -362,7 +382,7 @@ export default {
         border-radius: 15px;
     }
     .formModData , .divUser{
-        width: 60%;
+        width: 70%;
         margin: 20px auto;
         background: #fff;
     }
