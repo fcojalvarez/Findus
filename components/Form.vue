@@ -111,16 +111,13 @@ export default {
       try {
         let deviceFiltered = await this.$axios.post('devicesFilter', result);
         this.devicesRecomend = deviceFiltered.data
-          console.log(this.devicesRecomend.length)
         if(this.devicesRecomend.length === 0){
-          console.log(this.devicesRecomend.length)
           this.seleccion[8] = true
           return
         }
         this.seleccion[7] = true;
         this.$store.commit('hideRandomDevices')
       } catch (err) {
-        console.log(err)
       }
     }
   }

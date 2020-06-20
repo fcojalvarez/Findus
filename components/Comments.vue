@@ -62,7 +62,6 @@ export default {
                 this.$store.dispatch('loadComments', this.deviceID)
 
             } catch (err) {
-                console.log(err)
             }
 
         }

@@ -12,9 +12,9 @@
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
-            <el-button v-show="isAuth && currentPage !== 'userPage'" class="btnFavorite btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
-
-            <el-button v-show="isAuth && currentPage === 'userPage'" class="btnFavorite btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
+            <el-button v-show="!isFavorite" class="btnFavorite btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
+            <el-button v-show="showBtnRegister && !isAuth" class="btnFavorite btnAddFavourite" @click.prevent="goToRegister">Regístrate</el-button>
+            <el-button v-show="isAuth && isFavorite" class="btnFavorite btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -66,18 +66,22 @@ export default {
     data(){
       return{
         selectDevice: '',
-        currentPage: this.$route.name
+        currentPage: this.$route.name,
+        showBtnRegister: false
       }
     },
     computed:{
       isAuth(){
         return this.$store.state.isAuth
+      },
+      isFavorite(){
+        let devicesFavoriteList = this.$store.state.devicesFavorites.map( device => device._id )
+        return devicesFavoriteList.includes(this.selectDevice._id)
       }
     },
     methods:{
         async getSelectDevice(deviceID){
           let findDevice = await this.$axios.get(`/devices/${deviceID}`)
-
           this.selectDevice = findDevice.data
         },
         async addDeviceFavorite(){
@@ -91,11 +95,18 @@ export default {
                 userID = tokenDecoded.id
             }
 
-            let devicesFavorites = this.selectDevice.devicesFavorites
+            if ( !this.isAuth ) {
+              this.$message({
+              message: 'Sólo los usuarios registrados pueden añadir a favoritos, regístrate.',
+              type: 'error',
+              duration: 2000
+            });
+            this.showBtnRegister = true
+            return
+            }
             let addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
                       headers: { Authorization: `Bearer ${token}` }
                 })
-
             if(addFavorite.data === 'duplicate') {
               this.$message({
                 message: 'Ya ha añadido este dispositivo como favorito.',
@@ -104,13 +115,7 @@ export default {
               });
               return
             }
-
-            this.$message({
-              message: 'Se ha añadido a sus dispositivos favoritos correctamente.',
-              type: 'success',
-              duration: 2000
-            });
-
+            this.$store.dispatch('getDevicesFavorites')
           } catch (err) {
                 this.$message({
                     message: 'Ha ocurrido un error.',
@@ -144,13 +149,15 @@ export default {
 
             this.$store.dispatch('getDevicesFavorites')
           } catch (err) {
-            console.log(err)
-
           }
+        },
+        goToRegister(){
+          this.$router.push('/register')
         }
     },
     mounted(){
-      this.getSelectDevice(this.id)
+      this.getSelectDevice(this.id),
+      this.$store.dispatch('getDevicesFavorites')
     }
 }
 </script>

@@ -110,8 +110,7 @@ export default {
                     showClose: true,
                     message: 'El email introducido no existe en nuestra base de datos.',
                     type: 'error'
-                })                
-                console.log(err)
+                })
             }
             
         },

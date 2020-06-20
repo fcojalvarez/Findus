@@ -14,14 +14,10 @@ export const actions = {
         try {
             let response = await this.$axios.get(`${smartphoneID}/comments`),
                 commentsDB = response.data;
-
             let result = commentsDB.filter(comment => comment.smartphoneID === smartphoneID)
-
             context.commit('addComments', result)
             return result
-        } catch (err) {
-            console.log(err)
-        }
+        } catch (err) {}
     },
     checkAuth(context) {
         const token = window.localStorage.getItem('token')
@@ -56,7 +52,9 @@ export const actions = {
             let userID
             let devicesFavorites
 
-            if (token !== null) {
+            if (token === undefined) {
+                return
+            } else {
                 let tokenDecoded = jwt_decode(token)
                 userID = tokenDecoded.id
             }
@@ -65,9 +63,7 @@ export const actions = {
                 headers: { Authorization: `Bearer ${token}` }
             })
             context.commit('setDevicesFavorites', devicesFavorites.data)
-        } catch (err) {
-            console.log(err);
-        }
+        } catch (err) {}
     }
 }
 

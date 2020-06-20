@@ -130,7 +130,6 @@ export default {
                 this.currentUser = {
                     image: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231709/thesomeday123170900021/85622928-icono-de-perfil-de-avatar-predeterminado-marcador-de-posici%C3%B3n-de-foto-gris-vectores-de-ilustraciones.jpg?ver=6'
                 }
-                console.log(err)
             }
             
         },
@@ -222,7 +221,6 @@ export default {
 
                 this.$store.dispatch('logout', this.isAuth)
             } catch (err) {
-                console.log(err)
             }
         },
         warningDeleteUser() {

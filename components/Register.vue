@@ -113,7 +113,6 @@ export default {
                 this.showFormLogin(); 
                 }, 2500);
             } catch (err) {
-                console.log(err)
             };
         },
         validatedEmail(email) {     
