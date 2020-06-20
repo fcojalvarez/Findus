@@ -12,9 +12,9 @@
             <span v-for="os in selectDevice.os" class="block margin modelDevice fontDeviceCenter" :key="os">
               {{os.split(';')[0]}}
             </span>
-            <el-button v-show="!isFavorite" class="btnFavorite btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
-            <el-button v-show="showBtnRegister && !isAuth" class="btnFavorite btnAddFavourite" @click.prevent="goToRegister" id="btnRegister">Regístrese</el-button>
-            <el-button v-show="isAuth && isFavorite" class="btnFavorite btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
+            <el-button v-show="!isFavorite" class="btn btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
+            <el-button v-show="showBtnRegister && !isAuth" class="btn btnRegister" @click.prevent="goToRegister">Regístrese</el-button>
+            <el-button v-show="isAuth && isFavorite" class="btn btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
             <span v-for="(display, index) in selectDevice.display" class="block fontDevice margin" :key="display">
@@ -221,9 +221,10 @@ export default {
   width: 200px;
   height: 300px;
 }
-.btnFavorite{
+.btn{
+  width: 155px;
   display: block;
-  margin: 10px auto;
+  margin: 10px auto!important;
   background: var(--color-primary);
   padding: 10px 20px;
   font-size: 0.9em;
@@ -243,13 +244,11 @@ export default {
   background: var(--color-bg);
   color: #fff;
 }
-#btnRegister{
-  width: 155px;
-  margin: 0 auto;
+.btnRegister{
   color: var(--color-primary);
   background: var(--color-bg);
 }
-#btnRegister:hover{
+.btnRegister:hover{
   color: var(--color-bg);
   background: var(--color-primary);
 }

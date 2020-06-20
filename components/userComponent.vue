@@ -10,15 +10,15 @@
                 </div>
             </div>
 
-            <el-row :glutter="10" class="divButtons">
-                <el-col :xs="22" :sm="11">
+            <el-row class="divButtons">
+                <el-col :xs="22" :m="10">
                     <el-button round class="btnUserPage marginL0" @click.prevent="showFormEdit">Modificar datos</el-button>
                 </el-col>
-                <el-col :xs="22" :sm="11">
+                <el-col :xs="22" :m="10">
                     <el-button round class="btnUserPage marginL0" @click.prevent="changePassword">Cambiar contraseña</el-button>
                 </el-col>
-                <el-col :xs="22" :sm="11">
-                    <el-button round class="btnUserPage marginL0 btnDeleteUser" id="" @click.prevent="warningDeleteUser">Eliminar cuenta</el-button>
+                <el-col :xs="22" :m="10">
+                    <el-button round class="btnUserPage marginL0 btnDeleteUser" @click.prevent="warningDeleteUser">Eliminar cuenta</el-button>
                 </el-col>
              </el-row>
 
@@ -46,15 +46,14 @@
                 <el-button round class="btnDeleteUser deleteUser" @click="deleteUserAccount">Confirmar</el-button>
                 <el-button round type="success notDeleteUser" plain @click="showWarningDelete">Cancelar</el-button>
             </div>
-
-             <el-row :glutter="10" class="divButtons">
-                <el-col :xs="22" :sm="11">
-                    <el-button round class="btnUserPage marginL0" @click.prevent="showComments">Comentarios realizados</el-button>
+             <el-row class="divButtons">
+                <el-col :xs="22" :sm="10">
+                    <el-button round class="btnUserPage marginL0" @click.prevent="showComments">Mis comentarios</el-button>
                 </el-col>
-                <el-col :xs="22" :sm="11">
+                <el-col :xs="22" :sm="10">
                     <el-button round class="btnUserPage marginL0" @click.prevent="showDevicesFavourites">Móviles favoritos</el-button>
                 </el-col>
-                <el-col :xs="22" :sm="11">
+                <el-col :xs="22" :sm="10">
                 </el-col>
              </el-row>
 
@@ -244,9 +243,6 @@ export default {
 </script>
 
 <style>
-.el-button+.el-button{
-    margin:0 auto;
-}
 .userImage{
     border-radius: 20px;
     width: 200px;
@@ -276,13 +272,7 @@ export default {
     border-radius: 10px;
     padding: 20px;
 }
-.changePss{
-    display: block;
-    margin-top: 30px;
-    padding: 20px;
-    font-weight: 100;
-}
-#btnchangePass, .btnUserPage{
+.btnUserPage{
     margin: 10px 0 0 0;
     display: block;
     width: 100%;
@@ -338,9 +328,6 @@ export default {
     color: red;
     font-weight: 400;
 }
-.textDeletedAccount{
-    font-weight: 300;
-}
 .warningDeleteUser{
     margin: 15px auto 0 auto;
     text-align: center;
@@ -368,14 +355,11 @@ export default {
     .divDataUser{
         display: flex;
     }
-    #btnchangePass{
-        width: 100%;
-    }
     .btnUserPage{
-        width: 100%;
+        width: 90%;
     }
     .divButtons{
-        margin-top:30px;
+        margin-top:20px;
         display: flex;
         justify-content: space-evenly;
     }
