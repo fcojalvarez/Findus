@@ -13,7 +13,7 @@
               {{os.split(';')[0]}}
             </span>
             <el-button v-show="!isFavorite" class="btnFavorite btnAddFavourite" @click.prevent="addDeviceFavorite">Añadir a favoritos</el-button>
-            <el-button v-show="showBtnRegister && !isAuth" class="btnFavorite btnAddFavourite" @click.prevent="goToRegister">Regístrate</el-button>
+            <el-button v-show="showBtnRegister && !isAuth" class="btnFavorite btnAddFavourite" @click.prevent="goToRegister" id="btnRegister">Regístrese</el-button>
             <el-button v-show="isAuth && isFavorite" class="btnFavorite btnDelFavourite" @click.prevent="delDeviceFavorite">Eliminar favorito</el-button>
             <br>
             <i class="fas fa-microchip iconTitle"></i><span class="titleDevice">Pantalla</span>
@@ -233,7 +233,7 @@ export default {
 }
 .btnAddFavourite:hover{
   background: var(--color-bg);
-    color: #fff;
+  color: #fff;
 }
 .btnDelFavourite{
   background: rgb(226, 58, 58);
@@ -242,6 +242,16 @@ export default {
 .btnDelFavourite:hover{
   background: var(--color-bg);
   color: #fff;
+}
+#btnRegister{
+  width: 155px;
+  margin: 0 auto;
+  color: var(--color-primary);
+  background: var(--color-bg);
+}
+#btnRegister:hover{
+  color: var(--color-bg);
+  background: var(--color-primary);
 }
 @media (min-width: 600px) {
   .container {
