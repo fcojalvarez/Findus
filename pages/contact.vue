@@ -42,36 +42,45 @@ export default {
     },
     methods:{
         async sendMessage(){
-            let newMessage = {
-                fullName: this.bodyMessage.fullName,
-                email: this.bodyMessage.email,
-                message: this.bodyMessage.message
-            }
+            try{
+                let newMessage = {
+                    fullName: this.bodyMessage.fullName,
+                    email: this.bodyMessage.email,
+                    subject: this.bodyMessage.subject,
+                    message: this.bodyMessage.message
+                }
+                let validateEmail = this.validatedEmail(newMessage.email)
 
-            let validateEmail = this.validatedEmail(newMessage.email)
-
-            if(newMessage.fullName === '' || newMessage.email === '' || newMessage.message === ''){
+                if(newMessage.fullName === '' || newMessage.email === '' || newMessage.message === ''){
+                    this.$message({
+                        message: 'Todos los campos son obligatorios.',
+                        type: 'error',
+                        duration: 2000
+                    });
+                    return
+                } else if (!validateEmail) {
+                    this.$message({
+                        message: 'Por favor, introduzca un email válido.',
+                        type: 'error',
+                        duration: 2000
+                    });
+                    return
+                }
+                let sendMessage = await this.$axios.post('contact', newMessage)
                 this.$message({
-                    message: 'Todos los campos son obligatorios.',
-                    type: 'error',
-                    duration: 2000
+                    message: 'Su mensaje ha sido enviado. Le responderemos lo antes posible.',
+                    type: 'success',
+                    duration: 3000
                 });
-                return
-            } else if (!validateEmail) {
-                this.$message({
-                    message: 'Por favor, introduzca un email válido.',
+                this.$router.push('/')
+            } catch (err){
+                 this.$message({
+                    message: 'No se ha podido enviar el mensaje. Por favor, inténtelo más tarde.',
                     type: 'error',
-                    duration: 2000
+                    duration: 3000
                 });
-                return
+                console.log(err)
             }
-            let sendMessage = await this.$axios.post('contact', newMessage)
-            this.$message({
-                message: 'Su mensaje ha sido enviado. Le responderemos lo antes posible.',
-                type: 'success',
-                duration: 3500
-            });
-            this.$router.push('/')
         },
         validatedEmail(email) {     
             const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

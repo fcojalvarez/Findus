@@ -1,7 +1,7 @@
 <template>
     <div class="divDevice">
         <div class="devices">
-            <nuxt-link class="btnBackHome" v-if="currentPage === 'devices-id'" :to="'/'">Volver</nuxt-link>
+            <nuxt-link class="btnBackHome" v-if="currentPage === 'devices-id'" :to="'/'">Volver a Inicio</nuxt-link>
             <div class="divCenter">
               <nuxt-link :to="'/devices/'+selectDevice._id">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
@@ -181,16 +181,15 @@ export default {
   text-align: center;
 }
 .btnBackHome{
-  background: #888;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
   width: 120px;
   height: 30px;
-  font-size: 0.8em;
-  border: solid 1px #555;
+  font-size: 0.9em;
   margin: 10px 0 40px 0;
+  color: #333;
+  font-weight: bold;
 }
 .titleDevice{
   font-size: 1em;
