@@ -1,8 +1,9 @@
 <template>
     <div class="divDevice">
         <div class="devices">
+            <nuxt-link class="btnBackHome" v-if="currentPage === 'devices-id'" :to="'/'">Volver</nuxt-link>
             <div class="divCenter">
-              <nuxt-link :to="'/devices/'+selectDevice._id" target="_blank">
+              <nuxt-link :to="'/devices/'+selectDevice._id">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
               </nuxt-link>
             </div>
@@ -91,10 +92,18 @@ export default {
             }
 
             let devicesFavorites = this.selectDevice.devicesFavorites
-
             let addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
                       headers: { Authorization: `Bearer ${token}` }
                 })
+
+            if(addFavorite.data === 'duplicate') {
+              this.$message({
+                message: 'Ya ha añadido este dispositivo como favorito.',
+                type: 'warning',
+                duration: 2000
+              });
+              return
+            }
 
             this.$message({
               message: 'Se ha añadido a sus dispositivos favoritos correctamente.',
@@ -170,6 +179,18 @@ export default {
   color: #777;
   font-size: 1em;
   text-align: center;
+}
+.btnBackHome{
+  background: #888;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 120px;
+  height: 30px;
+  font-size: 0.8em;
+  border: solid 1px #555;
+  margin: 10px 0 40px 0;
 }
 .titleDevice{
   font-size: 1em;

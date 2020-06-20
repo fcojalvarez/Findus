@@ -45,6 +45,7 @@ export default {
 }
 .logo{
   width: 105px;
+  max-height: 105px;
 }
 .divLogo{
   display: flex;

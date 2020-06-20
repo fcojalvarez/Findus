@@ -139,9 +139,9 @@ ul li{
   background-size: 50%;
 } 
 .container {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
-  min-height: 85vh;
+  min-height: 60vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -155,7 +155,7 @@ form{
   border: 1px solid var(--color-bg);
   margin: 20px;
   color: var(--color-bg);
-  background: rgba(68, 68, 68, 0);
+  background: #eee;
 }
 .dnone{
   color: rgba(170, 170, 170, 0)!important;

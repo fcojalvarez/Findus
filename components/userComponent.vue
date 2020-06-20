@@ -246,6 +246,9 @@ export default {
 </script>
 
 <style>
+.el-button+.el-button{
+    margin:0 auto;
+}
 .userImage{
     border-radius: 20px;
     width: 200px;

@@ -10,6 +10,10 @@
             <el-form-item prop="email">
                 <el-input class="inputContact" placeholder="Email" v-model="bodyMessage.email"></el-input>
             </el-form-item>
+            <span class="title">Asunto:</span>
+            <el-form-item prop="subject">
+                <el-input class="inputContact" placeholder="Asunto" v-model="bodyMessage.subject"></el-input>
+            </el-form-item>
             <span class="title">Mensaje:</span>
             <el-form-item prop="message">
                 <el-input class="textareaMessage"
@@ -31,7 +35,8 @@ export default {
             bodyMessage:{
                 fullName: '',
                 email: '',
-                message: ''
+                message: '',
+                subject: ''
             }
         }
     },

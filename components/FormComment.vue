@@ -74,6 +74,7 @@ export default {
 <style>
 .title{
     margin-bottom:10px;
+    display: block;
 }
 .divFormComment{
     width: 80%;
