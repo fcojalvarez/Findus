@@ -2,20 +2,23 @@
   <div>
     <MainNav></MainNav>
     <nuxt />
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import MainNav from '@/components/MainNav'
-
+import Footer from '@/components/Footer'
 
 export default {
     components:{
-      MainNav
+      MainNav,
+      Footer
     },
+    props: ['buttonText'],
     mounted() {
       this.$store.dispatch('checkAuth')
-    },
+    }
 }
 </script>
 
@@ -28,14 +31,12 @@ export default {
   --color-bg: #545c64;
   --font: 'Montserrat', sans-serif
 }
-
 .block{
   display: block;
 }
 .margin{
   margin-bottom: 10px;
 }
-
 html {
   font-family: var(--font);
   font-size: 16px;
@@ -46,14 +47,12 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-
 *,
 *:before,
 *:after {
   box-sizing: border-box;
   margin: 0;
 }
-
 .button--green {
   display: inline-block;
   border-radius: 4px;
@@ -62,12 +61,10 @@ html {
   text-decoration: none;
   padding: 10px 30px;
 }
-
 .button--green:hover {
   color: #fff;
   background-color: #3b8070;
 }
-
 .button--grey {
   display: inline-block;
   border-radius: 4px;
@@ -77,7 +74,6 @@ html {
   padding: 10px 30px;
   margin-left: 15px;
 }
-
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;

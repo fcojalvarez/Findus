@@ -36,8 +36,8 @@
               {{selectDevice.rom[index]}} GB
             </span>
             <i class="fas fa-memory iconTitle"></i><span class="titleDevice">Memoria RAM</span>
-            <span v-for="(item, index) in selectDevice.rom" class="block margin fontDevice" :key="index">
-              {{selectDevice.rom[index]}} GB
+            <span v-for="(item, index) in selectDevice.ram" class="block margin fontDevice" :key="index">
+              {{selectDevice.ram[index]}} GB
             </span>
             <br>
             <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
@@ -99,7 +99,7 @@ export default {
               this.$message({
               message: 'Sólo los usuarios registrados pueden añadir a favoritos, regístrate.',
               type: 'error',
-              duration: 2000
+              duration: 3300
             });
             this.showBtnRegister = true
             return
@@ -111,17 +111,12 @@ export default {
               this.$message({
                 message: 'Ya ha añadido este dispositivo como favorito.',
                 type: 'warning',
-                duration: 2000
+                duration: 2500
               });
               return
             }
             this.$store.dispatch('getDevicesFavorites')
           } catch (err) {
-                this.$message({
-                    message: 'Ha ocurrido un error.',
-                    type: 'error',
-                    duration: 2000
-                });
           }
         },
         async delDeviceFavorite(){
@@ -140,12 +135,6 @@ export default {
             let delFavorite = await this.$axios.post(`users/${userID}/delDevicesFavorites`,
                     { deviceID : this.selectDevice._id },
                      { headers: { Authorization: `Bearer ${token}`} })
-
-            this.$message({
-              showClose: true,
-              message: 'Se ha eliminado correctamente.',
-              type: 'success'
-            });
 
             this.$store.dispatch('getDevicesFavorites')
           } catch (err) {
@@ -252,7 +241,7 @@ export default {
   color: var(--color-bg);
   background: var(--color-primary);
 }
-@media (min-width: 600px) {
+@media (min-width: 800px) {
   .container {
     background-size:40%;
     min-height: 90vh;
@@ -264,10 +253,15 @@ export default {
   .containerDevices{
     display: flex;
     width: 80%;
-    margin:20px auto;
+    margin:20px 0;
   }
   .backgroundForm{
     background-size: 35%;
+  }
+}
+@media (min-width: 950px) {
+  .containerDevices{
+    margin:20px auto;
   }
 }
 </style>

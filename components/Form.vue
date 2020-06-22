@@ -194,7 +194,7 @@ form{
 .containerAll{
   width: 100%;
 }
-@media (min-width: 600px) {
+@media (min-width: 800px) {
   .container {
     background-size:40%;
     min-height: 90vh;

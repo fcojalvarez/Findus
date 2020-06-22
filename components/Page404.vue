@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="bgImg404">
+      <nuxt-link class="btnBack404" :to="'/'">Volver a Inicio</nuxt-link>
       <nuxt-link to="/">
           <img class="notFound" src="https://image.freepik.com/vector-gratis/concepto-landing-page-fallo-tecnico_23-2148251153.jpg" alt="NotFound404">
       </nuxt-link>
@@ -19,6 +20,11 @@
 .notFound {
   width: 90%;
   margin: 0 auto;
+}
+.btnBack404{
+  color: #333;
+  display: block;
+  font-size: 1.2em;
 }
 @media (min-width: 680px){
   .notFound {

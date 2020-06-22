@@ -13,7 +13,6 @@
                     <span class="voteNumber">{{comment.votes}}</span> </div>
                 </div>
             <hr class="separador">
-            
         </div>
     </div>
 </template>
@@ -63,7 +62,6 @@ export default {
 
             } catch (err) {
             }
-
         }
     }
 }

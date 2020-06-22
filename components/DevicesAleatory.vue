@@ -44,7 +44,7 @@ export default {
 .devicesAleatory .titleDevice{
     margin-bottom: 50px;
 }
-@media (min-width: 600px){
+@media (min-width: 700px){
     .devicesAleatory{
         margin-top: 10%;
     }
