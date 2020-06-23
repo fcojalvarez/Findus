@@ -111,7 +111,7 @@ export default {
                 });
                 setTimeout(() => {
                 this.showFormLogin(); 
-                }, 2500);
+                }, 1500);
             } catch (err) {
             };
         },

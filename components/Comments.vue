@@ -2,16 +2,23 @@
     <div class="divContentComments">
         <h3 class="titleDivComment">Comentarios</h3>
         <h3 class="notComments" v-show="comments.length === 0">No hay comentarios, sé el primero en comentar.</h3>
-        <div class="divComment" v-for="comment in comments" :key=comment._id>
-            <h4 class="userComment">{{comment.userCreate}} </h4>
-            
-            <span class="bodyComment">{{comment.body}}</span>
-            <div class="footerComment">
-                <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
-                <div class="divVote">
-                    <i @click.prevent="addVoteComment(comment._id)" class="fas fa-heart voteIcon"></i>
-                    <span class="voteNumber">{{comment.votes}}</span> </div>
-                </div>
+        <div class="divComment" v-for="comment in comments" :key=comment._id> 
+            <el-row>
+                <el-col :xs="7" :sm="5" :md="5">
+                    <img :src="comment.image" alt="Imagen usuario" class="imageUser">
+                </el-col>
+                <el-col :xs="24" :sm="19" :md="19">
+                    <h4 class="">{{comment.userCreate}} </h4>
+                    <span class="bodyComment">{{comment.body}}</span>
+                    <div class="footerComment">
+                        <span class="creationDate">Fecha de creación: {{comment.creationDate}}</span>
+                        <div class="divVote">
+                            <i @click.prevent="addVoteComment(comment._id)" class="fas fa-heart voteIcon"></i>
+                            <span class="voteNumber">{{comment.votes}}</span>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
             <hr class="separador">
         </div>
     </div>
@@ -59,7 +66,6 @@ export default {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 this.$store.dispatch('loadComments', this.deviceID)
-
             } catch (err) {
             }
         }
@@ -87,8 +93,7 @@ export default {
 }
 .divComment{
     margin-top:15px 0;
-} 
-
+}
 .userComment{
     font-size: 0.8em;
     color: #333;
@@ -137,4 +142,10 @@ export default {
     margin: 10px 0 10px auto;
     font-size: 0.8em;
 }
+.imageUser{
+    width: 90%;
+    border-radius: 10px;
+    max-width: 90px;
+    margin-bottom: 10px;
+} 
 </style>

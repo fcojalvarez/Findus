@@ -158,7 +158,7 @@ ul li{
   text-align: center;
 }
 .mainform{
-  width:90%;
+  width:80%;
   margin: 0 auto;
 }
 .btnPrim{

@@ -73,6 +73,7 @@ export default {
                     this.$store.dispatch('checkAuth')
                     this.limpiarFormulario(); 
                     this.$router.push('/')
+                
                 } catch (err) {
                     alert('Mostrar error en notificación: Email o contraseña incorrectos.')
                     return

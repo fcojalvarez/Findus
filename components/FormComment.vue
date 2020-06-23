@@ -37,29 +37,28 @@ export default {
         async createComment(){
             try {
                 const token = window.localStorage.getItem('token')
-                const user = jwt_decode(token)
+                const userID = jwt_decode(token).id
+                const user = await this.$axios.get(`/users/${userID}`, {headers: {Authorization: `Bearer ${token}`}})
+                let userDB = user.data
 
                 const newComment = {
+                    image: userDB.image,
                     body: this.bodyComment,
-                    userCreate: user.name,
-                    userCreateID: user.id,
+                    userCreate: userDB.name,
+                    userCreateID: userDB._id,
                     smartphoneID: this.deviceID,
                     creationDate: moment().format('llll'),
                     usersVotes: [],
                     votes: 0
                 }
 
-                if(newComment.body && this.deviceID){
-                    const sendComment = await this.$axios.post(`${this.deviceID}/comments`, newComment, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                    })
-                    this.$store.dispatch('loadComments', this.deviceID)
-                    this.cleanForm()
-                }
+                const sendComment = await this.$axios.post(`${this.deviceID}/comments`, newComment,
+                 { headers: { Authorization: `Bearer ${token}`} });
+
+                this.$store.dispatch('loadComments', this.deviceID)
                 this.cleanForm()
             } catch (err) {
+                console.log(err)
                 this.$message({
                     showClose: true,
                     message: 'Sólo los usuarios registrados pueden comentar. Regístrese, es gratis.',
