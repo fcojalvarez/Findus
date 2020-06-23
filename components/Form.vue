@@ -11,9 +11,12 @@
           <div class="block" v-show="form === 'price'">
               <span class="textDesc">{{infoData.price}}€</span>
               <el-slider
-              v-model="infoData.price"
-              :max="1500">
+                class="sliderPrice"
+                v-model="infoData.price"
+                :show-tooltip="false"
+                :max="1500">
               </el-slider>
+              <el-input-number v-model="infoData.price" :max="1500"></el-input-number>
           </div>
 
           <div>
@@ -24,8 +27,7 @@
           <br>
           <el-button class="btnPrim" type="primary" @click.prevent="nextStep(forms[i])">Siguiente</el-button>
         </form>
-
-        <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
+        <p class="pointAct" v-show="pointAct !== 7">Paso {{pointAct}} de 7</p>
         </div>
         <h3 class="subtitle NotFound" v-show="seleccion[8][1]">Según sus necesidades, aún no tenemos nada para usted.
         <br>
@@ -50,14 +52,14 @@ export default {
   },
   data () {
     return {
-      forms: ['so','display','ram','rom','price','features'],
-      titleForm: ['¿Qué sistema operativo prefiere?', '¿Tamaño de la pantalla?', '¿Cuánta memoria RAM?', '¿Cuánto almacenamiento interno?', '¿Cuál es tu presupuesto máximo?' , '¿Le interesa alguna característica más?'],
+      forms: ['so','price','display','ram','rom','features'],
+      titleForm: ['¿Qué sistema operativo prefiere?','¿Cuál es tu presupuesto máximo?', '¿Tamaño de la pantalla?', '¿Cuánta memoria RAM?', '¿Cuánto almacenamiento interno?', '¿Le interesa alguna característica más?'],
       labels: [
         ['Indiferente', 'Android', 'IOS'],
+        [650],
         ['Indiferente', "Menos de 6'", "Más de 6'"],
         ['Indiferente', 'Menos de 8GB', 'Más de 8GB'],
         ['Indiferente', 'Menos de 128GB', 'Más de 128GB'],
-        [650],
         ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
       ],
       features: ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
@@ -81,7 +83,7 @@ export default {
         features: [],
       },
       devicesRecomend: '',
-      pointAct: 0
+      pointAct: 1
     }
   },
   methods: {
@@ -89,32 +91,32 @@ export default {
       if(step === 'so'){
         this.seleccion[0][1] = false;
         this.seleccion[1][1]  = true;
-        this.pointAct += 15
-      }
-      if(step === 'display'){
-        this.seleccion[1][1]  = false;
-        this.seleccion[2][1]  = true;
-        this.pointAct += 15
-      }
-      if(step === 'ram'){
-        this.seleccion[2][1]  = false;
-        this.seleccion[3][1]  = true;
-        this.pointAct += 20
-      }
-      if(step === 'rom'){
-        this.seleccion[3][1]  = false;
-        this.seleccion[4][1]  = true;
-        this.pointAct += 15
+        this.pointAct ++
       }
       if(step === 'price'){
+        this.seleccion[1][1]  = false;
+        this.seleccion[2][1]  = true;
+        this.pointAct ++
+      }
+      if(step === 'display'){
+        this.seleccion[2][1]  = false;
+        this.seleccion[3][1]  = true;
+        this.pointAct ++
+      }
+      if(step === 'ram'){
+        this.seleccion[3][1]  = false;
+        this.seleccion[4][1]  = true;
+        this.pointAct ++
+      }
+      if(step === 'rom'){
         this.seleccion[4][1]  = false;
         this.seleccion[5][1]  = true;
-        this.pointAct += 15
+        this.pointAct ++
       }
       if(step === 'features'){
         this.seleccion[5][1]  = false;
         this.seleccion[6][1]  = true;
-        this.pointAct += 20
+        this.pointAct ++
         this.getDevicedRecomend(this.infoData)
       }
     },
@@ -151,7 +153,7 @@ ul li{
 .container {
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin: 0 auto;
-  min-height: 60vh;
+  min-height: 68vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -208,6 +210,21 @@ ul li{
   width: 80%;
   margin: 0 auto;
 }
+.inputPrice{
+  width: 60px;
+  display: block;
+  margin: 0 auto;
+  height: 50px;
+}
+.pointAct{
+  margin-bottom: 70px;
+  color: #555;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1em;
+}
+form{
+  padding: 20px 10px;
+}
 @media (min-width: 800px) {
   .container {
     background-size:40%;
@@ -228,6 +245,9 @@ ul li{
   .containerAllWithResult{
     margin-top:5%!important;
     display: block;
+  }
+  .inputPrice{
+    display: none;
   }
 }
 </style>
