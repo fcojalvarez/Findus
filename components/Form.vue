@@ -1,6 +1,6 @@
 <template>
     <div class="container" :class="{ backgroundForm: !seleccion[6][1] }">
-      <div :class="{ containerAllWithResult: seleccion[7][1] , containerAll: !seleccion[7][1] }">
+      <div :class="{ containerAllWithResult: seleccion[7][1], mainForm: seleccion[6][1] === false }">
         <form v-for="(form, i) in forms" :key="i" v-show="seleccion[i][1]">
           <h3 class="subtitle">{{titleForm[i]}}</h3>
 
@@ -27,9 +27,12 @@
 
         <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
         </div>
+        <h3 class="subtitle NotFound" v-show="seleccion[8][1]">Según sus necesidades, aún no tenemos nada para usted.
+        <br>
+        <br>
+        Si lo desea, vuelva a realizar el cuestionario con diferentes opciones.</h3>
         <div>
           <h3 class="subtitle pt10" v-show="seleccion[7][1]">Te recomendamos estos dispositivos</h3>
-          <h3 class="subtitle" v-show="seleccion[8][1]">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
           <div class="containerDeviceRecomend" v-show="seleccion[7][1]">
             <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
           </div>
@@ -83,7 +86,6 @@ export default {
   },
   methods: {
     nextStep(step){
-      console.log(this.seleccion)
       if(step === 'so'){
         this.seleccion[0][1] = false;
         this.seleccion[1][1]  = true;
@@ -122,9 +124,11 @@ export default {
         this.devicesRecomend = deviceFiltered.data
         if(this.devicesRecomend.length === 0){
           this.seleccion[8][1] = true
+          this.seleccion[7][1] = false
           return
         }
         this.seleccion[7][1] = true;
+        
         this.$store.commit('hideRandomDevices')
       } catch (err) {
       }
@@ -153,7 +157,7 @@ ul li{
   align-items: center;
   text-align: center;
 }
-form{
+.mainform{
   width:90%;
   margin: 0 auto;
 }
@@ -200,8 +204,9 @@ form{
 .containerDeviceRecomend{
   margin-top: 50px;  
 }
-.containerAll{
-  width: 100%;
+.NotFound{
+  width: 80%;
+  margin: 0 auto;
 }
 @media (min-width: 800px) {
   .container {
@@ -214,6 +219,7 @@ form{
   .containerDeviceRecomend{
     display: flex;
     margin-top: 0!important;
+    padding: 0 20px;
   }
   .devices{
     width:90%;
@@ -221,6 +227,7 @@ form{
   }
   .containerAllWithResult{
     margin-top:5%!important;
+    display: block;
   }
 }
 </style>

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
     mode: 'spa',
     /*
@@ -43,7 +45,8 @@ export default {
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
-        'cookie-universal-nuxt', [
+        'cookie-universal-nuxt',
+        '@nuxtjs/dotenv', [
             '@nuxtjs/firebase',
             {
                 config: {
@@ -66,7 +69,7 @@ export default {
      ** See https://axios.nuxtjs.org/options
      */
     axios: {
-        baseURL: 'https://findusapi.herokuapp.com/'
+        baseURL: process.env.BASE_URL
     },
 
     /*

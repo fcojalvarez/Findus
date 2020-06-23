@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/firebase": "^5.2.0",
     "cookie-universal-nuxt": "^2.1.4",
     "element-ui": "^2.4.11",
