@@ -21,11 +21,11 @@ export default {
     },
     methods:{
         async getDevicesAleatory(){
-            let devicesAleatory = await this.$axios.get('devicesAleatory');
-            let response = devicesAleatory.data
+            const devicesAleatory = await this.$axios.get('devicesAleatory');
+            const response = devicesAleatory.data
 
             response.forEach(element => {
-                let id = element._id
+                const id = element._id
                 this.devicesID.push(id)
             });
         }

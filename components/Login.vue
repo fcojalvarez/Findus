@@ -53,7 +53,7 @@ export default {
     },
     methods:{  
         async login(){
-            let loginData = {
+            const loginData = {
                 email: this.email,
                 password: this.password
             }
@@ -67,7 +67,7 @@ export default {
                 }
 
                 try { 
-                    let response = await this.$axios.post('auth/login', loginData)
+                    const response = await this.$axios.post('auth/login', loginData)
                     window.localStorage.setItem('token', response.data.token)
 
                     this.$store.dispatch('checkAuth')
@@ -97,7 +97,7 @@ export default {
                     }) 
                     return
                 }
-                let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.email })
+                const resetPassword = await this.$axios.post('auth/resetPassword', { email: this.email })
                 this.$message({
                     showClose: true,
                     message: 'La petición se ha realizado correctamente, recibirá un email con las instrucciones.',

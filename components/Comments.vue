@@ -41,7 +41,7 @@ export default {
          async addVoteComment(commentID) {
             try {
                 const token = window.localStorage.getItem('token');
-                let commentSelect = await this.$axios.get(`idpruebas/comments/${commentID}`);
+                const commentSelect = await this.$axios.get(`idpruebas/comments/${commentID}`);
                 let commentData = commentSelect.data
 
                 if(commentData.usersVotes.includes(this.currentUser.id)){
@@ -55,7 +55,7 @@ export default {
                 commentData.usersVotes.push(this.currentUser.id)
                 commentData.votes = commentData.votes +1
 
-                let commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, commentData, {
+                const commentEdit = await this.$axios.put(`idpruebas/comments/${commentID}`, commentData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 this.$store.dispatch('loadComments', this.deviceID)

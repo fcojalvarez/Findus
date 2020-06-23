@@ -1,7 +1,5 @@
 <template>
-    <div>
-        
-    </div>
+    <p>Información legal</p>
 </template>
 
 <script>

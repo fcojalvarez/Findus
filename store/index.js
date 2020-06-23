@@ -12,25 +12,25 @@ export const state = () => ({
 export const actions = {
     async loadComments(context, smartphoneID) {
         try {
-            let response = await this.$axios.get(`${smartphoneID}/comments`),
+            const response = await this.$axios.get(`${smartphoneID}/comments`),
                 commentsDB = response.data;
-            let result = commentsDB.filter(comment => comment.smartphoneID === smartphoneID)
+            const result = commentsDB.filter(comment => comment.smartphoneID === smartphoneID)
             context.commit('addComments', result)
             return result
         } catch (err) {}
     },
     checkAuth(context) {
         const token = window.localStorage.getItem('token')
-        let resultToken = token != null
+        const resultToken = token != null
         let user
 
 
         if (token !== null) {
-            let tokenDecoded = jwt_decode(token)
+            const tokenDecoded = jwt_decode(token)
             user = tokenDecoded
         }
 
-        let result = {
+        const result = {
             currentUser: user,
             isAuth: resultToken
         }
@@ -48,14 +48,13 @@ export const actions = {
     async getDevicesFavorites(context) {
         try {
             const token = window.localStorage.getItem('token')
-            let resultToken = token != null
             let userID
             let devicesFavorites
 
             if (token === undefined) {
                 return
             } else {
-                let tokenDecoded = jwt_decode(token)
+                const tokenDecoded = jwt_decode(token)
                 userID = tokenDecoded.id
             }
 

@@ -43,7 +43,7 @@
             <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
             <span class="block margin fontDevice">{{selectDevice.battery}}</span>
             <br>
-            <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adionales</span>
+            <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adicionales</span>
             <span v-for="(feature, index) in selectDevice.features" class="block margin fontDevice" :key="index">
               <span>{{feature}}</span>
             </span>
@@ -75,23 +75,23 @@ export default {
         return this.$store.state.isAuth
       },
       isFavorite(){
-        let devicesFavoriteList = this.$store.state.devicesFavorites.map( device => device._id )
+        const devicesFavoriteList = this.$store.state.devicesFavorites.map( device => device._id )
         return devicesFavoriteList.includes(this.selectDevice._id)
       }
     },
     methods:{
         async getSelectDevice(deviceID){
-          let findDevice = await this.$axios.get(`/devices/${deviceID}`)
+          const findDevice = await this.$axios.get(`/devices/${deviceID}`)
           this.selectDevice = findDevice.data
         },
         async addDeviceFavorite(){
           try {
             const token = window.localStorage.getItem('token')
-            let resultToken = token != null
+            const resultToken = token != null
             let userID
 
             if (token !== null) {
-                let tokenDecoded = jwt_decode(token)
+                const tokenDecoded = jwt_decode(token)
                 userID = tokenDecoded.id
             }
 
@@ -104,7 +104,7 @@ export default {
             this.showBtnRegister = true
             return
             }
-            let addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
+            const addFavorite = await this.$axios.post(`users/${userID}/addDevicesFavorites`, { deviceID : this.selectDevice._id }, {
                       headers: { Authorization: `Bearer ${token}` }
                 })
             if(addFavorite.data === 'duplicate') {
@@ -122,15 +122,13 @@ export default {
         async delDeviceFavorite(){
           try {
             const token = window.localStorage.getItem('token')
-            let resultToken = token != null
+            const resultToken = token != null
             let userID
 
             if (token !== null) {
-                let tokenDecoded = jwt_decode(token)
+                const tokenDecoded = jwt_decode(token)
                 userID = tokenDecoded.id
             }
-
-            let devicesFavorites = this.selectDevice.devicesFavorites
 
             let delFavorite = await this.$axios.post(`users/${userID}/delDevicesFavorites`,
                     { deviceID : this.selectDevice._id },

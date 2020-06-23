@@ -61,7 +61,7 @@ export default {
     },
     methods:{
         async createUser(){
-            let newUser = {
+            const newUser = {
                 name: this.name,
                 surname: this.surname,
                 email: this.email,
@@ -102,7 +102,7 @@ export default {
             }
             
             try {
-                let userCreated = await this.$axios.$post('users', newUser)
+                const userCreated = await this.$axios.$post('users', newUser)
                 this.limpiarFormulario();
                 this.$message({
                     message: 'El usuario ha sido creado correctamente.',

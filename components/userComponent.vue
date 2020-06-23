@@ -117,11 +117,11 @@ export default {
     methods: {
         async loadUserPage (){
             try{
-                let token = window.localStorage.getItem('token');
-                let tokenDecoded = jwt_decode(token);
-                let userID = tokenDecoded.id
+                const token = window.localStorage.getItem('token');
+                const tokenDecoded = jwt_decode(token);
+                const userID = tokenDecoded.id
 
-                let userDB = await this.$axios.get(`users/${userID}`, {
+                const userDB = await this.$axios.get(`users/${userID}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                 this.currentUser = userDB.data
@@ -140,8 +140,8 @@ export default {
         },
         changePersonalInfo (){
             try {
-                let token = window.localStorage.getItem('token')
-                let dataEdited = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
+                const token = window.localStorage.getItem('token')
+                const dataEdited = this.$axios.put(`users/${this.currentUser._id}`, this.currentUser , {
                     headers: { Authorization: `Bearer ${token}` }
                 })
 
@@ -163,7 +163,7 @@ export default {
         },
         async changePassword (email){
             try{
-                let resetPassword = await this.$axios.post('auth/resetPassword', { email: this.currentUser.email })
+                const resetPassword = await this.$axios.post('auth/resetPassword', { email: this.currentUser.email })
                 this.$message({
                     showClose: true,
                     message: 'La petición se ha realizado correctamente, recibirá un email con las instrucciones.',
@@ -179,14 +179,14 @@ export default {
             
         },
         async getCommentsUser(){
-            let token = window.localStorage.getItem('token');
-            let tokenDecoded = jwt_decode(token);
-            let userID = tokenDecoded.id
+            const token = window.localStorage.getItem('token');
+            const tokenDecoded = jwt_decode(token);
+            const userID = tokenDecoded.id
 
-            let commentsList = await this.$axios.get('comments')
-            let response = commentsList.data
+            const commentsList = await this.$axios.get('comments')
+            const response = commentsList.data
 
-            let result = response.filter( comment => comment.userCreateID === userID )
+            const result = response.filter( comment => comment.userCreateID === userID )
          
             this.commentsUser = result 
         },
@@ -207,8 +207,8 @@ export default {
         },
         async deleteUserAccount(){
             try{
-                let token = window.localStorage.getItem('token');
-                let deletedUser = await this.$axios.delete(`users/${this.currentUser._id}`, {
+                const token = window.localStorage.getItem('token');
+                const deletedUser = await this.$axios.delete(`users/${this.currentUser._id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
 

@@ -43,13 +43,13 @@ export default {
     methods:{
         async sendMessage(){
             try{
-                let newMessage = {
+                const newMessage = {
                     fullName: this.bodyMessage.fullName,
                     email: this.bodyMessage.email,
                     subject: this.bodyMessage.subject,
                     message: this.bodyMessage.message
                 }
-                let validateEmail = this.validatedEmail(newMessage.email)
+                const validateEmail = this.validatedEmail(newMessage.email)
 
                 if(newMessage.fullName === '' || newMessage.email === '' || newMessage.message === ''){
                     this.$message({
@@ -66,7 +66,7 @@ export default {
                     });
                     return
                 }
-                let sendMessage = await this.$axios.post('contact', newMessage)
+                const sendMessage = await this.$axios.post('contact', newMessage)
                 this.$message({
                     message: 'Su mensaje ha sido enviado. Le responderemos lo antes posible.',
                     type: 'success',

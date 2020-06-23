@@ -1,7 +1,7 @@
 <template>
-    <div class="container" :class="{ backgroundForm: !seleccion[6] }">
-      <div :class="{ containerAllWithResult: seleccion[7] , containerAll: !seleccion[7] }">
-        <form v-for="(form, i) in forms" :key="i" v-show="seleccion[i]">
+    <div class="container" :class="{ backgroundForm: !seleccion[6][1] }">
+      <div :class="{ containerAllWithResult: seleccion[7][1] , containerAll: !seleccion[7][1] }">
+        <form v-for="(form, i) in forms" :key="i" v-show="seleccion[i][1]">
           <h3 class="subtitle">{{titleForm[i]}}</h3>
 
           <el-radio-group v-model="infoData[form]" v-show="form !== 'price' && form !== 'features'">
@@ -28,9 +28,9 @@
         <el-progress v-show="pointAct > 0 && pointAct < 100" class="progressBar" color="yellow" :percentage="pointAct"></el-progress>
         </div>
         <div>
-          <h3 class="subtitle pt10" v-show="seleccion[7]">Te recomendamos estos dispositivos</h3>
-          <h3 class="subtitle" v-show="seleccion[8]">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
-          <div class="containerDeviceRecomend" v-show="seleccion[7]">
+          <h3 class="subtitle pt10" v-show="seleccion[7][1]">Te recomendamos estos dispositivos</h3>
+          <h3 class="subtitle" v-show="seleccion[8][1]">Parece que según sus necesidades aún no tenemos nada para usted.<br>Lo sentimos.</h3>
+          <div class="containerDeviceRecomend" v-show="seleccion[7][1]">
             <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
           </div>
         </div>
@@ -58,7 +58,17 @@ export default {
         ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
       ],
       features: ['Sensor de huella', 'Desbloqueo facial', 'Carga inalámbrica', 'Carga rápida', 'Radio FM', 'Dual SIM', 'Jack 3.5mm'],
-      seleccion: [true,false,false,false,false,false,false,false,false],
+      seleccion: Object.entries({
+        showSo : true,
+        showDisplay : false,
+        showRam : false,
+        showRom : false,
+        showPrice : false,
+        showFeatures : false,
+        result : false,
+        found : false,
+        notFound : false,
+      }),
       infoData: {
         so: 'Indiferente',
         display: 'Indiferente',
@@ -73,49 +83,48 @@ export default {
   },
   methods: {
     nextStep(step){
+      console.log(this.seleccion)
       if(step === 'so'){
-        this.seleccion[0] = false;
-        this.seleccion[1] = true;
+        this.seleccion[0][1] = false;
+        this.seleccion[1][1]  = true;
         this.pointAct += 15
       }
       if(step === 'display'){
-        this.seleccion[1] = false;
-        this.seleccion[2] = true;
-
-         this.pointAct += 15
+        this.seleccion[1][1]  = false;
+        this.seleccion[2][1]  = true;
+        this.pointAct += 15
       }
       if(step === 'ram'){
-        this.seleccion[2] = false;
-        this.seleccion[3] = true;
-
-         this.pointAct += 20
+        this.seleccion[2][1]  = false;
+        this.seleccion[3][1]  = true;
+        this.pointAct += 20
       }
       if(step === 'rom'){
-        this.seleccion[3] = false;
-        this.seleccion[4] = true;
+        this.seleccion[3][1]  = false;
+        this.seleccion[4][1]  = true;
         this.pointAct += 15
       }
       if(step === 'price'){
-        this.seleccion[4] = false;
-        this.seleccion[5] = true;
+        this.seleccion[4][1]  = false;
+        this.seleccion[5][1]  = true;
         this.pointAct += 15
       }
       if(step === 'features'){
-        this.seleccion[5] = false;
-        this.seleccion[6] = true;
+        this.seleccion[5][1]  = false;
+        this.seleccion[6][1]  = true;
         this.pointAct += 20
         this.getDevicedRecomend(this.infoData)
       }
     },
     async getDevicedRecomend(result){
       try {
-        let deviceFiltered = await this.$axios.post('devicesFilter', result);
+        const deviceFiltered = await this.$axios.post('devicesFilter', result);
         this.devicesRecomend = deviceFiltered.data
         if(this.devicesRecomend.length === 0){
-          this.seleccion[8] = true
+          this.seleccion[8][1] = true
           return
         }
-        this.seleccion[7] = true;
+        this.seleccion[7][1] = true;
         this.$store.commit('hideRandomDevices')
       } catch (err) {
       }
@@ -211,7 +220,6 @@ form{
     justify-content: space-evenly;
   }
   .containerAllWithResult{
-    background:red;
     margin-top:5%!important;
   }
 }

@@ -39,7 +39,7 @@ export default {
                 const token = window.localStorage.getItem('token')
                 const user = jwt_decode(token)
 
-                let newComment = {
+                const newComment = {
                     body: this.bodyComment,
                     userCreate: user.name,
                     userCreateID: user.id,
@@ -50,7 +50,7 @@ export default {
                 }
 
                 if(newComment.body && this.deviceID){
-                    let sendComment = await this.$axios.post(`${this.deviceID}/comments`, newComment, {
+                    const sendComment = await this.$axios.post(`${this.deviceID}/comments`, newComment, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
