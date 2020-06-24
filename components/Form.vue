@@ -116,6 +116,7 @@ export default {
       if(step === 'features'){
         this.seleccion[5][1]  = false;
         this.pointAct ++
+        this.$nuxt.$loading.start()
         this.getDevicedRecomend(this.infoData)
       }
     },
@@ -132,6 +133,7 @@ export default {
         this.seleccion[7][1] = true;
         
         this.$store.commit('hideRandomDevices')
+        this.$nuxt.$loading.finish()
       } catch (err) {
       }
     }

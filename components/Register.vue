@@ -27,7 +27,7 @@
                 <el-form-item>
                     <el-input placeholder="Introduzca su contraseña" v-model="repeatPassword" show-password></el-input>
                 </el-form-item>
-                <el-checkbox v-model="acceptPolicy" name="type">He leído y acepto la <nuxt-link class="linkToLegal" :to="'/legal'">Política de privacidad</nuxt-link></el-checkbox>
+                <el-checkbox v-model="acceptPolicy" name="type">He leído y acepto la <nuxt-link class="linkToLegal" :to="'/legal'"><br v-if="widthDisplay < 480">Política de privacidad</nuxt-link></el-checkbox>
                 <br>
                 <br>
                 <el-button @click.prevent="createUser">Crear cuenta</el-button>
@@ -59,6 +59,9 @@ export default {
         errorRepeatPassword(){
             return this.repeatPassword !== this.password
         },
+        widthDisplay(){
+            return window.innerWidth
+        }
     },
     mounted() {
         this.$store.dispatch('checkAuth') 

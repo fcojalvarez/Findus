@@ -1,6 +1,6 @@
 <template>
     <div class="devicesAleatory">
-        <h2 class="titleDevice">Estos quizás te gusten, si no puedes ver <nuxt-link class="linkToCatalogo" :to="'/catalogo'">nuestro catalogo</nuxt-link>.</h2>
+        <h2 class="titleDevice">Estos quizás te gusten, si no puedes ver <nuxt-link class="linkToCatalogo" :to="'/catalogo'">nuestro catalogo</nuxt-link> .</h2>
         <div class="containerDevices">
             <Device v-for="deviceID in devicesID" :id="deviceID" :key="deviceID"></Device>
         </div>

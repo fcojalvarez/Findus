@@ -40,7 +40,7 @@
               {{selectDevice.ram[index]}} GB
             </span>
             <br>
-            <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Bateria</span>
+            <i class="fas fa-battery-full iconTitle"></i><span class="titleDevice">Batería</span>
             <span class="block margin fontDevice">{{selectDevice.battery}}</span>
             <br>
             <i class="fas fa-plus-circle iconTitle"></i><span class="titleDevice">Caracterísitcas adicionales</span>
@@ -155,7 +155,6 @@ export default {
 <style>
 .devices{
   padding: 15px;
-  width: 350px;
   background: #fff;
   text-align: left;
   margin-right: auto;
@@ -255,7 +254,6 @@ export default {
   }
   .containerDevices{
     display: flex;
-    width: 80%;
     margin:20px 0;
   }
   .backgroundForm{
