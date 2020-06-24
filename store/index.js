@@ -6,7 +6,8 @@ export const state = () => ({
     currentUser: '',
     smartphoneID: '',
     isFindRandomDevice: true,
-    devicesFavorites: []
+    devicesFavorites: [],
+    devicesList: ''
 })
 
 export const actions = {
@@ -63,6 +64,12 @@ export const actions = {
             })
             context.commit('setDevicesFavorites', devicesFavorites.data)
         } catch (err) {}
+    },
+    async getDevicesList(context) {
+        let deviceslist = await this.$axios.get('devices')
+        let result = deviceslist.data
+
+        context.commit('setDevicesList', result)
     }
 }
 
@@ -85,6 +92,9 @@ export const mutations = {
     },
     setDevicesFavorites(state, devices) {
         state.devicesFavorites = devices
+    },
+    setDevicesList(state, devicesList) {
+        state.devicesList = devicesList
     }
 }
 

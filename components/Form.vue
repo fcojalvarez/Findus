@@ -27,7 +27,7 @@
           <br>
           <el-button class="btnPrim" type="primary" @click.prevent="nextStep(forms[i])">Siguiente</el-button>
         </form>
-        <p class="pointAct" v-show="pointAct !== 7">Paso {{pointAct}} de 7</p>
+        <p class="pointAct" v-show="pointAct !== 7">{{pointAct}} de 7</p>
         </div>
         <h3 class="subtitle NotFound" v-show="seleccion[8][1]">Según sus necesidades, aún no tenemos nada para usted.
         <br>
@@ -115,7 +115,6 @@ export default {
       }
       if(step === 'features'){
         this.seleccion[5][1]  = false;
-        this.seleccion[6][1]  = true;
         this.pointAct ++
         this.getDevicedRecomend(this.infoData)
       }
@@ -124,6 +123,7 @@ export default {
       try {
         const deviceFiltered = await this.$axios.post('devicesFilter', result);
         this.devicesRecomend = deviceFiltered.data
+        this.seleccion[6][1]  = true;
         if(this.devicesRecomend.length === 0){
           this.seleccion[8][1] = true
           this.seleccion[7][1] = false

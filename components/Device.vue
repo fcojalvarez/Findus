@@ -1,7 +1,7 @@
 <template>
     <div class="divDevice">
         <div class="devices">
-            <nuxt-link class="btnBackHome" v-if="currentPage === 'devices-id'" :to="'/'">Volver a Inicio</nuxt-link>
+            <button class="btnBackHome" v-if="currentPage === 'devices-id'" @click="goBack">Volver a atrás</button>
             <div class="divCenter">
               <nuxt-link :to="'/devices/'+selectDevice._id">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
@@ -140,6 +140,9 @@ export default {
         },
         goToRegister(){
           this.$router.push('/register')
+        },
+        goBack(){
+          window.history.back()
         }
     },
     mounted(){
@@ -184,6 +187,8 @@ export default {
   margin: 10px 0 40px 0;
   color: #333;
   font-weight: bold;
+  background: none;
+  border: none;
 }
 .titleDevice{
   font-size: 1em;

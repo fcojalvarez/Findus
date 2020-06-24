@@ -6,6 +6,9 @@ export default {
      ** Headers of the page
      */
     head: {
+        htmlAttrs: {
+            lang: 'es'
+        },
         title: 'Findus - Find your smartphone',
         meta: [
             { charset: 'utf-8' },

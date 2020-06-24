@@ -18,6 +18,7 @@ export default {
     props: ['buttonText'],
     mounted() {
       this.$store.dispatch('checkAuth')
+      this.$store.dispatch('getDevicesList')
     }
 }
 </script>

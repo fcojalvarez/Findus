@@ -27,6 +27,9 @@
                 <el-form-item>
                     <el-input placeholder="Introduzca su contraseña" v-model="repeatPassword" show-password></el-input>
                 </el-form-item>
+                <el-checkbox v-model="acceptPolicy" name="type">He leído y acepto la <nuxt-link class="linkToLegal" :to="'/legal'">Política de privacidad</nuxt-link></el-checkbox>
+                <br>
+                <br>
                 <el-button @click.prevent="createUser">Crear cuenta</el-button>
             </el-form>
             <h3 class="notLogin">¿Está registrado? <span @click.prevent="showFormLogin" class="createAccount">Iniciar sesión</span></h3>
@@ -45,7 +48,8 @@ export default {
             password: '',
             dataUsers: '',
             repeatEmail: '',
-            repeatPassword: ''
+            repeatPassword: '',
+            acceptPolicy: false,
         }
     },
     computed:{
@@ -87,6 +91,14 @@ export default {
                 return
             }
 
+            if(this.acceptPolicy === false){
+                this.$message({ message: 'Debe leer y aceptar la política de privacidad.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            }
+
             if( this.repeatEmail !== this.email){
                 this.$message({ message: 'El email introducido no coincide.',
                     type: 'error',
@@ -113,6 +125,11 @@ export default {
                 this.showFormLogin(); 
                 }, 1500);
             } catch (err) {
+                this.$message({
+                    message: 'La contraseña debe tener mínimo 6 caracteres.',
+                    type: 'error',
+                    duration: 2000
+                });
             };
         },
         validatedEmail(email) {     
@@ -139,3 +156,11 @@ export default {
     }
 }
 </script>
+
+<style>
+.linkToLegal{
+    color: var(--color-primary);
+    font-weight: bold;
+    text-shadow: 1px 1px #555;
+}
+</style>
