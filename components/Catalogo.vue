@@ -1,7 +1,6 @@
 <template>
     <div class="divCatalogo">
         <el-input class="inputModel" placeholder="Filtrar según modelo" v-model="inputFilterModel"></el-input>
-        <el-button v-if="error" class="inputModel" @click="reload">Recargar</el-button>
         <div class="containerCatalogo" v-show="devicesFiltered.length > 0">
             <Device class="deviceCat" v-for="device in filteredDevices" :id="device._id" :key="device._id"></Device>
         </div>
@@ -24,16 +23,7 @@ export default {
     data(){
         return{
             inputFilterModel: '',
-            error: false,
             devicesFiltered: '',
-        }
-    },
-    methods:{
-        reload(){
-            this.$router.push('/')
-            setTimeout(() => {
-                this.$router.push('/catalogo')
-            }, 50);
         }
     },
     mounted () {

@@ -17,6 +17,9 @@ export default {
 </script>
 
 <style>
+.spaceby{
+    margin-top: 15px;
+}
 .bgFooter{
     width: 100%;
     height: 80px;
@@ -43,6 +46,9 @@ export default {
     text-align: center;
 }
 @media (min-width: 600px) {
+    .spaceby{
+        margin-top: 0;
+    }
     .links{
         height: 100%;
         display: flex;

@@ -27,15 +27,18 @@
           <br>
           <el-button class="btnPrim" type="primary" @click.prevent="nextStep(forms[i])">Siguiente</el-button>
         </form>
-        <p class="pointAct" v-show="pointAct !== 7">{{pointAct}} de 7</p>
+        <p class="pointAct" v-show="pointAct !== 7">{{pointAct}} de 6</p>
         </div>
-        <h3 class="subtitle NotFound" v-show="seleccion[8][1]">Según sus necesidades, aún no tenemos nada para usted.
+        <h3 class="subtitle NotFound" v-show="seleccion[8][1] === true">Según sus necesidades, aún no tenemos nada para usted.
         <br>
         <br>
         Si lo desea, vuelva a realizar el cuestionario con diferentes opciones.</h3>
         <div>
-          <h3 class="subtitle pt10" v-show="seleccion[7][1]">Te recomendamos estos dispositivos</h3>
-          <div class="containerDeviceRecomend" v-show="seleccion[7][1]">
+          <h3 class="subtitle pt10" v-show="seleccion[7][1] === true">Te recomendamos estos dispositivos</h3>
+          <br>
+          <el-button class="" v-show="seleccion[7][1] === true" @click="retryForm">Volver a realizar el cuestionario</el-button>
+          <br>
+          <div class="containerDeviceRecomend" v-show="seleccion[7][1] === true">
             <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
           </div>
         </div>
@@ -130,10 +133,15 @@ export default {
           return
         }
         this.seleccion[7][1] = true;
-        
         this.$store.commit('hideRandomDevices')
       } catch (err) {
       }
+    },
+    retryForm(){
+      this.$router.push('/contact')
+      setTimeout(() => {
+          this.$router.push('/')
+      }, 30);
     }
   }
 }

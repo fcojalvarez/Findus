@@ -15,7 +15,7 @@
                     <el-button round class="btnUserPage marginL0" @click.prevent="showFormEdit">Modificar datos</el-button>
                 </el-col>
                 <el-col :xs="22" :m="10">
-                    <el-button round class="btnUserPage marginL0" @click.prevent="changePassword">Cambiar contraseña</el-button>
+                    <el-button round class="btnUserPage marginL0" @click.prevent="changePassword">Modificar contraseña</el-button>
                 </el-col>
                 <el-col :xs="22" :m="10">
                     <el-button round class="btnUserPage marginL0 btnDeleteUser" @click.prevent="warningDeleteUser">Eliminar cuenta</el-button>
