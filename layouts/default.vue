@@ -1,19 +1,22 @@
 <template>
   <div>
     <MainNav></MainNav>
-    <nuxt />
-    <Footer></Footer>
+    <nuxt class="viewPage"></nuxt>
+    <Footer class="footerPage"></Footer>
+    <CookieLaw></CookieLaw>
   </div>
 </template>
 
 <script>
 import MainNav from '@/components/MainNav'
 import Footer from '@/components/Footer'
+import CookieLaw from '@/components/CookieLaw'
 
 export default {
     components:{
       MainNav,
-      Footer
+      Footer,
+      CookieLaw,
     },
     props: ['buttonText'],
     mounted() {
@@ -78,5 +81,11 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+.footerPage{
+  margin-top: 50px;
+}
+.viewPage{
+  min-height: 69.5vh;
 }
 </style>

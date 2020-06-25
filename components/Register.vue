@@ -166,4 +166,75 @@ export default {
     font-weight: bold;
     text-shadow: 1px 1px #555;
 }
+.border{
+    border: 2px solid var(--color-primary);
+    -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);   
+    border-radius: 5px;
+}
+.formRegister{
+    margin-top: 5px;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+span .title{
+    color:red;
+}
+.title{
+    font-size: 14px;
+}
+.borderFormRegister{
+    padding: 30px 20px;
+}
+.createAccount, .changePassword{
+    font-size: 12px;
+    border-bottom: 1px solid var(--color-primary);
+    color: #333;
+    cursor: pointer;
+}
+.changePassword{
+    font-size: 10px;
+    margin-top: 10px;
+}
+.formRegister{
+    margin-top: 5px;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+.errorRepeat{
+    color: rgb(212, 17, 17);
+}
+.containerRegister{
+    margin: 20px auto;
+}
+el-input{
+    width: 70%;
+    margin-bottom: 50px;
+}
+el-button{
+    display:block;
+    padding-top: 40px;
+}
+@media (min-width: 600px) {
+    .formRegister{
+        width: 350px;
+    }
+}
+@media (min-width: 850px) {
+    .borderFormRegister{
+        padding: 30px 50px;
+    }
+    .formRegister{
+        width: 500px;
+        margin: 0 auto;
+    }
+    .containerRegister{
+        margin: 30px auto;
+    }
+}
 </style>

@@ -1,16 +1,15 @@
 <template>
-    <div class="devicesAleatory">
+    <div>
         <el-input class="inputModel" placeholder="Filtrar según modelo" v-model="inputFilterModel"></el-input>
         <el-button v-if="error" class="inputModel" @click="reload">Recargar</el-button>
-
-        <div class="containerCatalogo ">
+        <div class="containerCatalogo" v-show="devicesFiltered.length > 0">
             <Device class="deviceCat" v-for="device in filteredDevices" :id="device._id" :key="device._id"></Device>
         </div>
-        <div class="notFoundCatalogo" v-show="devices.lenght === 0">
+        <div class="notFoundCatalogo" v-show="devicesFiltered.length === 0 && !error">
             <h3 class="NotFound">Ese modelo se nos ha escapado, ayúdanos a encontrarlo.
             <br>
             <br>
-            Indícanos a traves del <nuxt-link class="linkToCatalogo" :to="'/contacto'">formulario de contacto</nuxt-link> que modelo estás buscando y lo capturaremos lo antes posible.</h3>
+            Indícanos a traves del <nuxt-link class="linkToCatalogo" :to="'/contact'">formulario de contacto</nuxt-link> que modelo estás buscando y lo capturaremos lo antes posible.</h3>
         </div>
     </div>
 </template>
@@ -27,7 +26,7 @@ export default {
             inputFilterModel: '',
             devices: this.$store.state.devicesList,
             error: false,
-            devicesFiltered: ''
+            devicesFiltered: '',
         }
     },
     methods:{
@@ -35,7 +34,7 @@ export default {
             this.$router.push('/')
             setTimeout(() => {
                 this.$router.push('/catalogo')
-            }, 10);
+            }, 50);
         }
     },
     mounted () {
@@ -44,11 +43,13 @@ export default {
     computed:{
         filteredDevices () {
             try{
-                return this.devices.filter( device => {
+                this.devicesFiltered = this.devices.filter( device => {
                     return device.DeviceName.toLowerCase().includes(this.inputFilterModel.toLowerCase())
                 }) 
+                return this.devicesFiltered
             } catch (err) {
-                this.error = true
+                this.error = true;
+
             }
         }
     }
@@ -70,12 +71,9 @@ export default {
 .deviceCat{
     max-width: 300px;
 }
-.notFoundCatalogo{
-    margin-top: 8%;
-}
 .notFoundCatalogo h3{
     font-size: 1em;
-    padding: 20%;
+    padding: 10%;
 }
 @media (min-width: 640px){
     .inputModel{

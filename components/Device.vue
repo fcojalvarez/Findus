@@ -1,7 +1,7 @@
 <template>
     <div class="divDevice">
         <div class="devices">
-            <button class="btnBackHome" v-if="currentPage === 'devices-id'" @click="goBack">Volver a atrás</button>
+            <button class="btnBackHome" v-if="currentPage === 'devices-id'" @click="goBack">Volver atrás</button>
             <div class="divCenter">
               <nuxt-link :to="'/devices/'+selectDevice._id">
                 <img class="imageDevice" :src="selectDevice.image" alt="Imagen dispositivo">
@@ -154,11 +154,12 @@ export default {
 
 <style>
 .devices{
-  padding: 15px;
+  padding: 40px;
   background: #fff;
   text-align: left;
   margin-right: auto;
   margin-left: auto;
+  max-width: 300px;
 }
 .imageDevice{
   width: 200px;
@@ -169,7 +170,8 @@ export default {
 .fontDevice{
   color: #777;
   font-size: 1em;
-  margin-left: 35px
+  margin-left: 54px;
+  margin-top: 5px;
 }
 .fontDeviceCenter{
   color: #777;
@@ -258,6 +260,9 @@ export default {
   }
   .backgroundForm{
     background-size: 35%;
+  }
+  .devices{
+    padding: 10px;
   }
 }
 @media (min-width: 950px) {

@@ -146,3 +146,64 @@ export default {
     }
 }
 </script>
+
+<style>
+.border{
+    border: 2px solid var(--color-primary);
+    -webkit-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    -moz-box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);
+    box-shadow: 4px 3px 27px -13px rgba(99,99,99,1);   
+    border-radius: 5px;
+}
+.borderFormLogin{
+    padding: 40px;
+}
+.errorRepeat{
+    color: rgb(212, 17, 17);
+}
+span .title{
+    color:red;
+}
+.title{
+    font-size: 14px;
+}
+.formLog{
+    margin-top: 10px;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+el-input{
+    width: 70%;
+    margin-bottom: 50px;
+}
+el-button{
+    display:block;
+    padding-top: 40px;
+}
+.notLogin, .forgottenPassword{
+    font-size: 10px;
+    margin-top: 10px;
+    color: var(--color-bg);
+    text-align: center;
+}
+@media (min-width: 600px) {
+    .formLog{
+        width: 500px;
+        padding: 50px;
+    }
+    .borderLogin{
+        padding: 50px 30px;
+    }
+}
+@media (min-width: 850px) {
+    .formLog{
+        width: 500px;
+        padding: 50px;
+    }
+    .borderLogin{
+        padding: 50px 30px;
+    }
+}
+</style>

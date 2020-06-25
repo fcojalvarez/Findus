@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bgImg404">
-      <nuxt-link class="btnBack404" :to="'/'">Volver a Inicio</nuxt-link>
+      <button class="btnBackHome" v-if="currentPage === 'devices-id'" @click="goBack">Volver atrás</button>
       <nuxt-link to="/">
           <img class="notFound" src="https://image.freepik.com/vector-gratis/concepto-landing-page-fallo-tecnico_23-2148251153.jpg" alt="NotFound404">
       </nuxt-link>

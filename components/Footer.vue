@@ -1,73 +1,61 @@
 <template>
-  <cookie-law theme="dark-lime" buttonText="Acepto" class="footer">
-    <div slot="message" class="cookieDiv">
-      <p class="textCookie">
-              Este sitio web utiliza cookies  para garantizar que obtenga la mejor experiencia, para más información haga <nuxt-link class="clickHere" :to="'legal'">click aquí.</nuxt-link>
-      </p>
-    </div>
-  </cookie-law> 
+    <el-row class="bgFooter">
+        <el-col class="links" :xs="24" :md="12">
+            <nuxt-link class="linkFooter" :to="'/legal'">Aviso legal</nuxt-link>
+            <nuxt-link class="linkFooter" :to="'/nosotros'">Nosotros</nuxt-link>
+        </el-col>
+        <el-col class="spaceby links" :xs="24" :md="12">
+            <a class="linkToLinkedIn linkFooter" target="_blank" href="https://www.linkedin.com/in/fcojalvarez/">Francisco J. Álvarez ©</a> 
+        </el-col>
+    </el-row>
 </template>
 
 <script>
-import CookieLaw from 'vue-cookie-law'
-
 export default {
-    components:{
-      CookieLaw
-    }
+    
 }
 </script>
 
 <style>
-.footer{
-  height: 120px;
-  padding: 15px
-}
-.Cookie__content{
-  margin: 0;
-}
-.Cookie__button{
-  background: var(--color-primary)!important;
-  color: #333!important;
-}
-.Cookie__buttons{
-  margin: 0!important;
-}
-.btnCookie{
-  cursor: pointer;
-  color: #333;
-  font-weight: bold;
-  font-size: 0.8em;
-}
-.clickHere{
-  color: var(--color-primary);
-  margin: 0 auto;
-}
-.textCookie{
-  font-size: 0.8em;
-}
-@media (min-width: 435px){
-  .footer{
-    height: 100px;
-  }
-  .Cookie__buttons{
-    margin: 5px!important;
-  }
-}
-@media (min-width: 762px){
-  .footer{
+.bgFooter{
+    width: 100%;
     height: 80px;
-  }
+    background: var(--color-primary);
+    border-top: 1px solid #ccc;
 }
-@media (min-width: 1000px){
-  .footer{
-    height: 50px;
-  }
-}
-/* @media (max-width: 600px){
-  #btnAccept{
-    display: block;
+.linkToLinkedIn{
+    margin: 20px auto 10px auto;
     text-align: center;
-  }
-} */
+    display: block;
+}
+.linkFooter{
+    margin: 0 20px;
+    color: var(--color-bg);
+    font-size: 1.1em;
+}
+.linkFooter:hover{
+    color: var(--color-bg);
+    text-shadow: 1px 1px #fff;
+}
+.links{
+    height: 20px;
+    padding: 10px;
+    text-align: center;
+}
+@media (min-width: 600px) {
+    .links{
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .linkFooter{
+        margin: 0;
+        padding: 15px 30px;
+        cursor: pointer;
+    }
+    .linkToLinkedIn{
+        font-size: 1em;
+    }
+}
 </style>
