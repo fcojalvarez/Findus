@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="divCatalogo">
         <el-input class="inputModel" placeholder="Filtrar según modelo" v-model="inputFilterModel"></el-input>
         <el-button v-if="error" class="inputModel" @click="reload">Recargar</el-button>
         <div class="containerCatalogo" v-show="devicesFiltered.length > 0">
@@ -24,7 +24,6 @@ export default {
     data(){
         return{
             inputFilterModel: '',
-            devices: this.$store.state.devicesList,
             error: false,
             devicesFiltered: '',
         }
@@ -49,8 +48,10 @@ export default {
                 return this.devicesFiltered
             } catch (err) {
                 this.error = true;
-
             }
+        },
+        devices() {
+            return this.$store.state.devicesList
         }
     }
 }
@@ -79,6 +80,9 @@ export default {
     .inputModel{
         margin: 20px auto;
         width: 50%;
+    }
+    .divCatalogo{
+        margin-top: 70px;
     }
 }
 </style>

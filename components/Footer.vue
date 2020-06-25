@@ -48,6 +48,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: #FFEC6B;
     }
     .linkFooter{
         margin: 0;

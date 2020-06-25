@@ -116,7 +116,6 @@ export default {
       if(step === 'features'){
         this.seleccion[5][1]  = false;
         this.pointAct ++
-        this.$nuxt.$loading.start()
         this.getDevicedRecomend(this.infoData)
       }
     },
@@ -133,7 +132,6 @@ export default {
         this.seleccion[7][1] = true;
         
         this.$store.commit('hideRandomDevices')
-        this.$nuxt.$loading.finish()
       } catch (err) {
       }
     }
@@ -231,6 +229,7 @@ form{
   .container {
     background-size:40%;
     min-height: 90vh;
+    margin-top: 70px;
   }
   .backgroundForm{
     background-size: 35%;

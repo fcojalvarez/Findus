@@ -74,7 +74,7 @@ export default {
                 email: this.email,
                 password: this.password,
                 profile: 'user',
-                image: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231709/thesomeday123170900021/85622928-icono-de-perfil-de-avatar-predeterminado-marcador-de-posici%C3%B3n-de-foto-gris-vectores-de-ilustraciones.jpg?ver=6'
+                image: 'https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-512.png'
             }
 
             const validatedEmail = this.validatedEmail(newUser.email)
@@ -126,7 +126,7 @@ export default {
                 });
                 setTimeout(() => {
                 this.showFormLogin(); 
-                }, 1500);
+                }, 1000);
             } catch (err) {
                 this.$message({
                     message: 'La contraseña debe tener mínimo 6 caracteres.',
@@ -228,6 +228,7 @@ el-button{
 @media (min-width: 850px) {
     .borderFormRegister{
         padding: 30px 50px;
+        margin-top: 70px;
     }
     .formRegister{
         width: 500px;

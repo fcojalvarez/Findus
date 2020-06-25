@@ -128,7 +128,7 @@ export default {
 @media (min-width: 640px) {
     .borderContact {
         padding: 40px;
-        margin: 50px 80px;
+        margin: 70px 80px 50px 80px;
     }
     .title{
         font-size: 0.9em;
@@ -142,7 +142,7 @@ export default {
 @media (min-width: 860px) {
     .borderContact {
         padding: 40px;
-        margin: 50px 190px;
+        margin: 70px 190px 30px 190px;
     }
 }
 </style>

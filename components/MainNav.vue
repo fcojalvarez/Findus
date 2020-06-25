@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header fixedTop">
         <nuxt-link to="/" class="divLogo">
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
@@ -12,7 +12,7 @@
       <div class="userSpace" v-show="isAuth">
         <span class="login logOut">
           <nuxt-link class="user" to="/userPage">
-            <span class="prueba">{{currentUser.name}} <i class="fas fa-user iconUser"></i></span>
+            <span class="userName">{{currentUser.name}} <img class="userAvatar" :src="currentUser.image" alt="Avatar usuario"></span>
           </nuxt-link>
         </span>
       </div>
@@ -32,7 +32,10 @@ export default {
   methods:{
     logOut(){
       this.$store.dispatch('logout', this.isAuth)
-    } 
+    },
+    openNavBar(){
+      isOpenNav
+    }
   }
 }
 </script>
@@ -76,11 +79,25 @@ a{
 .user{
   color: var(--color-primary)
 }
-.prueba{
+.userName{
   border-bottom: 1px solid var(--color-primary);
   padding: 5px;
 }
+.userAvatar{
+  max-width: 20px;
+  border-radius: 15px;
+  padding: 0;
+  margin: 0;
+}
 @media (min-width: 600px) {
+  .fixedTop{
+    position: fixed;
+    left:0;
+    top:0;
+    width: 100vw;
+    z-index: 200;
+    height: 50px;
+  }
   .header{
     display: flex;
     justify-content: space-around;
@@ -135,5 +152,4 @@ a{
     margin-right: 100px;
   }
 }
-
 </style>

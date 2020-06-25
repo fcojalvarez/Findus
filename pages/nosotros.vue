@@ -1,13 +1,13 @@
 <template>
-    <Legal></Legal>
+    <Nosotros></Nosotros>
 </template>
 
 <script>
-import Legal from '@/components/Legal'
+import Nosotros from '@/components/Nosotros'
 
 export default {
     components:{
-        Legal
+        Nosotros
     }
 }
 </script>
