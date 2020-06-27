@@ -96,11 +96,12 @@ export default {
             }
 
             if ( !this.isAuth ) {
-              this.$message({
-              message: 'Sólo los usuarios registrados pueden añadir a favoritos, regístrate.',
-              type: 'error',
-              duration: 3300
-            });
+              this.$message({ 
+                showClose: true,
+                message: 'Sólo los usuarios registrados pueden añadir a favoritos, regístrate.',
+                type: 'error',
+                duration: 3300
+              });
             this.showBtnRegister = true
             return
             }
@@ -108,15 +109,12 @@ export default {
                       headers: { Authorization: `Bearer ${token}` }
                 })
             if(addFavorite.data === 'duplicate') {
-              this.$message({
-                message: 'Ya ha añadido este dispositivo como favorito.',
-                type: 'warning',
-                duration: 2500
-              });
+              this.$message({ message: 'Ya ha añadido este dispositivo como favorito.', type: 'warning', duration: 2500 });
               return
             }
             this.$store.dispatch('getDevicesFavorites')
           } catch (err) {
+            console.log(err)
           }
         },
         async delDeviceFavorite(){

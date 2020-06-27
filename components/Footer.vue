@@ -10,12 +10,6 @@
     </el-row>
 </template>
 
-<script>
-export default {
-    
-}
-</script>
-
 <style>
 .spaceby{
     margin-top: 15px;

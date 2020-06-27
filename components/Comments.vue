@@ -52,11 +52,7 @@ export default {
                 let commentData = commentSelect.data
 
                 if(commentData.usersVotes.includes(this.currentUser.id)){
-                    this.$message({
-                        showClose: true,
-                        message: 'Sólo puede votar una vez por comentario.',
-                        type: 'error'
-                    });
+                    this.$message({ showClose: true, message: 'Sólo puede votar una vez por comentario.', type: 'error' });
                     return
                 } 
                 commentData.usersVotes.push(this.currentUser.id)

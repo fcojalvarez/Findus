@@ -115,7 +115,21 @@ export default {
                 });
                 return
             }
-            
+
+            const userEmailListDB = await this.$axios.get('users')
+            const response = userEmailListDB.data
+            let isExistEmail = response.filter( user => user.email === newUser.email)
+            if(isExistEmail.length > 0){
+                this.$message({ message: 'El email introducido ya está registrado en nuestra base de datos.',
+                    type: 'error',
+                    duration: 2000
+                });
+                setTimeout(() => {
+                    this.showFormLogin()
+                }, 2000);
+                return
+            }
+        
             try {
                 const userCreated = await this.$axios.$post('users', newUser)
                 this.limpiarFormulario();
@@ -129,7 +143,7 @@ export default {
                 }, 1000);
             } catch (err) {
                 this.$message({
-                    message: 'La contraseña debe tener mínimo 6 caracteres.',
+                    message: 'No hemos podido crear su usuario, por favor inténtelo de nuevo.',
                     type: 'error',
                     duration: 2000
                 });

@@ -3,12 +3,25 @@
         <nuxt-link to="/" class="divLogo">
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
-      <div class="divNav">
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          v-show="widthDislay >= 640"
+          mode="horizontal"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+            <el-menu-item index="1" class="link"><span class="login"><nuxt-link class="link" to="/">Inicio</nuxt-link></span></el-menu-item>
+            <el-menu-item index="2"><span class="login"><nuxt-link class="link" to="/contact">Contacto</nuxt-link></span></el-menu-item>
+            <el-menu-item index="3" v-show="!isAuth"><span class="login"><nuxt-link class="link" to="/login">Iniciar sesión</nuxt-link></span></el-menu-item>
+            <el-menu-item index="4" v-show="isAuth"><span class="login"><a href="#" class="link" @click.prevent="logOut">Cerrar sesión</a></span></el-menu-item>
+        </el-menu>
+      <nav class="divNav" v-show="widthDislay < 640">
         <span class="login"><nuxt-link class="link" to="/">Inicio</nuxt-link></span>
         <span class="login"><nuxt-link class="link" to="/contact">Contacto</nuxt-link></span>
         <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Iniciar sesión</nuxt-link></span>
         <span class="login" v-show="isAuth"><a href="#" class="link" @click.prevent="logOut">Cerrar sesión</a></span>
-      </div>
+      </nav>
       <div class="userSpace" v-show="isAuth">
         <span class="login logOut">
           <nuxt-link class="user" to="/userPage">
@@ -21,7 +34,15 @@
 
 <script>
 export default {
+  data(){
+    return{
+      activeIndex: '1',
+    }
+  },
   computed: {
+      widthDislay(){
+        return window.innerWidth
+      },
       isAuth () {
         return this.$store.state.isAuth
       },
@@ -112,6 +133,9 @@ a{
   .divNav{
     width: 65%;
     display: flex;
+  }
+  nuxt-link:focus{
+    background: red;
   }
   .login{
     padding-bottom: 0;

@@ -75,6 +75,7 @@ export default {
                     this.$router.push('/')
                 } catch (err) {
                     this.$message({
+                        showClose: true,
                         message: 'Algo ha ido mal, inténtelo de nuevo.',
                         type: 'error',
                         duration: 2000
