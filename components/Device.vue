@@ -250,7 +250,7 @@ export default {
   }
   .divDevice{
     width:40%;
-    margin: 70px auto 0;
+    margin: 10px auto 0;
   }
   .containerDevices{
     display: flex;

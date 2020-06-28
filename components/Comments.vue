@@ -4,10 +4,10 @@
         <h3 class="notComments" v-show="comments.length === 0">No hay comentarios, sé el primero en comentar.</h3>
         <div class="divComment" v-for="comment in comments" :key=comment._id> 
             <el-row>
-                <el-col :xs="7" :sm="5" :md="5">
+                <el-col :xs="7" :sm="5" class="imageUserComment">
                     <img :src="comment.image" alt="Imagen usuario" class="imageUser">
                 </el-col>
-                <el-col :xs="24" :sm="19" :md="19">
+                <el-col :xs="24" :sm="19" :md="20">
                     <h4 class="">{{comment.userCreate}} </h4>
                     <span class="bodyComment">{{comment.body}}</span>
                     <div class="footerComment">
@@ -143,5 +143,10 @@ export default {
     border-radius: 10px;
     max-width: 90px;
     margin-bottom: 10px;
-} 
+}
+@media (min-width: 700px){
+    .imageUserComment{
+        width:15%!important;
+    }
+}
 </style>

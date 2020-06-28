@@ -68,6 +68,14 @@ export default {
     },
     methods:{
         async createUser(){
+            const token = window.localStorage.getItem('token')
+            if(token) {
+                this.$message({ message: 'Ya hay una sesión iniciada actualmente.',
+                    type: 'error',
+                    duration: 2000
+                });
+                return
+            }
             const newUser = {
                 name: this.name,
                 surname: this.surname,
@@ -212,6 +220,12 @@ span .title{
 .changePassword{
     font-size: 10px;
     margin-top: 10px;
+}
+.notLogin, .forgottenPassword{
+    font-size: 10px;
+    margin-top: 10px;
+    color: var(--color-bg);
+    text-align: center;
 }
 .formRegister{
     margin-top: 5px;

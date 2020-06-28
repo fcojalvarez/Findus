@@ -36,7 +36,7 @@
         <div>
           <h3 class="subtitle pt10" v-show="seleccion[7][1] === true">Te recomendamos estos dispositivos</h3>
           <br>
-          <el-button class="" v-show="seleccion[7][1] === true" @click="retryForm">Volver a realizar el cuestionario</el-button>
+          <el-button class="redoForm" v-show="seleccion[7][1] === true" @click="retryForm">Volver a realizar el cuestionario</el-button>
           <br>
           <div class="containerDeviceRecomend" v-show="seleccion[7][1] === true">
             <Device v-for="device in devicesRecomend" :id="device._id" :key="device._id"></Device>
@@ -179,6 +179,18 @@ ul li{
 }
 .dnone{
   color: rgba(170, 170, 170, 0)!important;
+}
+.redoForm{
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    text-shadow: 1px 1px #444;
+}
+.redoForm:hover{
+    background: none;
+    border: none;
+    color: var(--color-bg);
+    text-shadow: none;
 }
 .btnPrim:hover{
   background:var(--color-bg);
