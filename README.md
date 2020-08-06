@@ -1,6 +1,10 @@
-# findus
+# Findus
 
-> Find your smartphone
+> Find your smartphone.
+Findus allows you to find a device based on your needs.
+With a simple questionnaire, you can determine your needs and recommend a smartphone.
+
+#### Project features
 
 ## Build Setup
 
@@ -18,5 +22,3 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
