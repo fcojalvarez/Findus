@@ -21,7 +21,20 @@ With a simple questionnaire, you can determine your needs and recommend a smartp
   <li>Modify user image.</li>
   <li>Change Password.</li>
   <li>Modify user data.</li>
- </ul>
+</ul>
+
+#### Technologies used
+
+<ul>
+  <li>NUXT</li>
+  <li>VUEX</li>
+  <li>AXIOS</li>
+  <li>JWT</li>
+  <li>Element</li>
+  <li>Firebase (login only)</li>
+  <li>MomentJS</li>
+  <li>vue-cookie-law</li>
+</ul>
 
 
 ## Build Setup
