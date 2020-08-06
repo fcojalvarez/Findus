@@ -11,6 +11,19 @@ With a simple questionnaire, you can determine your needs and recommend a smartp
 
 #### Project features
 
+<ul>
+  <li>Add devices as favorites.</li>
+  <li>Delete devices as favorites from the user panel, from the page of each device or from the list of devices.</li>
+  <li>Catalog with filter according to brand.</li>
+  <li>Add comments on devices.</li>
+  <li>Vote comments.</li>
+  <li>Login.</li>
+  <li>Modify user image.</li>
+  <li>Change Password.</li>
+  <li>Modify user data.</li>
+ </ul>
+
+
 ## Build Setup
 
 ```bash
