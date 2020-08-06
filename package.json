@@ -11,15 +11,15 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.12.1",
     "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/firebase": "^5.2.0",
+    "@nuxtjs/firebase": "^6.1.1",
     "cookie-universal-nuxt": "^2.1.4",
-    "element-ui": "^2.4.11",
-    "firebase": "^7.14.6",
+    "element-ui": "^2.13.2",
+    "firebase": "^7.17.1",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.26.0",
-    "nuxt": "^2.0.0",
+    "moment": "^2.27.0",
+    "nuxt": "^2.14.1",
     "vue-cookie-law": "^1.13.3"
   },
   "devDependencies": {}
