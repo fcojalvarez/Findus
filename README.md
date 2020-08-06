@@ -2,7 +2,7 @@
 
 > Find your smartphone.
 
-<a src="google.es" >Taste me</a>
+<a href="https://findus-612bc.web.app/" >Taste me</a>
 
 Findus allows you to find a device based on your needs.
 With a simple questionnaire, you can determine your needs and recommend a smartphone.
