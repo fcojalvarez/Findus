@@ -4,6 +4,8 @@
 Findus allows you to find a device based on your needs.
 With a simple questionnaire, you can determine your needs and recommend a smartphone.
 
+<img src="https://i.ibb.co/jLx9dct/portada.png">
+
 #### Project features
 
 ## Build Setup
