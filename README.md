@@ -3,8 +3,8 @@
 > Find your smartphone.
 
 ## To see the full potential must be registered, use these login details:
-  > <pre> **email:**  test@test.es </pre> 
-  > **password:** testeando
+  > **email:** <pre> test@test.es </pre> 
+  > **password:** <pre> testeando </pre> 
  
  Note: The backend is uploaded to heroku, which if it is idle for 30 minutes, turns off the server. You will have to wait a few seconds for the smartphones to appear.
 
