@@ -1,6 +1,9 @@
 <template>
-    <div class="divDevice">
-        <div class="devices">
+    <div class="divDevice" >
+      <div v-loading="loading" :class="{ loading: loading }" :data="selectDevice" v-show="loading">
+          Obteniendo dispositivos....
+      </div>
+        <div class="devices" v-show="!loading">
             <button class="btnBackHome" v-if="currentPage === 'devices-id'" @click="goBack">Volver atrás</button>
             <div class="divCenter">
               <nuxt-link :to="'/devices/'+selectDevice._id">
@@ -53,6 +56,7 @@
             <br>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -67,7 +71,8 @@ export default {
       return{
         selectDevice: '',
         currentPage: this.$route.name,
-        showBtnRegister: false
+        showBtnRegister: false,
+        loading: true
       }
     },
     computed:{
@@ -81,8 +86,18 @@ export default {
     },
     methods:{
         async getSelectDevice(deviceID){
-          const findDevice = await this.$axios.get(`/devices/${deviceID}`)
-          this.selectDevice = findDevice.data
+          try{
+            const findDevice = await this.$axios.get(`/devices/${deviceID}`)
+            
+            setTimeout(() => {
+              
+              this.selectDevice = findDevice.data;
+              this.loading = false;
+            }, 2000);
+            
+          } catch {
+            this.isload = true;
+          }
         },
         async addDeviceFavorite(){
           try {
@@ -267,6 +282,13 @@ export default {
   .containerDevices{
     margin:20px auto;
   }
+}
+.loading{
+  margin: 100px auto 0 auto;
+  width: 100%;
+  display: block;
+  height: 30vh;
+  text-align: center;
 }
 </style>
 
