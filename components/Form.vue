@@ -138,6 +138,7 @@ export default {
       }
     },
     retryForm(){
+      this.$store.commit('hideRandomDevices')
       this.$router.push('/contact')
       setTimeout(() => {
           this.$router.push('/')

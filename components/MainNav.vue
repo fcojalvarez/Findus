@@ -3,20 +3,7 @@
         <nuxt-link to="/" class="divLogo">
         <img class="logo" src="@/static/Findus_light_larg.png" alt="Imagen logo findus">
         </nuxt-link>
-        <el-menu
-          :default-active="activeIndex"
-          class="el-menu-demo"
-          v-show="widthDislay >= 640"
-          mode="horizontal"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b">
-            <el-menu-item index="1" class="link"><span class="login"><nuxt-link class="link" to="/">Inicio</nuxt-link></span></el-menu-item>
-            <el-menu-item index="2"><span class="login"><nuxt-link class="link" to="/contact">Contacto</nuxt-link></span></el-menu-item>
-            <el-menu-item index="3" v-show="!isAuth"><span class="login"><nuxt-link class="link" to="/login">Iniciar sesión</nuxt-link></span></el-menu-item>
-            <el-menu-item index="4" v-show="isAuth"><span class="login"><a href="#" class="link" @click.prevent="logOut">Cerrar sesión</a></span></el-menu-item>
-        </el-menu>
-      <nav class="divNav" v-show="widthDislay < 640">
+      <nav class="divNav">
         <span class="login"><nuxt-link class="link" to="/">Inicio</nuxt-link></span>
         <span class="login"><nuxt-link class="link" to="/contact">Contacto</nuxt-link></span>
         <span class="login" v-show="!isAuth"><nuxt-link class="link" to="/login">Iniciar sesión</nuxt-link></span>
@@ -110,6 +97,9 @@ a{
   padding: 0;
   margin: 0;
 }
+.menumobile{
+    display: none;
+  }
 @media (min-width: 600px) {
   .fixedTop{
     position: fixed;
@@ -158,6 +148,7 @@ a{
   .divLogo{
     width: 40%;
   }
+
   .divNav{
     width: 55%;
   }
