@@ -88,7 +88,7 @@ export const mutations = {
         state.smartphoneID = ID
     },
     hideRandomDevices(state) {
-        state.isFindRandomDevice = false
+        state.isFindRandomDevice = !state.isFindRandomDevice
     },
     setDevicesFavorites(state, devices) {
         state.devicesFavorites = devices
