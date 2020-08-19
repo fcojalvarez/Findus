@@ -88,12 +88,10 @@ export default {
         async getSelectDevice(deviceID){
           try{
             const findDevice = await this.$axios.get(`/devices/${deviceID}`)
-            
             setTimeout(() => {
-              
               this.selectDevice = findDevice.data;
               this.loading = false;
-            }, 2000);
+            }, 600);
             
           } catch {
             this.isload = true;
