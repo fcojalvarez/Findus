@@ -1,6 +1,6 @@
 <template>
     <div class="divDevice" >
-      <div v-loading="loading" :class="{ loading: loading }" :data="selectDevice" v-show="loading">
+      <div v-loading="loading && selectDevice === ''" :class="{ loading: loading }" :data="selectDevice" v-show="loading">
           Obteniendo dispositivos....
       </div>
         <div class="devices" v-show="!loading">
@@ -91,7 +91,7 @@ export default {
             setTimeout(() => {
               this.selectDevice = findDevice.data;
               this.loading = false;
-            }, 600);
+            }, 100);
             
           } catch {
             this.isload = true;

@@ -2,7 +2,9 @@
     <div class="containerUser">
         <div class="divUser border">
             <div class="divDataUser">
-                <img class="userImage" :src="currentUser.image" alt="Imagen de usuario">
+                <div v-loading="!showImage" :class="{ loadingImage: !showImage }">
+                </div>
+                <img class="userImage" :src="currentUser.image" alt="Imagen de usuario" v-if="showImage">
                 <div class="dataUser">
                     <h3 class="titleUser">Nombre</h3><span class="spanUserData">{{currentUser.name}}</span>
                     <h3 class="titleUser">Apellidos:</h3><span class="spanUserData">{{currentUser.surname}}</span>
@@ -103,7 +105,8 @@ export default {
             isShowComments: false,
             isShowDevicesFavourites: false,
             commentsUser: '',
-            isDeletedAccount: false
+            isDeletedAccount: false,
+            showImage: false
         }
     },
     computed:{
@@ -125,6 +128,10 @@ export default {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                 this.currentUser = userDB.data
+
+                setTimeout(() => {
+                    this.showImage = true;
+                }, 300);
             } catch (err) {
                 this.currentUser = {
                     image: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231709/thesomeday123170900021/85622928-icono-de-perfil-de-avatar-predeterminado-marcador-de-posici%C3%B3n-de-foto-gris-vectores-de-ilustraciones.jpg?ver=6'
@@ -350,6 +357,10 @@ export default {
 }
 .notDeleteUser:hover{
     color: rgb(7, 126, 7)!important
+}
+.loadingImage{
+    display: block;
+    width: 150px;
 }
 @media (min-width: 640px) {
     .divDataUser{

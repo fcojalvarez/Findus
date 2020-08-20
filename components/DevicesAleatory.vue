@@ -1,8 +1,13 @@
 <template>
-    <div class="devicesAleatory">
+    <div class="devicesAleatory" >
         <h2 class="titleDevice ">Estos quizás te gusten, si no puedes ver <nuxt-link class="linkToCatalogo" :to="'/catalogo'">nuestro catalogo</nuxt-link> .</h2>
+        
+        <div v-loading="devicesID == ''" :class="{ loadingDevices: devicesID == '' }" v-show="devicesID == ''">
+            Obteniendo dispositivos...
+        </div>
+
         <div class="containerDevices">
-            <Device v-for="deviceID in devicesID" :id="deviceID" :key="deviceID"></Device>
+            <Device v-for="deviceID in devicesID" :id="deviceID" :key="deviceID" v-show="devicesID"></Device>
         </div>
     </div>
 </template>
@@ -27,7 +32,7 @@ export default {
             response.forEach(element => {
                 const id = element._id
                 this.devicesID.push(id)
-            });
+            }); 
         }
     },
     mounted(){
@@ -49,6 +54,13 @@ export default {
     color: var(--color-primary);
     font-weight: bold;
     text-shadow: 1px 1px #777;
+}
+.loadingDevices{
+    margin: 100px auto 0 auto;
+  width: 100%;
+  display: block;
+  height: 30vh;
+  text-align: center;
 }
 @media (min-width: 700px){
     .devicesAleatory{
